@@ -1,0 +1,19 @@
+Spritesheets
+Scooby Doo Sprites - https://www.spriters-resource.com/game_boy_advance/scoobytcc/sheet/40650/
+Shaggy Sprites - https://www.spriters-resource.com/game_boy_advance/scoobytcc/sheet/40651/
+Joker Sprites - https://www.spriters-resource.com/arcade/batman/sheet/110272/
+		https://www.spriters-resource.com/nes/batman/sheet/15102/
+Creeper Sprites - https://www.spriters-resource.com/game_boy_advance/scoobytcc/sheet/40657/
+Freddy Krueger Sprites - https://www.spriters-resource.com/nes/nightmareonelmstreet/sheet/61577/
+Gremlin Sprites - https://www.spriters-resource.com/game_boy_advance/gremlins/sheet/10981/
+Garfield Sprites - https://www.spriters-resource.com/game_boy_advance/garfield/sheet/11456/
+Jason Voorhees Sprites - https://www.spriters-resource.com/nes/fridaythe13th/sheet/24130/
+Michael Jackson Sprites - https://www.spriters-resource.com/genesis_32x_scd/mjmoonwalker/sheet/22904/
+Scorpion Sprites - https://www.spriters-resource.com/nes/mortalkombat3bootleg/sheet/93098/
+Terminator Sprites - https://www.spriters-resource.com/genesis_32x_scd/robocopvstheterminator/sheet/81099/
+Food Sprites - https://www.spriters-resource.com/arcade/threewonders/sheet/29430/
+Scooby Doo Logo - https://toppng.com/scooby-doo-logo-PNG-free-PNG-Images_66978
+
+Audio
+Chomp Sound Effect - https://freesound.org/people/NillyPlays/sounds/543386/
+Scooby Doo Theme - https://archive.org/details/tvtunes_7494
