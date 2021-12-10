@@ -386,3 +386,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# VS project settings
+CA1_AntanasZalisauskas_PatrickNugent/CA1_AntanasZalisauskas_PatrickNugent/CA1_AntanasZalisauskas_PatrickNugent.vcxproj.filters
+CA1_AntanasZalisauskas_PatrickNugent/CA1_AntanasZalisauskas_PatrickNugent/CA1_AntanasZalisauskas_PatrickNugent.vcxproj.user
