@@ -15,7 +15,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_fonts(font)
 	, m_scenegraph()
 	, m_scene_layers()
-	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, 2000)
+	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
 	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
 	, m_scrollspeed(-50.f)
 	, m_player_aircraft(nullptr)
@@ -29,7 +29,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 void World::Update(sf::Time dt)
 {
 	//Scroll the world
-	m_camera.move(0, m_scrollspeed * dt.asSeconds());
+	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
 
 	m_player_aircraft->SetVelocity(0.f, 0.f);
 	DestroyEntitiesOutsideView();
@@ -40,7 +40,7 @@ void World::Update(sf::Time dt)
 	{
 		m_scenegraph.OnCommand(m_command_queue.Pop(), dt);
 	}
-	AdaptPlayerVelocity();
+	//AdaptPlayerVelocity();
 
 	HandleCollisions();
 	//Remove all destroyed entities
@@ -146,12 +146,17 @@ sf::FloatRect World::GetViewBounds() const
 	return sf::FloatRect(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
 }
 
+/// <summary>
+/// Edited By: Antanas
+///	changed .top & .height to .left & .width
+/// </summary>
+/// <returns></returns>
 sf::FloatRect World::GetBattlefieldBounds() const
 {
 	//Return camera bounds + a small area at the top where enemies spawn offscreen
 	sf::FloatRect bounds = GetViewBounds();
-	bounds.top -= 100.f;
-	bounds.height += 100.f;
+	bounds.left -= 100.f;
+	bounds.width += 100.f;
 
 	return bounds;
 }
@@ -178,6 +183,7 @@ void World::AddEnemy(AircraftType type, float relX, float relY)
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
+//***********REWORK************//
 void World::AddEnemies()
 {
 	//Add all enemies
@@ -195,6 +201,7 @@ void World::AddEnemies()
 		return lhs.m_y < rhs.m_y;
 	});
 }
+//***********REWORK************//
 
 void World::GuideMissiles()
 {
