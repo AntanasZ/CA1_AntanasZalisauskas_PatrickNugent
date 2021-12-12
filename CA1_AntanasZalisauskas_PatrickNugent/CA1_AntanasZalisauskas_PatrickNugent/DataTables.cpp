@@ -1,6 +1,7 @@
 #include "DataTables.hpp"
 #include "AircraftType.hpp"
 #include "Aircraft.hpp"
+#include "CharacterType.hpp"
 #include "PickupType.hpp"
 #include "ProjectileType.hpp"
 
@@ -32,6 +33,17 @@ std::vector<AircraftData> InitializeAircraftData()
 	data[static_cast<int>(AircraftType::kAvenger)].m_directions.emplace_back(Direction(-45.f, 100.f));
 	data[static_cast<int>(AircraftType::kAvenger)].m_directions.emplace_back(Direction(0.f, 50.f));
 	data[static_cast<int>(AircraftType::kAvenger)].m_directions.emplace_back(Direction(+45.f, 50.f));
+	return data;
+}
+
+std::vector<CharacterData> InitializeCharacterData()
+{
+	std::vector<CharacterData> data(static_cast<int>(CharacterType::kCharacterCount));
+
+	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
+
 	return data;
 }
 

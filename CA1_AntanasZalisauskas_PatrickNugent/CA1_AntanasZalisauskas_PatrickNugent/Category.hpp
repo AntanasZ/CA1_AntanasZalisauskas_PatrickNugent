@@ -7,13 +7,16 @@ namespace Category
 		kNone = 0,
 		kScene = 1 << 0,
 		kPlayerAircraft = 1 << 1,
-		kAlliedAircraft = 1 << 2,
-		kEnemyAircraft = 1 << 3,
-		kPickup = 1 << 4,
-		kAlliedProjectile = 1 << 5,
-		kEnemyProjectile = 1 << 6,
+		kPlayerCharacter = 1 << 2,
+		kAlliedAircraft = 1 << 3,
+		kEnemyAircraft = 1 << 4,
+		kEnemyCharacter = 1 << 5,
+		kPickup = 1 << 6,
+		kAlliedProjectile = 1 << 7,
+		kEnemyProjectile = 1 << 8,
 
 		kAircraft = kPlayerAircraft | kAlliedAircraft | kEnemyAircraft,
+		kCharacter = kPlayerCharacter | kEnemyCharacter,
 		kProjectile = kAlliedProjectile | kEnemyProjectile,
 	};
 }

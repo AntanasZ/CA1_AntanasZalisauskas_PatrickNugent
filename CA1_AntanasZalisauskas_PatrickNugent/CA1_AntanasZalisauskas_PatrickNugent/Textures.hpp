@@ -14,5 +14,6 @@ enum class Textures
 	kTitleScreen,
 	kButtonNormal,
 	kButtonSelected,
-	kButtonPressed
+	kButtonPressed,
+	kShaggy
 };
