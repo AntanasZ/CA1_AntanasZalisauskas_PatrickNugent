@@ -31,7 +31,8 @@ void World::Update(sf::Time dt)
 	//Scroll the world
 	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
 
-	m_player_aircraft->SetVelocity(0.f, 0.f);
+	//m_player_aircraft->SetVelocity(0.f, 0.f);
+	m_player_character->SetVelocity(0.f, 0.f);
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
 
@@ -64,7 +65,9 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kEagle, "Media/Textures/Eagle.png");
 	m_textures.Load(Textures::kRaptor, "Media/Textures/Raptor.png");
 	m_textures.Load(Textures::kAvenger, "Media/Textures/Avenger.png");
-	m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
+	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
+	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
+	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
@@ -82,7 +85,7 @@ void World::BuildScene()
 	}
 
 	//Prepare the background
-	sf::Texture& texture = m_textures.Get(Textures::kDesert);
+	sf::Texture& texture = m_textures.Get(Textures::kMansion);
 	sf::IntRect textureRect(m_world_bounds);
 	//Tile the texture to cover our world
 	texture.setRepeated(true);
@@ -92,11 +95,17 @@ void World::BuildScene()
 	background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
 	m_scene_layers[static_cast<int>(Layers::kBackground)]->AttachChild(std::move(background_sprite));
 
+	//Add player character
+	std::unique_ptr<Character> player1(new Character(CharacterType::kShaggy, m_textures, m_fonts));
+	m_player_character = player1.get();
+	m_player_character->setPosition(m_spawn_position);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player1));
+
 	//Add player's aircraft
-	std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
+	/*std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
 	m_player_aircraft = leader.get();
 	m_player_aircraft->setPosition(m_spawn_position);
-	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(leader));
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(leader));*/
 
 	// //Add two escorts
 	// std::unique_ptr<Aircraft> leftEscort(new Aircraft(AircraftType::kRaptor, m_textures, m_fonts));
@@ -120,25 +129,25 @@ void World::AdaptPlayerPosition()
 	//Keep the player on the screen
 	sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
 	const float border_distance = 40.f;
-	sf::Vector2f position = m_player_aircraft->GetWorldPosition();
+	sf::Vector2f position = m_player_character->GetWorldPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
 	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
 	position.y = std::max(position.y, view_bounds.top + border_distance);
 	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance);
-	m_player_aircraft->setPosition(position);
+	m_player_character->setPosition(position);
 
 }
 
 void World::AdaptPlayerVelocity()
 {
-	sf::Vector2f velocity = m_player_aircraft->GetVelocity();
+	sf::Vector2f velocity = m_player_character->GetVelocity();
 	//if moving diagonally then reduce velocity
 	if (velocity.x != 0.f && velocity.y != 0.f)
 	{
-		m_player_aircraft->SetVelocity(velocity / std::sqrt(2.f));
+		m_player_character->SetVelocity(velocity / std::sqrt(2.f));
 	}
 	//Add scrolling velocity
-	m_player_aircraft->Accelerate(0.f, m_scrollspeed);
+	//m_player_character->Accelerate(0.f, m_scrollspeed);
 }
 
 sf::FloatRect World::GetViewBounds() const

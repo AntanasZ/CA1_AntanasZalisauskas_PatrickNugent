@@ -1,4 +1,9 @@
 #pragma once
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	Added enums shaggy and mansion background
+/// </summary>
 enum class Textures
 {
 	kEagle,
@@ -14,5 +19,7 @@ enum class Textures
 	kTitleScreen,
 	kButtonNormal,
 	kButtonSelected,
-	kButtonPressed
+	kButtonPressed,
+	kShaggy,
+	kMansion
 };

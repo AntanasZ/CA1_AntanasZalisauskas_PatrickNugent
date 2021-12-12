@@ -26,6 +26,18 @@ struct AircraftData
 	std::vector<Direction> m_directions;
 };
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Data related to a character
+/// </summary>
+struct CharacterData
+{
+	int m_hitpoints;
+	float m_speed;
+	Textures m_texture;
+};
+
 struct ProjectileData
 {
 	int m_damage;
@@ -40,6 +52,7 @@ struct PickupData
 };
 
 std::vector<AircraftData> InitializeAircraftData();
+std::vector<CharacterData> InitializeCharacterData();
 std::vector<ProjectileData> InitializeProjectileData();
 std::vector<PickupData> InitializePickupData();
 

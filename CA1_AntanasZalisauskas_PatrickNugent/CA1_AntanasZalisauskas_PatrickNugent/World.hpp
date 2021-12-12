@@ -13,6 +13,7 @@
 
 #include <array>
 
+#include "Character.hpp"
 #include "CommandQueue.hpp"
 
 //Foward
@@ -73,5 +74,6 @@ private:
 	Aircraft* m_player_aircraft;
 	std::vector<SpawnPoint> m_enemy_spawn_points;
 	std::vector<Aircraft*>	m_active_enemies;
+	Character* m_player_character;
 };
 

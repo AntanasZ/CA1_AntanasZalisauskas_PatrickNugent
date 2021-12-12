@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "Aircraft.hpp"
+#include "Character.hpp"
 #include <algorithm>
 
 struct AircraftMover
@@ -17,6 +18,21 @@ struct AircraftMover
 	sf::Vector2f velocity;
 };
 
+struct CharacterMover
+{
+	CharacterMover(float vx, float vy) : velocity(vx, vy)
+	{
+
+	}
+
+	void operator()(Character& character, sf::Time) const
+	{
+		character.Accelerate(velocity * character.GetMaxSpeed());
+	}
+
+	sf::Vector2f velocity;
+};
+
 Player::Player()
 {
 	//Set initial key bindings
@@ -24,16 +40,16 @@ Player::Player()
 	m_key_binding[sf::Keyboard::D] = PlayerAction::kMoveRight;
 	m_key_binding[sf::Keyboard::W] = PlayerAction::kMoveUp;
 	m_key_binding[sf::Keyboard::S] = PlayerAction::kMoveDown;
-	m_key_binding[sf::Keyboard::Space] = PlayerAction::kFire;
-	m_key_binding[sf::Keyboard::M] = PlayerAction::kLaunchMissile;
+	//m_key_binding[sf::Keyboard::Space] = PlayerAction::kFire;
+	//m_key_binding[sf::Keyboard::M] = PlayerAction::kLaunchMissile;
 
 	//Set initial action bindings
 	InitialiseActions();
 
-	//Assign all categories to the player's aircraft
+	//Assign all categories to the player's character
 	for(auto& pair : m_action_binding)
 	{
-		pair.second.category = Category::kPlayerAircraft;
+		pair.second.category = Category::kPlayerCharacter;
 	}
 }
 
@@ -91,16 +107,22 @@ sf::Keyboard::Key Player::GetAssignedKey(PlayerAction action) const
 	return sf::Keyboard::Unknown;
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	-Changed DerivedAction to work with Character and CharacterMover
+///	-Commented out methods relating to firing missiles and projectiles
+/// </summary>
 void Player::InitialiseActions()
 {
 	const float player_speed = 200.f;
 
-	m_action_binding[PlayerAction::kMoveLeft].action = DerivedAction<Aircraft>(AircraftMover(-1, 0.f));
-	m_action_binding[PlayerAction::kMoveRight].action = DerivedAction<Aircraft>(AircraftMover(+1, 0.f));
-	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Aircraft>(AircraftMover(0.f, -1));
-	m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Aircraft>(AircraftMover(0, 1));
+	m_action_binding[PlayerAction::kMoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
+	m_action_binding[PlayerAction::kMoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
+	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Character>(CharacterMover(0.f, -1));
+	m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Character>(CharacterMover(0, 1));
 
-	m_action_binding[PlayerAction::kFire].action = DerivedAction<Aircraft>([](Aircraft& a, sf::Time
+	/*m_action_binding[PlayerAction::kFire].action = DerivedAction<Aircraft>([](Aircraft& a, sf::Time
 		)
 	{
 		a.Fire();
@@ -110,7 +132,7 @@ void Player::InitialiseActions()
 		)
 	{
 		a.LaunchMissile();
-	});
+	});*/
 }
 
 bool Player::IsRealtimeAction(PlayerAction action)
@@ -121,7 +143,7 @@ bool Player::IsRealtimeAction(PlayerAction action)
 	case PlayerAction::kMoveRight:
 	case PlayerAction::kMoveUp:
 	case PlayerAction::kMoveDown:
-	case PlayerAction::kFire:
+	//case PlayerAction::kFire:
 		return true;
 	default:
 		return false;
