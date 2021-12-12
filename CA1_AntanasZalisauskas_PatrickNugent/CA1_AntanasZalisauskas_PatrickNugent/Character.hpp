@@ -5,6 +5,11 @@
 #include "Entity.hpp"
 #include "ResourceIdentifiers.hpp"
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Contains methods and variables related to a character
+/// </summary>
 class Character : public Entity
 {
 public:
@@ -12,6 +17,7 @@ public:
 	unsigned int GetCategory() const override;
 
 	void UpdateMovementPattern(sf::Time dt);
+	float GetMaxSpeed() const;
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;

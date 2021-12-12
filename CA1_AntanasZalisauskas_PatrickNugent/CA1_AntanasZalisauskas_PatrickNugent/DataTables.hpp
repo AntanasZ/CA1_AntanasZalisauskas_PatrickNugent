@@ -26,6 +26,11 @@ struct AircraftData
 	std::vector<Direction> m_directions;
 };
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Data related to a character
+/// </summary>
 struct CharacterData
 {
 	int m_hitpoints;

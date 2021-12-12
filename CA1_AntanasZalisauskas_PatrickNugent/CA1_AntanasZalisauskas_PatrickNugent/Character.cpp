@@ -6,6 +6,12 @@
 #include "ResourceHolder.hpp"
 #include "Utility.hpp"
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Implementation of Character.hpp methods
+/// </summary>
+
 namespace
 {
 	const std::vector<CharacterData> Table = InitializeCharacterData();
@@ -42,6 +48,11 @@ void Character::UpdateMovementPattern(sf::Time dt)
 {
 }
 //********* Implement Later for Enemies ****************//
+
+float Character::GetMaxSpeed() const
+{
+	return Table[static_cast<int>(m_type)].m_speed;
+}
 
 sf::FloatRect Character::GetBoundingRect() const
 {
