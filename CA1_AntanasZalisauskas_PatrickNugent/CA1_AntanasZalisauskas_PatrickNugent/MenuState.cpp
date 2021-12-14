@@ -7,7 +7,11 @@
 #include "Button.hpp"
 
 
-
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	Adjusted position values for buttons
+/// </summary>
 MenuState::MenuState(StateStack& stack, Context context)
 : State(stack, context)
 {
@@ -16,7 +20,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_background_sprite.setTexture(texture);
 
 	auto play_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	play_button->setPosition(100, 250);
+	play_button->setPosition(400, 225);
 	play_button->SetText("Play");
 	play_button->SetCallback([this]()
 	{
@@ -25,7 +29,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	});
 
 	auto settings_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	settings_button->setPosition(100, 300);
+	settings_button->setPosition(400, 300);
 	settings_button->SetText("Settings");
 	settings_button->SetCallback([this]()
 	{
@@ -33,7 +37,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	});
 
 	auto exit_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	exit_button->setPosition(100, 350);
+	exit_button->setPosition(400, 375);
 	exit_button->SetText("Exit");
 	exit_button->SetCallback([this]()
 	{
