@@ -76,5 +76,8 @@ void Character::UpdateCurrent(sf::Time dt, CommandQueue& commands)
 
 bool Character::isPlayer() const
 {
-	return m_type == CharacterType::kShaggy;
+	if (m_type == CharacterType::kShaggy || m_type == CharacterType::kScooby)
+		return true;
+	else
+		return false;
 }

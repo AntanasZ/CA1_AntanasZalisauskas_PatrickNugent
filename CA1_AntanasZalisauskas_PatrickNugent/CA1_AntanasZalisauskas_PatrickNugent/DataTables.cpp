@@ -36,6 +36,12 @@ std::vector<AircraftData> InitializeAircraftData()
 	return data;
 }
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Data about each character type
+/// </summary>
+/// <returns>Returns a vector of CharacterData which includes info about each character type</returns>
 std::vector<CharacterData> InitializeCharacterData()
 {
 	std::vector<CharacterData> data(static_cast<int>(CharacterType::kCharacterCount));
@@ -43,6 +49,10 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
+
+	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
 
 	return data;
 }

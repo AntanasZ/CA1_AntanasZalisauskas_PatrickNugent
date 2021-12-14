@@ -66,6 +66,7 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kRaptor, "Media/Textures/Raptor.png");
 	m_textures.Load(Textures::kAvenger, "Media/Textures/Avenger.png");
 	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
+	m_textures.Load(Textures::kScooby, "Media/Textures/ScoobyIdle.png");
 	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 
@@ -96,7 +97,7 @@ void World::BuildScene()
 	m_scene_layers[static_cast<int>(Layers::kBackground)]->AttachChild(std::move(background_sprite));
 
 	//Add player character
-	std::unique_ptr<Character> player1(new Character(CharacterType::kShaggy, m_textures, m_fonts));
+	std::unique_ptr<Character> player1(new Character(CharacterType::kScooby, m_textures, m_fonts));
 	m_player_character = player1.get();
 	m_player_character->setPosition(m_spawn_position);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player1));
