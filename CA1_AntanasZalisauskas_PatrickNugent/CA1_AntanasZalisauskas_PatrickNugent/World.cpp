@@ -19,6 +19,8 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
 	, m_scrollspeed(-50.f)
 	, m_player_aircraft(nullptr)
+	, m_player_character_1(nullptr)
+	, m_player_character_2(nullptr)
 {
 	LoadTextures();
 	BuildScene();
@@ -32,7 +34,8 @@ void World::Update(sf::Time dt)
 	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
 
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
-	m_player_character->SetVelocity(0.f, 0.f);
+	m_player_character_1->SetVelocity(0.f, 0.f);
+	m_player_character_2->SetVelocity(0.f, 0.f);
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
 
@@ -74,6 +77,12 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	-Changed method to work with m_player_character variables and added player 1 and 2 to game
+///	-Changed background texture used
+/// </summary>
 void World::BuildScene()
 {
 	//Initialize the different layers
@@ -97,10 +106,15 @@ void World::BuildScene()
 	m_scene_layers[static_cast<int>(Layers::kBackground)]->AttachChild(std::move(background_sprite));
 
 	//Add player character
-	std::unique_ptr<Character> player1(new Character(CharacterType::kScooby, m_textures, m_fonts));
-	m_player_character = player1.get();
-	m_player_character->setPosition(m_spawn_position);
+	std::unique_ptr<Character> player1(new Character(CharacterType::kShaggy, m_textures, m_fonts));
+	m_player_character_1 = player1.get();
+	m_player_character_1->setPosition(m_spawn_position);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player1));
+
+	std::unique_ptr<Character> player2(new Character(CharacterType::kScooby, m_textures, m_fonts));
+	m_player_character_2 = player2.get();
+	m_player_character_2->setPosition(m_spawn_position);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player2));
 
 	//Add player's aircraft
 	/*std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
@@ -130,22 +144,36 @@ void World::AdaptPlayerPosition()
 	//Keep the player on the screen
 	sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
 	const float border_distance = 40.f;
-	sf::Vector2f position = m_player_character->GetWorldPosition();
+	sf::Vector2f position = m_player_character_1->GetWorldPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
 	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
 	position.y = std::max(position.y, view_bounds.top + border_distance);
 	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance);
-	m_player_character->setPosition(position);
+	m_player_character_1->setPosition(position);
+
+	position = m_player_character_2->GetWorldPosition();
+	position.x = std::max(position.x, view_bounds.left + border_distance);
+	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
+	position.y = std::max(position.y, view_bounds.top + border_distance);
+	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance);
+	m_player_character_2->setPosition(position);
 
 }
 
 void World::AdaptPlayerVelocity()
 {
-	sf::Vector2f velocity = m_player_character->GetVelocity();
+	sf::Vector2f velocity = m_player_character_1->GetVelocity();
 	//if moving diagonally then reduce velocity
 	if (velocity.x != 0.f && velocity.y != 0.f)
 	{
-		m_player_character->SetVelocity(velocity / std::sqrt(2.f));
+		m_player_character_1->SetVelocity(velocity / std::sqrt(2.f));
+	}
+
+	velocity = m_player_character_2->GetVelocity();
+	//if moving diagonally then reduce velocity
+	if (velocity.x != 0.f && velocity.y != 0.f)
+	{
+		m_player_character_2->SetVelocity(velocity / std::sqrt(2.f));
 	}
 	//Add scrolling velocity
 	//m_player_character->Accelerate(0.f, m_scrollspeed);

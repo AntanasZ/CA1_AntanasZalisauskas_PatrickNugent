@@ -33,15 +33,33 @@ struct CharacterMover
 	sf::Vector2f velocity;
 };
 
-Player::Player()
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	Changed constructor to take in a bool to determine whether the player is player 1
+///	and assign appropriate key bindings based on this bool
+/// </summary>
+/// <param name="is_player_1">Bool value which determines if this player is player 1(true) or player 2(false)</param>
+Player::Player(bool is_player_1)
 {
 	//Set initial key bindings
-	m_key_binding[sf::Keyboard::A] = PlayerAction::kMoveLeft;
-	m_key_binding[sf::Keyboard::D] = PlayerAction::kMoveRight;
-	m_key_binding[sf::Keyboard::W] = PlayerAction::kMoveUp;
-	m_key_binding[sf::Keyboard::S] = PlayerAction::kMoveDown;
+	if(is_player_1)
+	{
+		m_key_binding[sf::Keyboard::A] = PlayerAction::kMoveLeft;
+		m_key_binding[sf::Keyboard::D] = PlayerAction::kMoveRight;
+		m_key_binding[sf::Keyboard::W] = PlayerAction::kMoveUp;
+		m_key_binding[sf::Keyboard::S] = PlayerAction::kMoveDown;
+	}
+	else
+	{
+		m_key_binding[sf::Keyboard::Left] = PlayerAction::kMoveLeft;
+		m_key_binding[sf::Keyboard::Right] = PlayerAction::kMoveRight;
+		m_key_binding[sf::Keyboard::Up] = PlayerAction::kMoveUp;
+		m_key_binding[sf::Keyboard::Down] = PlayerAction::kMoveDown;
+	}
+	
 	//m_key_binding[sf::Keyboard::Space] = PlayerAction::kFire;
-	//m_key_binding[sf::Keyboard::M] = PlayerAction::kLaunchMissile;
+	//m_key_binding[sf::Keyboard::M] = PlayerAction::kLaunchMissile
 
 	//Set initial action bindings
 	InitialiseActions();
@@ -49,7 +67,10 @@ Player::Player()
 	//Assign all categories to the player's character
 	for(auto& pair : m_action_binding)
 	{
-		pair.second.category = Category::kPlayerCharacter;
+		if(is_player_1)
+			pair.second.category = Category::kPlayerCharacter1;
+		else
+			pair.second.category = Category::kPlayerCharacter2;
 	}
 }
 

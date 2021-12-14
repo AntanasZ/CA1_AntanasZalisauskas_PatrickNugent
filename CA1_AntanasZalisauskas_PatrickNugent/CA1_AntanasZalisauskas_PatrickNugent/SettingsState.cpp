@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+//TODO - Rework to include player 2
 
 SettingsState::SettingsState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -55,7 +56,7 @@ bool SettingsState::HandleEvent(const sf::Event& event)
 			isKeyBinding = true;
 			if (event.type == sf::Event::KeyReleased)
 			{
-				GetContext().player->AssignKey(static_cast<PlayerAction>(action), event.key.code);
+				GetContext().player1->AssignKey(static_cast<PlayerAction>(action), event.key.code);
 				m_binding_buttons[action]->Deactivate();
 			}
 			break;
@@ -73,7 +74,7 @@ bool SettingsState::HandleEvent(const sf::Event& event)
 
 void SettingsState::UpdateLabels()
 {
-	Player& player = *GetContext().player;
+	Player& player = *GetContext().player1;
 
 	for (std::size_t i = 0; i < static_cast<int>(PlayerAction::kActionCount); ++i)
 	{

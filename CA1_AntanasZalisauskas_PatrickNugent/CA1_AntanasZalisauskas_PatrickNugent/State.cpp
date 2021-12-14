@@ -2,11 +2,18 @@
 
 #include "StateStack.hpp"
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player)
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	Included player 2 in context
+/// </summary>
+
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player1, Player& player2)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
-, player(&player)
+, player1(&player1)
+, player2(&player2)
 {
 }
 
