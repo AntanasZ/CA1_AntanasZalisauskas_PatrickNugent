@@ -35,10 +35,19 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 	Utility::CentreOrigin(m_sprite);
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+/// Edited to work with player and enemy character categories
+/// </summary>
+/// <returns></returns>
 unsigned Character::GetCategory() const
 {
 	if (isPlayer())
-		return static_cast<int>(Category::kPlayerCharacter);
+		if(m_type == CharacterType::kShaggy)
+			return static_cast<int>(Category::kPlayerCharacter1);
+		else
+			return static_cast<int>(Category::kPlayerCharacter2);
 	else
 		return static_cast<int>(Category::kEnemyCharacter);
 }
@@ -76,5 +85,8 @@ void Character::UpdateCurrent(sf::Time dt, CommandQueue& commands)
 
 bool Character::isPlayer() const
 {
-	return m_type == CharacterType::kShaggy;
+	if (m_type == CharacterType::kShaggy || m_type == CharacterType::kScooby)
+		return true;
+	else
+		return false;
 }

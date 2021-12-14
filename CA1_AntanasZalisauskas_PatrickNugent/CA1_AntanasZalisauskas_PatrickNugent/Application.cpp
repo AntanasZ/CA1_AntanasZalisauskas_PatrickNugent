@@ -10,9 +10,16 @@
 
 const sf::Time Application::kTimePerFrame = sf::seconds(1.f / 60.f);
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	Included player 2
+/// </summary>
 Application::Application()
-:m_window(sf::VideoMode(1024, 768), "States", sf::Style::Close)
-, m_stack(State::Context(m_window, m_textures, m_fonts, m_player))
+:m_window(sf::VideoMode(1024, 768), "Scooby Food Fight", sf::Style::Close)
+, m_player_1(true)
+, m_player_2(false)
+, m_stack(State::Context(m_window, m_textures, m_fonts, m_player_1, m_player_2))
 , m_statistics_numframes(0)
 {
 	m_window.setKeyRepeatEnabled(false);

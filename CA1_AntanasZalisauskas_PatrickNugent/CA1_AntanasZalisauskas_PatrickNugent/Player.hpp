@@ -8,7 +8,7 @@
 class Player
 {
 public:
-	Player();
+	Player(bool is_player_1);
 	void HandleEvent(const sf::Event& event, CommandQueue& commands);
 	void HandleRealtimeInput(CommandQueue& commands);
 

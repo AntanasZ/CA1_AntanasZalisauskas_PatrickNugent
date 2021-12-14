@@ -2,7 +2,7 @@
 /// <summary>
 /// Edited by: Antanas Zalisauskas
 ///
-///	Added enums shaggy and mansion background
+///	Added enums for characters and background
 /// </summary>
 enum class Textures
 {
@@ -21,5 +21,6 @@ enum class Textures
 	kButtonSelected,
 	kButtonPressed,
 	kShaggy,
+	kScooby,
 	kMansion
 };

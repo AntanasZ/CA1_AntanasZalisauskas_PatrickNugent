@@ -7,5 +7,6 @@
 enum class CharacterType
 {
 	kShaggy,
+	kScooby,
 	kCharacterCount
 };
