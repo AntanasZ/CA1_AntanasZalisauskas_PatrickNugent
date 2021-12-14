@@ -6,6 +6,11 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	Set button text color to purples
+/// </summary>
 namespace GUI
 {
 	Button::Button(const FontHolder& fonts, const TextureHolder& textures)
@@ -29,6 +34,7 @@ namespace GUI
 	void Button::SetText(const std::string& text)
 	{
 		m_text.setString(text);
+		m_text.setFillColor(sf::Color(128, 0, 128, 255));
 		Utility::CentreOrigin(m_text);
 	}
 
