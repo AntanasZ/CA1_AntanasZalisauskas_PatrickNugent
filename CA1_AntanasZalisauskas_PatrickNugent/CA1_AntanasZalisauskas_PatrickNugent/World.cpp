@@ -63,6 +63,11 @@ void World::Draw()
 	m_window.draw(m_scenegraph);
 }
 
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	-Added creeper texture
+/// </summary>
 void World::LoadTextures()
 {
 	m_textures.Load(Textures::kEagle, "Media/Textures/Eagle.png");
@@ -70,6 +75,7 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kAvenger, "Media/Textures/Avenger.png");
 	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
 	m_textures.Load(Textures::kScooby, "Media/Textures/ScoobyIdle.png");
+	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");

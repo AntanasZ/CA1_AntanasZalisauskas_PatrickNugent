@@ -9,8 +9,9 @@
 /// <summary>
 /// Edited by: Patrick Nugent
 ///
-///	Set button text color to purples
+///	Set button text color to purple
 /// </summary>
+
 namespace GUI
 {
 	Button::Button(const FontHolder& fonts, const TextureHolder& textures)
