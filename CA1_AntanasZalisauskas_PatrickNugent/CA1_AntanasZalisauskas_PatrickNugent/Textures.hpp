@@ -29,5 +29,5 @@ enum class Textures
 	kShaggy,
 	kScooby,
 	kMansion,
-	kCreeper
+	kCreeper,
 };
