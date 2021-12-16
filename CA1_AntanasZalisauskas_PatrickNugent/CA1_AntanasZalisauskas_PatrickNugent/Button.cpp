@@ -35,6 +35,7 @@ namespace GUI
 	void Button::SetText(const std::string& text)
 	{
 		m_text.setString(text);
+		m_text.setFillColor(sf::Color(128, 0, 128, 255));
 		Utility::CentreOrigin(m_text);
 	}
 
