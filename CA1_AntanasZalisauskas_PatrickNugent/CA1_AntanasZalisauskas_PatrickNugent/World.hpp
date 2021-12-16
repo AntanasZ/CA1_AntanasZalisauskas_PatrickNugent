@@ -22,7 +22,11 @@ namespace sf
 	class RenderWindow;
 }
 
-
+/// <summary>
+/// Edited By: Patrick Nugent
+///
+///	Reworked to use Character class instead of Aircraft
+/// </summary>
 class World : private sf::NonCopyable
 {
 public:
@@ -40,7 +44,7 @@ private:
 	sf::FloatRect GetViewBounds() const;
 	sf::FloatRect GetBattlefieldBounds() const;
 	void SpawnEnemies();
-	void AddEnemy(AircraftType type, float relX, float relY);
+	void AddEnemy(CharacterType type, float relX, float relY);
 	void AddEnemies();
 	void GuideMissiles();
 	void HandleCollisions();
@@ -49,11 +53,11 @@ private:
 private:
 	struct SpawnPoint
 	{
-		SpawnPoint(AircraftType type, float x, float y) : m_type(type), m_x(x), m_y(y)
+		SpawnPoint(CharacterType type, float x, float y) : m_type(type), m_x(x), m_y(y)
 		{
 			
 		}
-		AircraftType m_type;
+		CharacterType m_type;
 		float m_x;
 		float m_y;
 	};
@@ -73,7 +77,7 @@ private:
 	float m_scrollspeed;
 	Aircraft* m_player_aircraft;
 	std::vector<SpawnPoint> m_enemy_spawn_points;
-	std::vector<Aircraft*>	m_active_enemies;
+	std::vector<Character*>	m_active_enemies;
 	Character* m_player_character_1;
 	Character* m_player_character_2;
 };

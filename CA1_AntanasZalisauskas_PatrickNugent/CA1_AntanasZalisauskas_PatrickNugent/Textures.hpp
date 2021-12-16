@@ -4,6 +4,12 @@
 ///
 ///	Added enums for characters and background
 /// </summary>
+
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	Added enum for creeper texture
+/// </summary>
 enum class Textures
 {
 	kEagle,
@@ -22,5 +28,6 @@ enum class Textures
 	kButtonPressed,
 	kShaggy,
 	kScooby,
-	kMansion
+	kMansion,
+	kCreeper
 };

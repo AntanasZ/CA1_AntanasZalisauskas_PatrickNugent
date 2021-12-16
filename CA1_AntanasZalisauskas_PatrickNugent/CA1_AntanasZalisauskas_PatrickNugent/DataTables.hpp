@@ -31,11 +31,18 @@ struct AircraftData
 ///
 ///	Data related to a character
 /// </summary>
+
+/// <summary>
+/// edited by: Patrick Nugent
+///
+///	Added directions field
+/// </summary>
 struct CharacterData
 {
 	int m_hitpoints;
 	float m_speed;
 	Textures m_texture;
+	std::vector<Direction> m_directions;
 };
 
 struct ProjectileData
