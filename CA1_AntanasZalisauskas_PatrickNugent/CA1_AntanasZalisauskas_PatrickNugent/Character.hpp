@@ -10,6 +10,12 @@
 ///
 ///	Contains methods and variables related to a character
 /// </summary>
+
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	Added fields for travelled distance and directions
+/// </summary>
 class Character : public Entity
 {
 public:
@@ -32,5 +38,7 @@ private:
 	sf::Sprite m_sprite;
 
 	bool m_is_marked_for_removal;
+	float m_travelled_distance;
+	int m_directions_index;
 };
 

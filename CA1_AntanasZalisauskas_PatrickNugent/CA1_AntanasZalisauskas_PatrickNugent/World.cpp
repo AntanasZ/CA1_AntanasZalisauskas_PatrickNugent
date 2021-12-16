@@ -78,6 +78,7 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
+	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
@@ -205,15 +206,20 @@ sf::FloatRect World::GetBattlefieldBounds() const
 	return bounds;
 }
 
+/// <summary>
+/// Edited By: Patrick Nugent
+///
+///	Reworked to use Character class instead of aircraft
+/// </summary>
 void World::SpawnEnemies()
 {
 	//Spawn an enemy when they are relevant - they are relevant when they enter the battlefield bounds
 	while(!m_enemy_spawn_points.empty() && m_enemy_spawn_points.back().m_y > GetBattlefieldBounds().top)
 	{
 		SpawnPoint spawn = m_enemy_spawn_points.back();
-		std::unique_ptr<Aircraft> enemy(new Aircraft(spawn.m_type, m_textures, m_fonts));
+		std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 		enemy->setPosition(spawn.m_x, spawn.m_y);
-		enemy->setRotation(180.f);
+		//enemy->setRotation(180.f);
 		m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
 
 		m_enemy_spawn_points.pop_back();
@@ -221,23 +227,31 @@ void World::SpawnEnemies()
 	}
 }
 
-void World::AddEnemy(AircraftType type, float relX, float relY)
+void World::AddEnemy(CharacterType type, float relX, float relY)
 {
 	SpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
 //***********REWORK************//
+
+/// <summary>
+/// Edited By: Patrick Nugent
+///
+///	Added creeper enemy
+/// </summary>
 void World::AddEnemies()
 {
 	//Add all enemies
-	AddEnemy(AircraftType::kRaptor, 0.f, 500.f);
+	/*AddEnemy(AircraftType::kRaptor, 0.f, 500.f);
 	AddEnemy(AircraftType::kRaptor, 0.f, 1000.f);
 	AddEnemy(AircraftType::kRaptor, 100.f, 1100.f);
 	AddEnemy(AircraftType::kRaptor, -100.f, 1100.f);
 	AddEnemy(AircraftType::kAvenger, -70.f, 1400.f);
 	AddEnemy(AircraftType::kAvenger, 70.f, 1400.f);
-	AddEnemy(AircraftType::kAvenger, 70.f, 1600.f);
+	AddEnemy(AircraftType::kAvenger, 70.f, 1600.f);*/
+
+	AddEnemy(CharacterType::kCreeper, -500.f, -335.f);
 
 	//Sort according to y value so that lower enemies are checked first
 	std::sort(m_enemy_spawn_points.begin(), m_enemy_spawn_points.end(), [](SpawnPoint lhs, SpawnPoint rhs)
@@ -250,7 +264,7 @@ void World::AddEnemies()
 void World::GuideMissiles()
 {
 	// Setup command that stores all enemies in mActiveEnemies
-	Command enemyCollector;
+	/*Command enemyCollector;
 	enemyCollector.category = Category::kEnemyAircraft;
 	enemyCollector.action = DerivedAction<Aircraft>([this](Aircraft& enemy, sf::Time)
 	{
@@ -289,7 +303,7 @@ void World::GuideMissiles()
 	// Push commands, reset active enemies
 	m_command_queue.Push(enemyCollector);
 	m_command_queue.Push(missileGuider);
-	m_active_enemies.clear();
+	m_active_enemies.clear();*/
 }
 
 bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)

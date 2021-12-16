@@ -8,7 +8,7 @@
 /// <summary>
 /// Edited by: Patrick Nugent
 ///
-///	Added enums for creeper enemy
+///	Added enum for creeper texture
 /// </summary>
 enum class Textures
 {
@@ -29,5 +29,5 @@ enum class Textures
 	kShaggy,
 	kScooby,
 	kMansion,
-	kCreeper,
+	kCreeper
 };

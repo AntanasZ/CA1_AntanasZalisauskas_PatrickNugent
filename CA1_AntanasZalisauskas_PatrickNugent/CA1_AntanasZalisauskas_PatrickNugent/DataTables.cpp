@@ -42,17 +42,37 @@ std::vector<AircraftData> InitializeAircraftData()
 ///	Data about each character type
 /// </summary>
 /// <returns>Returns a vector of CharacterData which includes info about each character type</returns>
+
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	-Added comments to show which characters are players 
+/// -Added creeper enemy type 
+/// </summary>
 std::vector<CharacterData> InitializeCharacterData()
 {
 	std::vector<CharacterData> data(static_cast<int>(CharacterType::kCharacterCount));
 
+	//Shaggy - Player 1
 	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
 
+	//Scooby - Player 2
 	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
+
+	//Creeper
+	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kCreeper)].m_texture = Textures::kCreeper;
+
+	data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(0.f, 50.f));
+	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(0.f, 50.f));
+	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(+45.f, 50.f));
 
 	return data;
 }
