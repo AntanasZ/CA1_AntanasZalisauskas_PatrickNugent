@@ -141,7 +141,7 @@ void Player::InitialiseActions()
 	m_action_binding[PlayerAction::kMoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
 	m_action_binding[PlayerAction::kMoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
 	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Character>(CharacterMover(0.f, -1));
-	m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Character>(CharacterMover(0, 1));
+	//m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Character>(CharacterMover(0, 1));
 
 	/*m_action_binding[PlayerAction::kFire].action = DerivedAction<Aircraft>([](Aircraft& a, sf::Time
 		)

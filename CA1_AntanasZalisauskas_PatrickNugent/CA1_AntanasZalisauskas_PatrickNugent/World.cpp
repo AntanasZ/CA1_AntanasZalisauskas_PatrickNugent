@@ -21,6 +21,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_aircraft(nullptr)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
+	, m_gravity(50.f)
 {
 	LoadTextures();
 	BuildScene();
@@ -44,7 +45,7 @@ void World::Update(sf::Time dt)
 	{
 		m_scenegraph.OnCommand(m_command_queue.Pop(), dt);
 	}
-	//AdaptPlayerVelocity();
+	AdaptPlayerVelocity();
 
 	HandleCollisions();
 	//Remove all destroyed entities
@@ -166,21 +167,31 @@ void World::AdaptPlayerPosition()
 
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	Added gravity to players
+/// </summary>
 void World::AdaptPlayerVelocity()
 {
-	sf::Vector2f velocity = m_player_character_1->GetVelocity();
-	//if moving diagonally then reduce velocity
-	if (velocity.x != 0.f && velocity.y != 0.f)
-	{
-		m_player_character_1->SetVelocity(velocity / std::sqrt(2.f));
-	}
+	//sf::Vector2f velocity = m_player_character_1->GetVelocity();
+	////if moving diagonally then reduce velocity
+	//if (velocity.x != 0.f && velocity.y != 0.f)
+	//{
+	//	m_player_character_1->SetVelocity(velocity / std::sqrt(2.f));
+	//}
 
-	velocity = m_player_character_2->GetVelocity();
-	//if moving diagonally then reduce velocity
-	if (velocity.x != 0.f && velocity.y != 0.f)
-	{
-		m_player_character_2->SetVelocity(velocity / std::sqrt(2.f));
-	}
+	//velocity = m_player_character_2->GetVelocity();
+	////if moving diagonally then reduce velocity
+	//if (velocity.x != 0.f && velocity.y != 0.f)
+	//{
+	//	m_player_character_2->SetVelocity(velocity / std::sqrt(2.f));
+	//}
+
+	//Add gravity to players
+	m_player_character_1->Accelerate(0.f, m_gravity);
+	m_player_character_2->Accelerate(0.f, m_gravity);
+
 	//Add scrolling velocity
 	//m_player_character->Accelerate(0.f, m_scrollspeed);
 }
