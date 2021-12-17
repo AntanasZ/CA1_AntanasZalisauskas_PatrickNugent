@@ -80,5 +80,6 @@ private:
 	std::vector<Character*>	m_active_enemies;
 	Character* m_player_character_1;
 	Character* m_player_character_2;
+	float m_gravity;
 };
 
