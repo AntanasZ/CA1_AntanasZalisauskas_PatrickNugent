@@ -41,6 +41,7 @@ struct CharacterData
 {
 	int m_hitpoints;
 	float m_speed;
+	float m_jump_height;
 	Textures m_texture;
 	std::vector<Direction> m_directions;
 };

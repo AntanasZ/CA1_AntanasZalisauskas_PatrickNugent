@@ -40,15 +40,14 @@ std::vector<AircraftData> InitializeAircraftData()
 /// Written by: Antanas Zalisauskas
 ///
 ///	Data about each character type
-/// </summary>
-/// <returns>Returns a vector of CharacterData which includes info about each character type</returns>
-
-/// <summary>
+///	Added jump height variables to characters
+/// 
 /// Edited by: Patrick Nugent
 ///
 ///	-Added comments to show which characters are players 
 /// -Added creeper enemy type 
 /// </summary>
+///	<returns>Returns a vector of CharacterData which includes info about each character type</returns>
 std::vector<CharacterData> InitializeCharacterData()
 {
 	std::vector<CharacterData> data(static_cast<int>(CharacterType::kCharacterCount));
@@ -57,16 +56,19 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
+	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 100.f;
 
 	//Scooby - Player 2
 	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
+	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 100.f;
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kCreeper)].m_texture = Textures::kCreeper;
+	data[static_cast<int>(CharacterType::kCreeper)].m_jump_height = 0.f;
 
 	data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(0.f, 50.f));

@@ -39,7 +39,7 @@ private:
 	void LoadTextures();
 	void BuildScene();
 	void AdaptPlayerPosition();
-	void AdaptPlayerVelocity();
+	void AdaptPlayerVelocity(sf::Time dt);
 
 	sf::FloatRect GetViewBounds() const;
 	sf::FloatRect GetBattlefieldBounds() const;

@@ -34,6 +34,27 @@ struct CharacterMover
 };
 
 /// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Handles logic for player jumping
+/// </summary>
+struct CharacterJump
+{
+	CharacterJump() = default;
+
+	void operator()(Character& character, sf::Time dt) const
+	{
+		if(character.GetCanJump()) //if player can jump, jump
+		{
+			character.ToggleCanJump(); //set can jump to false
+
+			character.SetVelocity(0.f, -sqrtf(2.0f * 981.f * character.GetJumpHeight()));
+		}
+		
+	}
+};
+
+/// <summary>
 /// Edited by: Antanas Zalisauskas
 ///
 ///	Changed constructor to take in a bool to determine whether the player is player 1
@@ -140,7 +161,7 @@ void Player::InitialiseActions()
 
 	m_action_binding[PlayerAction::kMoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
 	m_action_binding[PlayerAction::kMoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
-	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Character>(CharacterMover(0.f, -1));
+	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Character>(CharacterJump());
 	//m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Character>(CharacterMover(0, 1));
 
 	/*m_action_binding[PlayerAction::kFire].action = DerivedAction<Aircraft>([](Aircraft& a, sf::Time

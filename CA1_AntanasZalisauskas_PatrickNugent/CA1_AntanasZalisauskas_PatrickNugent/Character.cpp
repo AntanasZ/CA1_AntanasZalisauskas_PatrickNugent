@@ -32,7 +32,9 @@ Textures ToTextureID(CharacterType type)
 Character::Character(CharacterType type, const TextureHolder& textures, const FontHolder& fonts)
 	: Entity(Table[static_cast<int>(type)].m_hitpoints),
 	m_type(type),
-	m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture))
+	m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture)),
+	m_can_jump(true),
+	m_jump_height(Table[static_cast<int>(type)].m_jump_height)
 {
 	Utility::CentreOrigin(m_sprite);
 }
@@ -113,3 +115,25 @@ bool Character::isPlayer() const
 	else
 		return false;
 }
+
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Added getters and setters for jump variables
+/// </summary>
+/// <returns></returns>
+bool Character::GetCanJump() const
+{
+	return m_can_jump;
+}
+
+float Character::GetJumpHeight() const
+{
+	return m_jump_height;
+}
+
+void Character::ToggleCanJump()
+{
+	m_can_jump = !m_can_jump;
+}
+

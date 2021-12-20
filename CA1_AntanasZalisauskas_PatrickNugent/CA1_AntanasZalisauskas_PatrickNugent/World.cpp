@@ -21,7 +21,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_aircraft(nullptr)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
-	, m_gravity(50.f)
+	, m_gravity(981.f)
 {
 	LoadTextures();
 	BuildScene();
@@ -35,17 +35,21 @@ void World::Update(sf::Time dt)
 	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
 
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
-	m_player_character_1->SetVelocity(0.f, 0.f);
-	m_player_character_2->SetVelocity(0.f, 0.f);
+	m_player_character_1->SetVelocity(0.f, m_player_character_1->GetVelocity().y);
+	m_player_character_2->SetVelocity(0.f, m_player_character_2->GetVelocity().y);
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
+
+	
 
 	//Forward commands to the scenegraph until the command queue is empty
 	while(!m_command_queue.IsEmpty())
 	{
 		m_scenegraph.OnCommand(m_command_queue.Pop(), dt);
 	}
-	AdaptPlayerVelocity();
+
+	AdaptPlayerVelocity(dt);
+	
 
 	HandleCollisions();
 	//Remove all destroyed entities
@@ -56,6 +60,8 @@ void World::Update(sf::Time dt)
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
 	AdaptPlayerPosition();
+
+	
 }
 
 void World::Draw()
@@ -150,12 +156,12 @@ void World::AdaptPlayerPosition()
 {
 	//Keep the player on the screen
 	sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
-	const float border_distance = 40.f;
+	const float border_distance = 50.f;
 	sf::Vector2f position = m_player_character_1->GetWorldPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
 	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
 	position.y = std::max(position.y, view_bounds.top + border_distance);
-	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance);
+	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance - 10.f);
 	m_player_character_1->setPosition(position);
 
 	position = m_player_character_2->GetWorldPosition();
@@ -172,7 +178,7 @@ void World::AdaptPlayerPosition()
 ///
 ///	Added gravity to players
 /// </summary>
-void World::AdaptPlayerVelocity()
+void World::AdaptPlayerVelocity(sf::Time dt)
 {
 	//sf::Vector2f velocity = m_player_character_1->GetVelocity();
 	////if moving diagonally then reduce velocity
@@ -189,8 +195,8 @@ void World::AdaptPlayerVelocity()
 	//}
 
 	//Add gravity to players
-	m_player_character_1->Accelerate(0.f, m_gravity);
-	m_player_character_2->Accelerate(0.f, m_gravity);
+	m_player_character_1->Accelerate(0.f, m_gravity * dt.asSeconds());
+	m_player_character_2->Accelerate(0.f, m_gravity * dt.asSeconds());
 
 	//Add scrolling velocity
 	//m_player_character->Accelerate(0.f, m_scrollspeed);
