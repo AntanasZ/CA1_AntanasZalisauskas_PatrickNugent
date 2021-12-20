@@ -24,6 +24,9 @@ public:
 
 	void UpdateMovementPattern(sf::Time dt);
 	float GetMaxSpeed() const;
+	bool GetCanJump() const;
+	float GetJumpHeight() const;
+	void ToggleCanJump();
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;
@@ -36,6 +39,8 @@ private:
 private:
 	CharacterType m_type;
 	sf::Sprite m_sprite;
+	bool m_can_jump;
+	float m_jump_height;
 
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;
