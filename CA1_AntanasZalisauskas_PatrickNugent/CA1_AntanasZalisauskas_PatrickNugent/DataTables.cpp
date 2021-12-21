@@ -46,6 +46,7 @@ std::vector<AircraftData> InitializeAircraftData()
 ///
 ///	-Added comments to show which characters are players 
 /// -Added creeper enemy type 
+/// -Added michael enemy type
 /// </summary>
 ///	<returns>Returns a vector of CharacterData which includes info about each character type</returns>
 std::vector<CharacterData> InitializeCharacterData()
@@ -66,15 +67,19 @@ std::vector<CharacterData> InitializeCharacterData()
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 100.f;
 	data[static_cast<int>(CharacterType::kCreeper)].m_texture = Textures::kCreeper;
 	data[static_cast<int>(CharacterType::kCreeper)].m_jump_height = 0.f;
 
 	data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-90.f, 1000.f));
-	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(0.f, 50.f));
-	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-45.f, 100.f));
-	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(0.f, 50.f));
-	//data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(+45.f, 50.f));
+
+	//Michael
+	data[static_cast<int>(CharacterType::kMichael)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kMichael)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kMichael)].m_texture = Textures::kMichael;
+	data[static_cast<int>(CharacterType::kMichael)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kMichael)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 
 	return data;
 }

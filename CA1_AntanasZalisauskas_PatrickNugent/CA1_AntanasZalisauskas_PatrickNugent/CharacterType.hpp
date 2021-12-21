@@ -15,5 +15,6 @@ enum class CharacterType
 	kShaggy,
 	kScooby,
 	kCreeper,
+	kMichael,
 	kCharacterCount
 };

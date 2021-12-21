@@ -3,13 +3,13 @@
 /// Edited by: Antanas Zalisauskas
 ///
 ///	Added enums for characters and background
-/// </summary>
-
-/// <summary>
+///
 /// Edited by: Patrick Nugent
 ///
-///	Added enum for creeper texture
+///	-Added enum for creeper texture
+/// -Added eneum for michael texture
 /// </summary>
+
 enum class Textures
 {
 	kEagle,
@@ -30,4 +30,5 @@ enum class Textures
 	kScooby,
 	kMansion,
 	kCreeper,
+	kMichael
 };
