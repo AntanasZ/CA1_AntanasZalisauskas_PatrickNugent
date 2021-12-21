@@ -85,6 +85,7 @@ void World::LoadTextures()
 	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
+	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
