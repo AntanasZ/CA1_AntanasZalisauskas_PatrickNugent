@@ -25,7 +25,8 @@ namespace sf
 /// <summary>
 /// Edited By: Patrick Nugent
 ///
-///	Reworked to use Character class instead of Aircraft
+///	-Reworked to use Character class instead of Aircraft
+/// -Added spawn countdown field
 /// </summary>
 class World : private sf::NonCopyable
 {
@@ -81,5 +82,6 @@ private:
 	Character* m_player_character_1;
 	Character* m_player_character_2;
 	float m_gravity;
+	sf::Time m_spawn_countdown;
 };
 

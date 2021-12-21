@@ -67,7 +67,7 @@ std::vector<CharacterData> InitializeCharacterData()
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 100.f;
 	data[static_cast<int>(CharacterType::kCreeper)].m_texture = Textures::kCreeper;
 	data[static_cast<int>(CharacterType::kCreeper)].m_jump_height = 0.f;
 

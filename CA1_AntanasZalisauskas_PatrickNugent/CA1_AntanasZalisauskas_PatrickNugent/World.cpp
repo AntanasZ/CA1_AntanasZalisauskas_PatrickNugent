@@ -3,6 +3,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
 #include <limits>
+#include <stdlib.h>
 
 #include "Pickup.hpp"
 #include "Projectile.hpp"
@@ -22,6 +23,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
 	, m_gravity(981.f)
+	, m_spawn_countdown()
 {
 	LoadTextures();
 	BuildScene();
@@ -55,7 +57,14 @@ void World::Update(sf::Time dt)
 	//Remove all destroyed entities
 	m_scenegraph.RemoveWrecks();
 
-	SpawnEnemies();
+	//Spawn an enemy every 5 seconds and reset the spawn timer
+	m_spawn_countdown += dt;
+	if (m_spawn_countdown >= sf::seconds(5.0f))
+	{
+		SpawnEnemies();
+		m_spawn_countdown = sf::seconds(0.f);
+	}
+
 
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
@@ -74,6 +83,7 @@ void World::Draw()
 /// Edited by: Patrick Nugent
 ///
 ///	-Added creeper texture
+/// -Added michael texture
 /// </summary>
 void World::LoadTextures()
 {
@@ -226,22 +236,18 @@ sf::FloatRect World::GetBattlefieldBounds() const
 /// <summary>
 /// Edited By: Patrick Nugent
 ///
-///	Reworked to use Character class instead of aircraft
+///	-Reworked to use Character class instead of aircraft
+/// -Added enemy randomiser code
 /// </summary>
 void World::SpawnEnemies()
 {
-	//Spawn an enemy when they are relevant - they are relevant when they enter the battlefield bounds
-	while(!m_enemy_spawn_points.empty() && m_enemy_spawn_points.back().m_y > GetBattlefieldBounds().top)
-	{
-		SpawnPoint spawn = m_enemy_spawn_points.back();
-		std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
-		enemy->setPosition(spawn.m_x, spawn.m_y);
-		//enemy->setRotation(180.f);
-		m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
-
-		m_enemy_spawn_points.pop_back();
-		
-	}
+	//Spawn a random enemy from the vector of enemy spawn points
+	int randomEnemy = rand() % 2;
+	std::cout << randomEnemy;
+	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
+	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
+	enemy->setPosition(spawn.m_x, spawn.m_y);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
 }
 
 void World::AddEnemy(CharacterType type, float relX, float relY)
@@ -255,26 +261,14 @@ void World::AddEnemy(CharacterType type, float relX, float relY)
 /// <summary>
 /// Edited By: Patrick Nugent
 ///
-///	Added creeper enemy
+///	-Added creeper enemy
+/// -Added michael enemy
 /// </summary>
 void World::AddEnemies()
 {
 	//Add all enemies
-	/*AddEnemy(AircraftType::kRaptor, 0.f, 500.f);
-	AddEnemy(AircraftType::kRaptor, 0.f, 1000.f);
-	AddEnemy(AircraftType::kRaptor, 100.f, 1100.f);
-	AddEnemy(AircraftType::kRaptor, -100.f, 1100.f);
-	AddEnemy(AircraftType::kAvenger, -70.f, 1400.f);
-	AddEnemy(AircraftType::kAvenger, 70.f, 1400.f);
-	AddEnemy(AircraftType::kAvenger, 70.f, 1600.f);*/
-
-	AddEnemy(CharacterType::kCreeper, -500.f, -335.f);
-
-	//Sort according to y value so that lower enemies are checked first
-	std::sort(m_enemy_spawn_points.begin(), m_enemy_spawn_points.end(), [](SpawnPoint lhs, SpawnPoint rhs)
-	{
-		return lhs.m_y < rhs.m_y;
-	});
+	AddEnemy(CharacterType::kCreeper, -500.f, -332.f);
+	AddEnemy(CharacterType::kMichael, -500.f, -330.f);
 }
 //***********REWORK************//
 
