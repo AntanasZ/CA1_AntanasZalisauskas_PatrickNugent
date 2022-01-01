@@ -67,7 +67,7 @@ std::vector<CharacterData> InitializeCharacterData()
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kCreeperLeft)].m_speed = 100.f;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_speed = 80.f;
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_texture = Textures::kCreeper;
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_jump_height = 0.f;
 
@@ -84,6 +84,26 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kMichaelRight)] = data[static_cast<int>(CharacterType::kMichaelLeft)];
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kMichaelRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Freddy
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_speed = 160.f;
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_texture = Textures::kFreddy;
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kFreddyRight)] = data[static_cast<int>(CharacterType::kFreddyLeft)];
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kFreddyRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Jason
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_speed = 100.f;
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_texture = Textures::kJason;
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kJasonRight)] = data[static_cast<int>(CharacterType::kJasonLeft)];
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kJasonRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
 
 	return data;
 }

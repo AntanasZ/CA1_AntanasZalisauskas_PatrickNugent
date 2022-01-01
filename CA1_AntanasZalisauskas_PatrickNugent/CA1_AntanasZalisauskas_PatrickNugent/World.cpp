@@ -80,6 +80,8 @@ void World::Draw()
 ///
 ///	-Added creeper texture
 /// -Added michael texture
+/// -Added freddy texture
+/// -Added jason texture
 /// </summary>
 void World::LoadTextures()
 {
@@ -92,6 +94,8 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
+	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
+	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
@@ -243,7 +247,7 @@ sf::FloatRect World::GetBattlefieldBounds() const
 void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
-	int randomEnemy = rand() % 4;
+	int randomEnemy = rand() % 8;
 	//std::cout << randomEnemy;
 	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
@@ -254,10 +258,6 @@ void World::SpawnEnemies()
 void World::AddEnemy(CharacterType type, float relX, float relY)
 {
 	SpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
-	if (relX > -500.f)
-	{
-
-	}
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
@@ -268,6 +268,8 @@ void World::AddEnemy(CharacterType type, float relX, float relY)
 ///
 ///	-Added creeper enemy
 /// -Added michael enemy
+/// -Added freddy enemy
+/// -Added jason enemy
 /// </summary>
 void World::AddEnemies()
 {
@@ -276,6 +278,10 @@ void World::AddEnemies()
 	AddEnemy(CharacterType::kCreeperRight, 500.f, -332.f);
 	AddEnemy(CharacterType::kMichaelLeft, -500.f, -330.f);
 	AddEnemy(CharacterType::kMichaelRight, 500.f, -330.f);
+	AddEnemy(CharacterType::kFreddyLeft, -500.f, -332.f);
+	AddEnemy(CharacterType::kFreddyRight, 500.f, -332.f);
+	AddEnemy(CharacterType::kJasonLeft, -500.f, -329.f);
+	AddEnemy(CharacterType::kJasonRight, 500.f, -329.f);
 }
 //***********REWORK************//
 

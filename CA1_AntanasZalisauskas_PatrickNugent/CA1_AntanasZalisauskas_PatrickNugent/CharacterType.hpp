@@ -6,8 +6,10 @@
 ///
 /// Edited by: Patrick Nugent
 ///
-///	Added creeper enemy type
-/// Added michael enemy type
+///	-Added creeper enemy type
+/// -Added michael enemy type
+/// -Added freddy enemy type
+/// -Added jason enemy type
 ///
 /// </summary>
 
@@ -19,5 +21,9 @@ enum class CharacterType
 	kCreeperRight,
 	kMichaelLeft,
 	kMichaelRight,
+	kFreddyLeft,
+	kFreddyRight,
+	kJasonLeft,
+	kJasonRight,
 	kCharacterCount
 };

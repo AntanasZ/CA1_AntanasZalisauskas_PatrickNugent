@@ -7,7 +7,9 @@
 /// Edited by: Patrick Nugent
 ///
 ///	-Added enum for creeper texture
-/// -Added eneum for michael texture
+/// -Added enum for michael texture
+/// -Added enum for freddy texture
+/// -Added enum for jason texture
 /// </summary>
 
 enum class Textures
@@ -30,5 +32,7 @@ enum class Textures
 	kScooby,
 	kMansion,
 	kCreeper,
-	kMichael
+	kMichael,
+	kFreddy,
+	kJason
 };
