@@ -9,12 +9,10 @@
 /// Written by: Antanas Zalisauskas
 ///
 ///	Contains methods and variables related to a character
-/// </summary>
-
-/// <summary>
+///
 /// Edited by: Patrick Nugent
 ///
-///	Added fields for travelled distance and directions
+///	Added method for flipping sprites
 /// </summary>
 class Character : public Entity
 {
@@ -27,6 +25,7 @@ public:
 	bool GetCanJump() const;
 	float GetJumpHeight() const;
 	void ToggleCanJump();
+	void FlipSprite();
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;
