@@ -58,13 +58,13 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
-	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 100.f;
+	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 200.f;
 
 	//Scooby - Player 2
 	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
-	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 100.f;
+	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 200.f;
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
@@ -85,6 +85,12 @@ std::vector<CharacterData> InitializeCharacterData()
 	return data;
 }
 
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Data about each platform type
+/// </summary>
+/// <returns></returns>
 std::vector<PlatformData> InitializePlatformData()
 {
 	std::vector<PlatformData> data(static_cast<int>(PlatformType::kPlatformCount));

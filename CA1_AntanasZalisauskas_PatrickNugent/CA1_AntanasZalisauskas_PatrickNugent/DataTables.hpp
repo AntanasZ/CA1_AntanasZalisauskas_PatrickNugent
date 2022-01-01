@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <vector>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
 
 #include "ResourceIdentifiers.hpp"
