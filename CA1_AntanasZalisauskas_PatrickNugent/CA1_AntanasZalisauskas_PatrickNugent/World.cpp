@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <stdlib.h>
+#include <time.h>
 
 #include "Pickup.hpp"
 #include "Projectile.hpp"
@@ -27,7 +28,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 {
 	LoadTextures();
 	BuildScene();
-	std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
+	//std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
 	m_camera.setCenter(m_spawn_position);
 }
 
@@ -42,8 +43,6 @@ void World::Update(sf::Time dt)
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
 
-	
-
 	//Forward commands to the scenegraph until the command queue is empty
 	while(!m_command_queue.IsEmpty())
 	{
@@ -52,7 +51,6 @@ void World::Update(sf::Time dt)
 
 	AdaptPlayerVelocity(dt);
 	
-
 	HandleCollisions();
 	//Remove all destroyed entities
 	m_scenegraph.RemoveWrecks();
@@ -65,12 +63,10 @@ void World::Update(sf::Time dt)
 		m_spawn_countdown = sf::seconds(0.f);
 	}
 
-
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
 	AdaptPlayerPosition();
 
-	
 }
 
 void World::Draw()
@@ -139,6 +135,8 @@ void World::BuildScene()
 	m_player_character_2 = player2.get();
 	m_player_character_2->setPosition(m_spawn_position);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player2));
+
+	srand(time(NULL));
 
 	//Add player's aircraft
 	/*std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
@@ -245,8 +243,8 @@ sf::FloatRect World::GetBattlefieldBounds() const
 void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
-	int randomEnemy = rand() % 2;
-	std::cout << randomEnemy;
+	int randomEnemy = rand() % 4;
+	//std::cout << randomEnemy;
 	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
@@ -256,6 +254,10 @@ void World::SpawnEnemies()
 void World::AddEnemy(CharacterType type, float relX, float relY)
 {
 	SpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	if (relX > -500.f)
+	{
+
+	}
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
@@ -270,8 +272,10 @@ void World::AddEnemy(CharacterType type, float relX, float relY)
 void World::AddEnemies()
 {
 	//Add all enemies
-	AddEnemy(CharacterType::kCreeper, -500.f, -332.f);
-	AddEnemy(CharacterType::kMichael, -500.f, -330.f);
+	AddEnemy(CharacterType::kCreeperLeft, -500.f, -332.f);
+	AddEnemy(CharacterType::kCreeperRight, 500.f, -332.f);
+	AddEnemy(CharacterType::kMichaelLeft, -500.f, -330.f);
+	AddEnemy(CharacterType::kMichaelRight, 500.f, -330.f);
 }
 //***********REWORK************//
 
@@ -325,7 +329,7 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 	unsigned int category1 = colliders.first->GetCategory();
 	unsigned int category2 = colliders.second->GetCategory();
 
-	std::cout << category1 << category2 << std::endl;
+	//std::cout << category1 << category2 << std::endl;
 
 	if(type1 & category1 && type2 & category2)
 	{

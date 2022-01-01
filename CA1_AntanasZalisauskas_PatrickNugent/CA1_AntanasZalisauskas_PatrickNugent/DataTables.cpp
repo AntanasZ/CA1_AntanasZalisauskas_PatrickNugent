@@ -66,20 +66,24 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 100.f;
 
 	//Creeper
-	data[static_cast<int>(CharacterType::kCreeper)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kCreeper)].m_speed = 100.f;
-	data[static_cast<int>(CharacterType::kCreeper)].m_texture = Textures::kCreeper;
-	data[static_cast<int>(CharacterType::kCreeper)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_speed = 100.f;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_texture = Textures::kCreeper;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_jump_height = 0.f;
 
-	data[static_cast<int>(CharacterType::kCreeper)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kCreeperRight)] = data[static_cast<int>(CharacterType::kCreeperLeft)];
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kCreeperRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
 
 	//Michael
-	data[static_cast<int>(CharacterType::kMichael)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kMichael)].m_speed = 200.f;
-	data[static_cast<int>(CharacterType::kMichael)].m_texture = Textures::kMichael;
-	data[static_cast<int>(CharacterType::kMichael)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_texture = Textures::kMichael;
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_jump_height = 0.f;
 
-	data[static_cast<int>(CharacterType::kMichael)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kMichaelRight)] = data[static_cast<int>(CharacterType::kMichaelLeft)];
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kMichaelRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
 
 	return data;
 }
