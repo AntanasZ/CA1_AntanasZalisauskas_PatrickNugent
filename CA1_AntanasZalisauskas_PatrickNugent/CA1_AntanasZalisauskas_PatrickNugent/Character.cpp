@@ -137,3 +137,14 @@ void Character::ToggleCanJump()
 	m_can_jump = !m_can_jump;
 }
 
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Flips the sprite of a character
+/// </summary>
+/// <returns></returns>
+void Character::FlipSprite()
+{
+	m_sprite.scale(-1, 1);
+}
+

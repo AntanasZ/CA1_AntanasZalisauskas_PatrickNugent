@@ -248,10 +248,15 @@ void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
 	int randomEnemy = rand() % 8;
-	//std::cout << randomEnemy;
 	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
+
+	//If an enemy is spawning on the right side then flip the sprite
+	if (spawn.m_x > 100)
+	{
+		enemy->FlipSprite();
+	}
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
 }
 
@@ -273,7 +278,7 @@ void World::AddEnemy(CharacterType type, float relX, float relY)
 /// </summary>
 void World::AddEnemies()
 {
-	//Add all enemies
+	//Add all enemies - both the left and right side versions
 	AddEnemy(CharacterType::kCreeperLeft, -500.f, -332.f);
 	AddEnemy(CharacterType::kCreeperRight, 500.f, -332.f);
 	AddEnemy(CharacterType::kMichaelLeft, -500.f, -330.f);
