@@ -46,7 +46,7 @@ struct CharacterJump
 	{
 		if(character.GetCanJump()) //if player can jump, jump
 		{
-			character.ToggleCanJump(); //set can jump to false
+			character.ToggleCanJump(false); //set can jump to false
 
 			character.SetVelocity(0.f, -sqrtf(2.0f * 981.f * character.GetJumpHeight()));
 		}

@@ -46,6 +46,11 @@ struct CharacterData
 	std::vector<Direction> m_directions;
 };
 
+struct PlatformData
+{
+	Textures m_texture;
+};
+
 struct ProjectileData
 {
 	int m_damage;
@@ -63,5 +68,6 @@ std::vector<AircraftData> InitializeAircraftData();
 std::vector<CharacterData> InitializeCharacterData();
 std::vector<ProjectileData> InitializeProjectileData();
 std::vector<PickupData> InitializePickupData();
+std::vector<PlatformData> InitializePlatformData();
 
 

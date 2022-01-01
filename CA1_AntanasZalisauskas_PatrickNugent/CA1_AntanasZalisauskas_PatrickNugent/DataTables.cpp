@@ -3,6 +3,7 @@
 #include "Aircraft.hpp"
 #include "CharacterType.hpp"
 #include "PickupType.hpp"
+#include "PlatformType.hpp"
 #include "ProjectileType.hpp"
 
 std::vector<AircraftData> InitializeAircraftData()
@@ -80,6 +81,19 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kMichael)].m_jump_height = 0.f;
 
 	data[static_cast<int>(CharacterType::kMichael)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+
+	return data;
+}
+
+std::vector<PlatformData> InitializePlatformData()
+{
+	std::vector<PlatformData> data(static_cast<int>(PlatformType::kPlatformCount));
+
+	//Ground
+	data[static_cast<int>(PlatformType::kGroundPlatform)].m_texture = Textures::kFloor;
+
+	//Air Platforms
+	data[static_cast<int>(PlatformType::kAirPlatform)].m_texture = Textures::kPlatform;
 
 	return data;
 }

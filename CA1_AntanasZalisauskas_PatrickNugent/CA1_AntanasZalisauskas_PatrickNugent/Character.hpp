@@ -26,13 +26,13 @@ public:
 	float GetMaxSpeed() const;
 	bool GetCanJump() const;
 	float GetJumpHeight() const;
-	void ToggleCanJump();
+	void ToggleCanJump(bool value);
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;
 
 private:
-	virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 	virtual void UpdateCurrent(sf::Time dt, CommandQueue& commands) override;
 	bool isPlayer() const;
 

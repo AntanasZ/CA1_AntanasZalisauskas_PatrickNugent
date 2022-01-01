@@ -132,8 +132,8 @@ float Character::GetJumpHeight() const
 	return m_jump_height;
 }
 
-void Character::ToggleCanJump()
+void Character::ToggleCanJump(bool value)
 {
-	m_can_jump = !m_can_jump;
+	m_can_jump = value;
 }
 
