@@ -1,4 +1,6 @@
 #include "Entity.hpp"
+#include <iostream>
+#include <ostream>
 
 Entity::Entity(int hitpoints)
 	: m_hitpoints(hitpoints)
@@ -48,10 +50,11 @@ void Entity::Repair(unsigned int points)
 	m_hitpoints += points;
 }
 
-void Entity::Damage(unsigned int points)
+void Entity::Damage(int points)
 {
 	assert(points > 0);
 	m_hitpoints -= points;
+	std::cout << "After Damage: " << m_hitpoints << std::endl;
 }
 
 void Entity::Destroy()

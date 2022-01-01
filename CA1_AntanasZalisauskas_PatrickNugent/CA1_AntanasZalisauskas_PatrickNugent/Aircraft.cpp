@@ -10,6 +10,8 @@
 #include "ResourceHolder.hpp"
 #include "Utility.hpp"
 #include "DataTables.hpp"
+#include "Pickup.hpp"
+#include "PickupType.hpp"
 
 
 namespace
@@ -39,6 +41,7 @@ Aircraft::Aircraft(AircraftType type, const TextureHolder& textures, const FontH
 	, m_is_firing(false)
 	, m_is_launching_missile(false)
 , m_fire_countdown(sf::Time::Zero)
+, m_is_marked_for_removal(false)
 , m_fire_rate(1)
 , m_spread_level(1)
 , m_missile_ammo(2)
@@ -60,12 +63,18 @@ Aircraft::Aircraft(AircraftType type, const TextureHolder& textures, const FontH
 	{
 		CreateProjectile(node, ProjectileType::kMissile, 0.f, 0.5f, textures);
 	};
+
+	m_drop_pickup_command.category = static_cast<int>(Category::Type::kScene);
+	m_drop_pickup_command.action = [this, &textures](SceneNode& node, sf::Time)
+	{
+		CreatePickup(node, textures);
+	};
 	
 	std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
 	m_health_display = healthDisplay.get();
 	AttachChild(std::move(healthDisplay));
 
-	if (GetCategory() == static_cast<int>(Category::kPlayerAircraft))
+	if (Aircraft::GetCategory() == static_cast<int>(Category::kPlayerAircraft))
 	{
 		std::unique_ptr<TextNode> missileDisplay(new TextNode(fonts, ""));
 		missileDisplay->setPosition(0, 70);
@@ -85,9 +94,11 @@ void Aircraft::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) co
 unsigned int Aircraft::GetCategory() const
 {
 	if (IsAllied())
+	{
 		return static_cast<int>(Category::kPlayerAircraft);
-	else
-		return static_cast<int>(Category::kEnemyAircraft);
+	}
+
+	return static_cast<int>(Category::kEnemyAircraft);
 }
 
 void Aircraft::IncreaseFireRate()
@@ -106,7 +117,7 @@ void Aircraft::IncreaseSpread()
 	}
 }
 
-void Aircraft::CollectMissiles(unsigned count)
+void Aircraft::CollectMissiles(int count)
 {
 	m_missile_ammo += count;
 }
@@ -133,6 +144,12 @@ void Aircraft::UpdateTexts()
 
 void Aircraft::UpdateCurrent(sf::Time dt, CommandQueue& commands)
 {
+	if(IsDestroyed())
+	{
+		CheckPickupDrop(commands);
+		m_is_marked_for_removal = true;
+		return;
+	}
 	//Check if bullets or missiles are fired
 	CheckProjectileLaunch(dt, commands);
 	// Update enemy movement pattern; apply velocity
@@ -275,3 +292,19 @@ bool Aircraft::IsMarkedForRemoval() const
 	return m_is_marked_for_removal;
 }
 
+void Aircraft::CheckPickupDrop(CommandQueue& commands)
+{
+	if(!IsAllied() && Utility::RandomInt(3) == 0)
+	{
+		commands.Push(m_drop_pickup_command);
+	}
+}
+
+void Aircraft::CreatePickup(SceneNode& node, const TextureHolder& textures) const
+{
+	auto type = static_cast<PickupType>(Utility::RandomInt(static_cast<int>(PickupType::kPickupCount)));
+	std::unique_ptr<Pickup> pickup(new Pickup(type, textures));
+	pickup->setPosition(GetWorldPosition());
+	pickup->SetVelocity(0.f, 1.f);
+	node.AttachChild(std::move(pickup));
+}

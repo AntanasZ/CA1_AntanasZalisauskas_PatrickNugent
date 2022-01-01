@@ -18,7 +18,7 @@ public:
 
 	void IncreaseFireRate();
 	void IncreaseSpread();
-	void CollectMissiles(unsigned int count);
+	void CollectMissiles(int count);
 	void UpdateTexts();
 	void UpdateMovementPattern(sf::Time dt);
 	float GetMaxSpeed() const;
@@ -28,16 +28,17 @@ public:
 	void CreateProjectile(SceneNode& node, ProjectileType type, float x_offset, float y_offset, const TextureHolder& textures) const;
 
 	sf::FloatRect GetBoundingRect() const override;
-	bool IsMarkedForRemoval() const;
+	bool IsMarkedForRemoval() const override;
 
 
 private:
-	virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual void UpdateCurrent(sf::Time dt, CommandQueue& commands) override;
+	void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void UpdateCurrent(sf::Time dt, CommandQueue& commands) override;
 	
 	void CheckProjectileLaunch(sf::Time dt, CommandQueue& commands);
 	bool IsAllied() const;
-
+	void CreatePickup(SceneNode& node, const TextureHolder& textures) const;
+	void CheckPickupDrop(CommandQueue& commands);
 
 private:
 	AircraftType m_type;
@@ -45,6 +46,7 @@ private:
 
 	Command m_fire_command;
 	Command m_missile_command;
+	Command m_drop_pickup_command;
 
 	bool m_is_firing;
 	bool m_is_launching_missile;

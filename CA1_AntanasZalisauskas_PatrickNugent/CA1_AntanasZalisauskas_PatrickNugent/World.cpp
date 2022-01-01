@@ -166,16 +166,19 @@ CommandQueue& World::getCommandQueue()
 void World::AdaptPlayerPosition()
 {
 	//Keep the player on the screen
-	sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
+	//sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
+	sf::FloatRect view_bounds = GetViewBounds();
+
 	const float border_distance = 50.f;
-	sf::Vector2f position = m_player_character_1->GetWorldPosition();
+	//sf::Vector2f position = m_player_character_1->GetWorldPosition();
+	sf::Vector2f position = m_player_character_1->getPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
 	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
 	position.y = std::max(position.y, view_bounds.top + border_distance);
 	position.y = std::min(position.y, view_bounds.top + view_bounds.height - border_distance - 10.f);
 	m_player_character_1->setPosition(position);
 
-	position = m_player_character_2->GetWorldPosition();
+	position = m_player_character_2->getPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
 	position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);
 	position.y = std::max(position.y, view_bounds.top + border_distance);
@@ -322,6 +325,8 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 	unsigned int category1 = colliders.first->GetCategory();
 	unsigned int category2 = colliders.second->GetCategory();
 
+	std::cout << category1 << category2 << std::endl;
+
 	if(type1 & category1 && type2 & category2)
 	{
 		return true;
@@ -377,12 +382,13 @@ void World::HandleCollisions()
 void World::DestroyEntitiesOutsideView()
 {
 	Command command;
-	command.category = Category::Type::kAircraft | Category::Type::kProjectile;
+	command.category = Category::Type::kEnemyAircraft | Category::Type::kProjectile;
 	command.action = DerivedAction<Entity>([this](Entity& e, sf::Time)
 	{
 		//Does the object intersect with the battlefield
 		if (!GetBattlefieldBounds().intersects(e.GetBoundingRect()))
 		{
+			std::cout << "Destroying Entity" << std::endl;
 			e.Destroy();
 		}
 	});
