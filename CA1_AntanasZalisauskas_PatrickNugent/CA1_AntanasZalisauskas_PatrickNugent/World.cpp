@@ -78,10 +78,8 @@ void World::Draw()
 /// <summary>
 /// Edited by: Patrick Nugent
 ///
-///	-Added creeper texture
-/// -Added michael texture
-/// -Added freddy texture
-/// -Added jason texture
+///	-Added enemy textures
+/// -Added pickup textures
 /// </summary>
 void World::LoadTextures()
 {
@@ -96,6 +94,16 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
 	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
 	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
+
+	m_textures.Load(Textures::kApple, "Media/Textures/Apple.png");
+	m_textures.Load(Textures::kOrange, "Media/Textures/Orange.png");
+	m_textures.Load(Textures::kCake, "Media/Textures/Cake.png");
+	m_textures.Load(Textures::kCarrot, "Media/Textures/Carrot.png");
+	m_textures.Load(Textures::kCookies, "Media/Textures/Cookies.png");
+	m_textures.Load(Textures::kDonut, "Media/Textures/Donut.png");
+	m_textures.Load(Textures::kIceCream, "Media/Textures/IceCream.png");
+	m_textures.Load(Textures::kMelon, "Media/Textures/Melon.png");
+	m_textures.Load(Textures::kPancake, "Media/Textures/Pancake.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
