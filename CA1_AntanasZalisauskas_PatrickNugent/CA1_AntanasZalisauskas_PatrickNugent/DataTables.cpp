@@ -131,7 +131,7 @@ std::vector<PickupData> InitializePickupData()
 {
 	std::vector<PickupData> data(static_cast<int>(PickupType::kPickupCount));
 
-	data[static_cast<int>(PickupType::kHealthRefill)].m_texture = Textures::kHealthRefill;
+	/*data[static_cast<int>(PickupType::kHealthRefill)].m_texture = Textures::kHealthRefill;
 	data[static_cast<int>(PickupType::kHealthRefill)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kMissileRefill)].m_texture = Textures::kMissileRefill;
@@ -141,7 +141,54 @@ std::vector<PickupData> InitializePickupData()
 	data[static_cast<int>(PickupType::kFireSpread)].m_action = std::bind(&Aircraft::IncreaseSpread, std::placeholders::_1);
 
 	data[static_cast<int>(PickupType::kFireRate)].m_texture = Textures::kFireRate;
-	data[static_cast<int>(PickupType::kFireRate)].m_action = std::bind(&Aircraft::IncreaseFireRate, std::placeholders::_1);
+	data[static_cast<int>(PickupType::kFireRate)].m_action = std::bind(&Aircraft::IncreaseFireRate, std::placeholders::_1);*/
+
+	const float pickupSpeed = 200.f;
+
+	data[static_cast<int>(PickupType::kApple)].m_texture = Textures::kApple;
+	data[static_cast<int>(PickupType::kApple)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kApple)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kApple)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kOrange)].m_texture = Textures::kOrange;
+	data[static_cast<int>(PickupType::kOrange)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kOrange)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kOrange)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kCake)].m_texture = Textures::kCake;
+	data[static_cast<int>(PickupType::kCake)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kCake)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kCake)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kCarrot)].m_texture = Textures::kCarrot;
+	data[static_cast<int>(PickupType::kCarrot)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kCarrot)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kCarrot)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kCookies)].m_texture = Textures::kCookies;
+	data[static_cast<int>(PickupType::kCookies)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kCookies)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kCookies)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kDonut)].m_texture = Textures::kDonut;
+	data[static_cast<int>(PickupType::kDonut)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kDonut)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kDonut)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kIceCream)].m_texture = Textures::kIceCream;
+	data[static_cast<int>(PickupType::kIceCream)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kIceCream)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kIceCream)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kMelon)].m_texture = Textures::kMelon;
+	data[static_cast<int>(PickupType::kMelon)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kMelon)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kMelon)].m_action = [](Aircraft& a) {a.Repair(25); };
+
+	data[static_cast<int>(PickupType::kPancake)].m_texture = Textures::kPancake;
+	data[static_cast<int>(PickupType::kPancake)].m_speed = pickupSpeed;
+	data[static_cast<int>(PickupType::kPancake)].m_directions.emplace_back(Direction(0.f, 1000.f));
+	//data[static_cast<int>(PickupType::kPancake)].m_action = [](Aircraft& a) {a.Repair(25); };
 	return data;
 }
 
