@@ -24,7 +24,8 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
 	, m_gravity(981.f)
-	, m_spawn_countdown()
+	, m_enemy_spawn_countdown()
+	, m_pickup_spawn_countdown()
 {
 	LoadTextures();
 	BuildScene();
@@ -56,11 +57,19 @@ void World::Update(sf::Time dt)
 	m_scenegraph.RemoveWrecks();
 
 	//Spawn an enemy every 5 seconds and reset the spawn timer
-	m_spawn_countdown += dt;
-	if (m_spawn_countdown >= sf::seconds(5.0f))
+	m_enemy_spawn_countdown += dt;
+	if (m_enemy_spawn_countdown >= sf::seconds(5.0f))
 	{
 		SpawnEnemies();
-		m_spawn_countdown = sf::seconds(0.f);
+		m_enemy_spawn_countdown = sf::seconds(0.f);
+	}
+
+	//Spawn a pickup every 2 seconds and reset the spawn timer
+	m_pickup_spawn_countdown += dt;
+	if (m_pickup_spawn_countdown >= sf::seconds(2.0f))
+	{
+		SpawnPickups();
+		m_pickup_spawn_countdown = sf::seconds(0.f);
 	}
 
 	//Apply movement
@@ -150,22 +159,8 @@ void World::BuildScene()
 
 	srand(time(NULL));
 
-	//Add player's aircraft
-	/*std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
-	m_player_aircraft = leader.get();
-	m_player_aircraft->setPosition(m_spawn_position);
-	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(leader));*/
-
-	// //Add two escorts
-	// std::unique_ptr<Aircraft> leftEscort(new Aircraft(AircraftType::kRaptor, m_textures, m_fonts));
-	// leftEscort->setPosition(-80.f, 50.f);
-	// m_player_aircraft->AttachChild(std::move(leftEscort));
-	//
-	// std::unique_ptr<Aircraft> rightEscort(new Aircraft(AircraftType::kRaptor, m_textures, m_fonts));
-	// rightEscort->setPosition(80.f, 50.f);
-	// m_player_aircraft->AttachChild(std::move(rightEscort));
-
 	AddEnemies();
+	AddPickups();
 }
 
 CommandQueue& World::getCommandQueue()
@@ -256,7 +251,7 @@ void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
 	int randomEnemy = rand() % 8;
-	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
+	CharacterSpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
 
@@ -268,13 +263,41 @@ void World::SpawnEnemies()
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
 }
 
+/// <summary>
+/// created By: Patrick Nugent
+///
+///	-Works similar to SpawnEnemies but modified to use pickups
+/// </summary>
+void World::SpawnPickups()
+{
+	//Spawn a random pickup from the vector of pickup spawn points
+	int randomPickup = rand() % 9;
+	PickupSpawnPoint spawn = m_pickup_spawn_points[randomPickup];
+	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, m_textures));
+
+	//Generate a random x value for the pickup's position (within the bounds)
+	int randomPosition = (rand() % 974) + 50;
+	pickup->setPosition((float)randomPosition, spawn.m_y);
+
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(pickup));
+}
+
 void World::AddEnemy(CharacterType type, float relX, float relY)
 {
-	SpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	CharacterSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
-//***********REWORK************//
+/// <summary>
+/// Created by: Patrick Nugent
+///
+///	-Works similar to AddEnemy but uses the PickupSpawnPoint struct instead
+/// </summary>
+void World::AddPickup(PickupType type, float relX, float relY)
+{
+	PickupSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	m_pickup_spawn_points.emplace_back(spawn);
+}
 
 /// <summary>
 /// Edited By: Patrick Nugent
@@ -295,6 +318,25 @@ void World::AddEnemies()
 	AddEnemy(CharacterType::kFreddyRight, 500.f, -332.f);
 	AddEnemy(CharacterType::kJasonLeft, -500.f, -329.f);
 	AddEnemy(CharacterType::kJasonRight, 500.f, -329.f);
+}
+
+/// <summary>
+/// Created By: Patrick Nugent
+///
+///	-Works similar to AddEnemies but modified to use pickups
+/// </summary>
+void World::AddPickups()
+{
+	//Add all enemies - both the left and right side versions
+	AddPickup(PickupType::kApple, 0.f, 400.f);
+	AddPickup(PickupType::kOrange, 0.f, 400.f);
+	AddPickup(PickupType::kCake, 0.f, 400.f);
+	AddPickup(PickupType::kCarrot, 0.f, 400.f);
+	AddPickup(PickupType::kCookies, 0.f, 400.f);
+	AddPickup(PickupType::kDonut, 0.f, 400.f);
+	AddPickup(PickupType::kIceCream, 0.f, 400.f);
+	AddPickup(PickupType::kMelon, 0.f, 400.f);
+	AddPickup(PickupType::kPancake, 0.f, 400.f);
 }
 //***********REWORK************//
 

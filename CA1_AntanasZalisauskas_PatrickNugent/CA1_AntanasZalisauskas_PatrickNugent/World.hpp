@@ -15,6 +15,7 @@
 
 #include "Character.hpp"
 #include "CommandQueue.hpp"
+#include "PickupType.hpp"
 
 //Foward
 namespace sf
@@ -27,6 +28,8 @@ namespace sf
 ///
 ///	-Reworked to use Character class instead of Aircraft
 /// -Added spawn countdown field
+/// -Created separate character and pickup spawn point structs
+/// -Added methods for adding and spawning pickups
 /// </summary>
 class World : private sf::NonCopyable
 {
@@ -45,16 +48,19 @@ private:
 	sf::FloatRect GetViewBounds() const;
 	sf::FloatRect GetBattlefieldBounds() const;
 	void SpawnEnemies();
+	void SpawnPickups();
 	void AddEnemy(CharacterType type, float relX, float relY);
+	void AddPickup(PickupType type, float relX, float relY);
 	void AddEnemies();
+	void AddPickups();
 	void GuideMissiles();
 	void HandleCollisions();
 	void DestroyEntitiesOutsideView();
 
 private:
-	struct SpawnPoint
+	struct CharacterSpawnPoint
 	{
-		SpawnPoint(CharacterType type, float x, float y) : m_type(type), m_x(x), m_y(y)
+		CharacterSpawnPoint(CharacterType type, float x, float y) : m_type(type), m_x(x), m_y(y)
 		{
 			
 		}
@@ -62,7 +68,17 @@ private:
 		float m_x;
 		float m_y;
 	};
-	
+
+	struct PickupSpawnPoint
+	{
+		PickupSpawnPoint(PickupType type, float x, float y) : m_type(type), m_x(x), m_y(y)
+		{
+
+		}
+		PickupType m_type;
+		float m_x;
+		float m_y;
+	};
 
 private:
 	sf::RenderWindow& m_window;
@@ -77,11 +93,13 @@ private:
 	sf::Vector2f m_spawn_position;
 	float m_scrollspeed;
 	Aircraft* m_player_aircraft;
-	std::vector<SpawnPoint> m_enemy_spawn_points;
+	std::vector<CharacterSpawnPoint> m_enemy_spawn_points;
+	std::vector<PickupSpawnPoint> m_pickup_spawn_points;
 	std::vector<Character*>	m_active_enemies;
 	Character* m_player_character_1;
 	Character* m_player_character_2;
 	float m_gravity;
-	sf::Time m_spawn_countdown;
+	sf::Time m_enemy_spawn_countdown;
+	sf::Time m_pickup_spawn_countdown;
 };
 
