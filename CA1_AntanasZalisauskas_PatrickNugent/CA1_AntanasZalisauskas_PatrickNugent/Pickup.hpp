@@ -5,7 +5,7 @@
 #include "PickupType.hpp"
 #include "ResourceIdentifiers.hpp"
 
-class Aircraft;
+class Character;
 
 class Pickup : public Entity
 {
@@ -13,11 +13,18 @@ public:
 	Pickup(PickupType type, const TextureHolder& textures);
 	virtual unsigned int GetCategory() const override;
 	virtual sf::FloatRect GetBoundingRect() const;
-	void Apply(Aircraft& player) const;
+	void Apply(Character& player) const;
+	float GetMaxSpeed() const;
 	virtual void DrawCurrent(sf::RenderTarget&, sf::RenderStates states) const override;
+	void UpdateMovementPattern(sf::Time dt);
 
 private:
+	virtual void UpdateCurrent(sf::Time dt, CommandQueue& commands) override;
 	PickupType m_type;
 	sf::Sprite m_sprite;
+
+	bool m_is_marked_for_removal;
+	float m_travelled_distance;
+	int m_directions_index;
 };
 

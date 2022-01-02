@@ -1,5 +1,6 @@
 #include "Pickup.hpp"
 
+#include <iostream>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "DataTables.hpp"
@@ -29,7 +30,7 @@ sf::FloatRect Pickup::GetBoundingRect() const
 	return GetWorldTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
-void Pickup::Apply(Aircraft& player) const
+void Pickup::Apply(Character& player) const
 {
 	Table[static_cast<int>(m_type)].m_action(player);
 }
@@ -37,4 +38,39 @@ void Pickup::Apply(Aircraft& player) const
 void Pickup::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_sprite, states);
+}
+
+float Pickup::GetMaxSpeed() const
+{
+	return Table[static_cast<int>(m_type)].m_speed;
+}
+
+void Pickup::UpdateMovementPattern(sf::Time dt)
+{
+	//Pickup AI
+	const std::vector<Direction>& directions = Table[static_cast<int>(m_type)].m_directions;
+	if (!directions.empty())
+	{
+		//Move along the current direction, change direction
+		if (m_travelled_distance > directions[m_directions_index].m_distance)
+		{
+			m_directions_index = (m_directions_index + 1) % directions.size();
+			m_travelled_distance = 0.f;
+		}
+
+		//Compute velocity from direction
+		double radians = Utility::ToRadians(directions[m_directions_index].m_angle + 90.f);
+		float vx = GetMaxSpeed() * std::cos(radians);
+		float vy = GetMaxSpeed() * std::sin(radians);
+
+		SetVelocity(vx, vy);
+		m_travelled_distance += GetMaxSpeed() * dt.asSeconds();
+
+	}
+}
+
+void Pickup::UpdateCurrent(sf::Time dt, CommandQueue& commands)
+{
+	UpdateMovementPattern(dt);
+	Entity::UpdateCurrent(dt, commands);
 }

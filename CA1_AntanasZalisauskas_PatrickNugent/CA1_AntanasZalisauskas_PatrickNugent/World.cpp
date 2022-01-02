@@ -276,7 +276,7 @@ void World::SpawnPickups()
 	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, m_textures));
 
 	//Generate a random x value for the pickup's position (within the bounds)
-	int randomPosition = (rand() % 974) + 50;
+	int randomPosition = (rand() % 954) + 70;
 	pickup->setPosition((float)randomPosition, spawn.m_y);
 
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(pickup));
@@ -327,16 +327,19 @@ void World::AddEnemies()
 /// </summary>
 void World::AddPickups()
 {
+	//400
+	float yPosition = 400.f;
+
 	//Add all enemies - both the left and right side versions
-	AddPickup(PickupType::kApple, 0.f, 400.f);
-	AddPickup(PickupType::kOrange, 0.f, 400.f);
-	AddPickup(PickupType::kCake, 0.f, 400.f);
-	AddPickup(PickupType::kCarrot, 0.f, 400.f);
-	AddPickup(PickupType::kCookies, 0.f, 400.f);
-	AddPickup(PickupType::kDonut, 0.f, 400.f);
-	AddPickup(PickupType::kIceCream, 0.f, 400.f);
-	AddPickup(PickupType::kMelon, 0.f, 400.f);
-	AddPickup(PickupType::kPancake, 0.f, 400.f);
+	AddPickup(PickupType::kApple, 0.f, yPosition);
+	AddPickup(PickupType::kOrange, 0.f, yPosition);
+	AddPickup(PickupType::kCake, 0.f, yPosition);
+	AddPickup(PickupType::kCarrot, 0.f, yPosition);
+	AddPickup(PickupType::kCookies, 0.f, yPosition);
+	AddPickup(PickupType::kDonut, 0.f, yPosition);
+	AddPickup(PickupType::kIceCream, 0.f, yPosition);
+	AddPickup(PickupType::kMelon, 0.f, yPosition);
+	AddPickup(PickupType::kPancake, 0.f, yPosition);
 }
 //***********REWORK************//
 
@@ -415,8 +418,8 @@ void World::HandleCollisions()
 	{
 		if(MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyAircraft))
 		{
-			auto& player = static_cast<Aircraft&>(*pair.first);
-			auto& enemy = static_cast<Aircraft&>(*pair.second);
+			auto& player = static_cast<Character&>(*pair.first);
+			auto& enemy = static_cast<Character&>(*pair.second);
 			//Collision
 			player.Damage(enemy.GetHitPoints());
 			enemy.Destroy();
@@ -424,7 +427,7 @@ void World::HandleCollisions()
 
 		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kPickup))
 		{
-			auto& player = static_cast<Aircraft&>(*pair.first);
+			auto& player = static_cast<Character&>(*pair.first);
 			auto& pickup = static_cast<Pickup&>(*pair.second);
 			//Apply the pickup effect
 			pickup.Apply(player);
@@ -433,10 +436,10 @@ void World::HandleCollisions()
 
 		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyProjectile) || MatchesCategories(pair, Category::Type::kEnemyAircraft, Category::Type::kAlliedProjectile))
 		{
-			auto& aircraft = static_cast<Aircraft&>(*pair.first);
-			auto& projectile = static_cast<Projectile&>(*pair.second);
+			auto& aircraft = static_cast<Character&>(*pair.first);
+			auto& projectile = static_cast<Character&>(*pair.second);
 			//Apply the projectile damage to the plane
-			aircraft.Damage(projectile.GetDamage());
+			//aircraft.Damage(projectile.GetDamage());
 			projectile.Destroy();
 		}
 
