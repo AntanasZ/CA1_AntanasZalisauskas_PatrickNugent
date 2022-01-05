@@ -4,6 +4,7 @@
 
 #include "DataTables.hpp"
 #include "ResourceHolder.hpp"
+#include "Utility.hpp"
 
 namespace
 {
@@ -20,6 +21,7 @@ Platform::Platform(PlatformType type, const TextureHolder& textures)
 	m_type(type),
 	m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture))
 {
+	Utility::CentreOrigin(m_sprite);
 }
 
 unsigned Platform::GetCategory() const

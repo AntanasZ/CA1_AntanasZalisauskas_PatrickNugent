@@ -140,19 +140,19 @@ void World::BuildScene()
 
 	//Prepare platforms
 	std::unique_ptr<Platform> ground_platform(new Platform(PlatformType::kGroundPlatform, m_textures));
-	ground_platform->setPosition(0.f, 742.f);
+	ground_platform->setPosition(m_world_bounds.width/2, 755.f);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(ground_platform));
 
 	std::unique_ptr<Platform> platform1(new Platform(PlatformType::kAirPlatform, m_textures));
-	platform1->setPosition(0.f, 300.f);
+	platform1->setPosition(525.f, 450.f);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform1));
 
 	std::unique_ptr<Platform> platform2(new Platform(PlatformType::kAirPlatform, m_textures));
-	platform2->setPosition(50.f, 500.f);
+	platform2->setPosition(800.f, 600.f);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform2));
 
 	std::unique_ptr<Platform> platform3(new Platform(PlatformType::kAirPlatform, m_textures));
-	platform3->setPosition(100.f, 600.f);
+	platform3->setPosition(250.f, 600.f);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform3));
 
 	//Add player character
@@ -387,6 +387,13 @@ void World::HandleCollisions()
 			if(player.GetWorldPosition().y < platform.GetWorldPosition().y)
 			{
 				player.ToggleCanJump(true);
+				player.move(0.f, -1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+			else if (player.GetWorldPosition().y > platform.GetWorldPosition().y)
+			{
+				player.move(0.f, 1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
 			}
 		}
 
@@ -398,6 +405,13 @@ void World::HandleCollisions()
 			if (player.GetWorldPosition().y < platform.GetWorldPosition().y)
 			{
 				player.ToggleCanJump(true);
+				player.move(0.f, -1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+			else if (player.GetWorldPosition().y > platform.GetWorldPosition().y)
+			{
+				player.move(0.f, 1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
 			}
 		}
 
