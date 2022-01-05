@@ -302,9 +302,9 @@ void Aircraft::CheckPickupDrop(CommandQueue& commands)
 
 void Aircraft::CreatePickup(SceneNode& node, const TextureHolder& textures) const
 {
-	auto type = static_cast<PickupType>(Utility::RandomInt(static_cast<int>(PickupType::kPickupCount)));
-	std::unique_ptr<Pickup> pickup(new Pickup(type, textures));
+	/*auto type = static_cast<PickupType>(Utility::RandomInt(static_cast<int>(PickupType::kPickupCount)));
+	std::unique_ptr<Pickup> pickup(new Pickup(type, value, textures));
 	pickup->setPosition(GetWorldPosition());
 	pickup->SetVelocity(0.f, 1.f);
-	node.AttachChild(std::move(pickup));
+	node.AttachChild(std::move(pickup));*/
 }

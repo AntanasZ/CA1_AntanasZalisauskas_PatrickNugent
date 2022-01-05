@@ -50,7 +50,7 @@ private:
 	void SpawnEnemies();
 	void SpawnPickups();
 	void AddEnemy(CharacterType type, float relX, float relY);
-	void AddPickup(PickupType type, float relX, float relY);
+	void AddPickup(PickupType type, int value, float relX, float relY);
 	void AddEnemies();
 	void AddPickups();
 	void GuideMissiles();
@@ -71,11 +71,12 @@ private:
 
 	struct PickupSpawnPoint
 	{
-		PickupSpawnPoint(PickupType type, float x, float y) : m_type(type), m_x(x), m_y(y)
+		PickupSpawnPoint(PickupType type, int value, float x, float y) : m_type(type), m_value(value), m_x(x), m_y(y)
 		{
 
 		}
 		PickupType m_type;
+		int m_value;
 		float m_x;
 		float m_y;
 	};
