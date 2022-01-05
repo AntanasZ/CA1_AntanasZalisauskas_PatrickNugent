@@ -10,11 +10,12 @@ class Character;
 class Pickup : public Entity
 {
 public:
-	Pickup(PickupType type, const TextureHolder& textures);
+	Pickup(PickupType type, int value, const TextureHolder& textures);
 	virtual unsigned int GetCategory() const override;
 	virtual sf::FloatRect GetBoundingRect() const;
 	void Apply(Character& player) const;
 	float GetMaxSpeed() const;
+	int GetValue() const;
 	virtual void DrawCurrent(sf::RenderTarget&, sf::RenderStates states) const override;
 	void UpdateMovementPattern(sf::Time dt);
 
@@ -26,5 +27,6 @@ private:
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;
 	int m_directions_index;
+	int m_value;
 };
 

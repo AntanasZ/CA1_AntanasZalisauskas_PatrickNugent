@@ -12,9 +12,10 @@ namespace
 	const std::vector<PickupData> Table = InitializePickupData();
 }
 
-Pickup::Pickup(PickupType type, const TextureHolder& textures)
+Pickup::Pickup(PickupType type, int value, const TextureHolder& textures)
 	: Entity(1)
 	, m_type(type)
+	, m_value(value)
 	, m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture))
 {
 	Utility::CentreOrigin(m_sprite);
@@ -43,6 +44,11 @@ void Pickup::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) cons
 float Pickup::GetMaxSpeed() const
 {
 	return Table[static_cast<int>(m_type)].m_speed;
+}
+
+int Pickup::GetValue() const
+{
+	return m_value;
 }
 
 void Pickup::UpdateMovementPattern(sf::Time dt)
