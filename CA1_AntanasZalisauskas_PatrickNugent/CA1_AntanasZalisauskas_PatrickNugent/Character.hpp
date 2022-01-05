@@ -27,6 +27,7 @@ public:
 	float GetJumpHeight() const;
 	void ToggleCanJump();
 	void FlipSprite();
+	void AddScore(int points);
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;

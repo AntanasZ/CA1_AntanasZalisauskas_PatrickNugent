@@ -186,5 +186,16 @@ void Character::UpdateScore() const
 	{
 		m_score_display->SetString("Player 2\n\t " + std::to_string(m_score));
 	}
-	
+}
+
+/// <summary>
+/// Written By: Antanas Zalisauskas
+///
+///	Adds a specified amount to player's score
+/// </summary>
+/// <param name="points"> The number of points to add to player's score </param>
+void Character::AddScore(int points)
+{
+	m_score += points;
+	UpdateScore();
 }
