@@ -5,6 +5,7 @@
 #include <SFML/System/Time.hpp>
 
 #include "ResourceIdentifiers.hpp"
+#include "Character.hpp"
 
 class Aircraft;
 
@@ -59,10 +60,17 @@ struct ProjectileData
 	Textures m_texture;
 };
 
+/// <summary>
+/// edited by: Patrick Nugent
+///
+///	Added speed and directions fields
+/// </summary>
 struct PickupData
 {
-	std::function<void(Aircraft&)> m_action;
+	std::function<void(Character&)> m_action;
 	Textures m_texture;
+	std::vector<Direction> m_directions;
+	float m_speed;
 };
 
 std::vector<AircraftData> InitializeAircraftData();

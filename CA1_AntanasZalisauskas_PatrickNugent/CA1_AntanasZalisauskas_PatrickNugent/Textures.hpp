@@ -8,7 +8,9 @@
 /// Edited by: Patrick Nugent
 ///
 ///	-Added enum for creeper texture
-/// -Added eneum for michael texture
+/// -Added enum for michael texture
+/// -Added enum for freddy texture
+/// -Added enum for jason texture
 /// </summary>
 
 enum class Textures
@@ -19,10 +21,15 @@ enum class Textures
 	kDesert,
 	kBullet,
 	kMissile,
-	kHealthRefill,
-	kMissileRefill,
-	kFireSpread,
-	kFireRate,
+	kApple,
+	kOrange,
+	kCake,
+	kCarrot,
+	kCookies,
+	kDonut,
+	kIceCream,
+	kMelon,
+	kPancake,
 	kTitleScreen,
 	kButtonNormal,
 	kButtonSelected,
@@ -33,5 +40,7 @@ enum class Textures
 	kCreeper,
 	kMichael,
 	kFloor,
-	kPlatform
+	kPlatform,
+	kFreddy,
+	kJason
 };

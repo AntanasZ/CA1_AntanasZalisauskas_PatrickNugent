@@ -29,6 +29,11 @@ Textures ToTextureID(CharacterType type)
 	return Textures::kShaggy;
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	-Added text to display score for both players
+/// </summary>
 Character::Character(CharacterType type, const TextureHolder& textures, const FontHolder& fonts)
 	: Entity(Table[static_cast<int>(type)].m_hitpoints),
 	m_type(type),
@@ -37,6 +42,24 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 	m_jump_height(Table[static_cast<int>(type)].m_jump_height)
 {
 	Utility::CentreOrigin(m_sprite);
+
+	if(type == CharacterType::kShaggy || type == CharacterType::kScooby)
+	{
+		std::unique_ptr<TextNode> scoreDisplay(new TextNode(fonts, ""));
+
+		if (type == CharacterType::kShaggy)
+		{
+			scoreDisplay->setPosition(0, -55);
+		}
+		else
+		{
+			scoreDisplay->setPosition(0, -55);
+		}
+		
+		m_score_display = scoreDisplay.get();
+		AttachChild(std::move(scoreDisplay));
+		UpdateScore();
+	}
 }
 
 /// <summary>
@@ -137,3 +160,42 @@ void Character::ToggleCanJump(bool value)
 	m_can_jump = value;
 }
 
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Flips the sprite of a character
+/// </summary>
+/// <returns></returns>
+void Character::FlipSprite()
+{
+	m_sprite.scale(-1, 1);
+}
+
+/// <summary>
+/// Written By: Antanas Zalisauskas
+///
+///	Updates player score
+/// </summary>
+void Character::UpdateScore() const
+{
+	if(m_type == CharacterType::kShaggy)
+	{
+		m_score_display->SetString("Player 1\n\t " + std::to_string(m_score));
+	}
+	else
+	{
+		m_score_display->SetString("Player 2\n\t " + std::to_string(m_score));
+	}
+}
+
+/// <summary>
+/// Written By: Antanas Zalisauskas
+///
+///	Adds a specified amount to player's score
+/// </summary>
+/// <param name="points"> The number of points to add to player's score </param>
+void Character::AddScore(int points)
+{
+	m_score += points;
+	UpdateScore();
+}

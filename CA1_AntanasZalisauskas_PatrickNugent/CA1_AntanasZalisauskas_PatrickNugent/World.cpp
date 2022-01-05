@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <stdlib.h>
+#include <time.h>
 
 #include "Pickup.hpp"
 #include "Platform.hpp"
@@ -24,11 +25,12 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
 	, m_gravity(981.f)
-	, m_spawn_countdown()
+	, m_enemy_spawn_countdown()
+	, m_pickup_spawn_countdown()
 {
 	LoadTextures();
 	BuildScene();
-	std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
+	//std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
 	m_camera.setCenter(m_spawn_position);
 }
 
@@ -43,8 +45,6 @@ void World::Update(sf::Time dt)
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
 
-	
-
 	//Forward commands to the scenegraph until the command queue is empty
 	while(!m_command_queue.IsEmpty())
 	{
@@ -53,25 +53,30 @@ void World::Update(sf::Time dt)
 
 	AdaptPlayerVelocity(dt);
 	
-
 	HandleCollisions();
 	//Remove all destroyed entities
 	m_scenegraph.RemoveWrecks();
 
 	//Spawn an enemy every 5 seconds and reset the spawn timer
-	m_spawn_countdown += dt;
-	if (m_spawn_countdown >= sf::seconds(5.0f))
+	m_enemy_spawn_countdown += dt;
+	if (m_enemy_spawn_countdown >= sf::seconds(5.0f))
 	{
 		SpawnEnemies();
-		m_spawn_countdown = sf::seconds(0.f);
+		m_enemy_spawn_countdown = sf::seconds(0.f);
 	}
 
+	//Spawn a pickup every 2 seconds and reset the spawn timer
+	m_pickup_spawn_countdown += dt;
+	if (m_pickup_spawn_countdown >= sf::seconds(2.0f))
+	{
+		SpawnPickups();
+		m_pickup_spawn_countdown = sf::seconds(0.f);
+	}
 
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
 	AdaptPlayerPosition();
 
-	
 }
 
 void World::Draw()
@@ -85,6 +90,8 @@ void World::Draw()
 ///
 ///	-Added creeper texture
 /// -Added michael texture
+///	-Added enemy textures
+/// -Added pickup textures
 ///
 ///	Edited by: Antanas Zalisauskas
 ///	-Added platform textures
@@ -104,6 +111,18 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
 	m_textures.Load(Textures::kFloor, "Media/Textures/GroundPlatform.png");
 	m_textures.Load(Textures::kPlatform, "Media/Textures/Platform.png");
+	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
+	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
+
+	m_textures.Load(Textures::kApple, "Media/Textures/Apple.png");
+	m_textures.Load(Textures::kOrange, "Media/Textures/Orange.png");
+	m_textures.Load(Textures::kCake, "Media/Textures/Cake.png");
+	m_textures.Load(Textures::kCarrot, "Media/Textures/Carrot.png");
+	m_textures.Load(Textures::kCookies, "Media/Textures/Cookies.png");
+	m_textures.Load(Textures::kDonut, "Media/Textures/Donut.png");
+	m_textures.Load(Textures::kIceCream, "Media/Textures/IceCream.png");
+	m_textures.Load(Textures::kMelon, "Media/Textures/Melon.png");
+	m_textures.Load(Textures::kPancake, "Media/Textures/Pancake.png");
 
 	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
 	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
@@ -166,22 +185,10 @@ void World::BuildScene()
 	m_player_character_2->setPosition(m_spawn_position);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player2));
 
-	//Add player's aircraft
-	/*std::unique_ptr<Aircraft> leader(new Aircraft(AircraftType::kEagle, m_textures, m_fonts));
-	m_player_aircraft = leader.get();
-	m_player_aircraft->setPosition(m_spawn_position);
-	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(leader));*/
-
-	// //Add two escorts
-	// std::unique_ptr<Aircraft> leftEscort(new Aircraft(AircraftType::kRaptor, m_textures, m_fonts));
-	// leftEscort->setPosition(-80.f, 50.f);
-	// m_player_aircraft->AttachChild(std::move(leftEscort));
-	//
-	// std::unique_ptr<Aircraft> rightEscort(new Aircraft(AircraftType::kRaptor, m_textures, m_fonts));
-	// rightEscort->setPosition(80.f, 50.f);
-	// m_player_aircraft->AttachChild(std::move(rightEscort));
+	srand(time(NULL));
 
 	AddEnemies();
+	AddPickups();
 }
 
 CommandQueue& World::getCommandQueue()
@@ -271,33 +278,96 @@ sf::FloatRect World::GetBattlefieldBounds() const
 void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
-	int randomEnemy = rand() % 2;
-	std::cout << randomEnemy;
-	SpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
+	int randomEnemy = rand() % 8;
+	CharacterSpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
+
+	//If an enemy is spawning on the right side then flip the sprite
+	if (spawn.m_x > 100)
+	{
+		enemy->FlipSprite();
+	}
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
+}
+
+/// <summary>
+/// created By: Patrick Nugent
+///
+///	-Works similar to SpawnEnemies but modified to use pickups
+/// </summary>
+void World::SpawnPickups()
+{
+	//Spawn a random pickup from the vector of pickup spawn points
+	int randomPickup = rand() % 9;
+	PickupSpawnPoint spawn = m_pickup_spawn_points[randomPickup];
+	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, m_textures));
+
+	//Generate a random x value for the pickup's position (within the bounds)
+	int randomPosition = (rand() % 954) + 70;
+	pickup->setPosition((float)randomPosition, spawn.m_y);
+
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(pickup));
 }
 
 void World::AddEnemy(CharacterType type, float relX, float relY)
 {
-	SpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	CharacterSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
 	m_enemy_spawn_points.emplace_back(spawn);
 }
 
-//***********REWORK************//
+/// <summary>
+/// Created by: Patrick Nugent
+///
+///	-Works similar to AddEnemy but uses the PickupSpawnPoint struct instead
+/// </summary>
+void World::AddPickup(PickupType type, float relX, float relY)
+{
+	PickupSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	m_pickup_spawn_points.emplace_back(spawn);
+}
 
 /// <summary>
 /// Edited By: Patrick Nugent
 ///
 ///	-Added creeper enemy
 /// -Added michael enemy
+/// -Added freddy enemy
+/// -Added jason enemy
 /// </summary>
 void World::AddEnemies()
 {
-	//Add all enemies
-	AddEnemy(CharacterType::kCreeper, -500.f, -332.f);
-	AddEnemy(CharacterType::kMichael, -500.f, -330.f);
+	//Add all enemies - both the left and right side versions
+	AddEnemy(CharacterType::kCreeperLeft, -500.f, -332.f);
+	AddEnemy(CharacterType::kCreeperRight, 500.f, -332.f);
+	AddEnemy(CharacterType::kMichaelLeft, -500.f, -330.f);
+	AddEnemy(CharacterType::kMichaelRight, 500.f, -330.f);
+	AddEnemy(CharacterType::kFreddyLeft, -500.f, -332.f);
+	AddEnemy(CharacterType::kFreddyRight, 500.f, -332.f);
+	AddEnemy(CharacterType::kJasonLeft, -500.f, -329.f);
+	AddEnemy(CharacterType::kJasonRight, 500.f, -329.f);
+}
+
+/// <summary>
+/// Created By: Patrick Nugent
+///
+///	-Works similar to AddEnemies but modified to use pickups
+/// </summary>
+void World::AddPickups()
+{
+	//400
+	float yPosition = 400.f;
+
+	//Add all enemies - both the left and right side versions
+	AddPickup(PickupType::kApple, 0.f, yPosition);
+	AddPickup(PickupType::kOrange, 0.f, yPosition);
+	AddPickup(PickupType::kCake, 0.f, yPosition);
+	AddPickup(PickupType::kCarrot, 0.f, yPosition);
+	AddPickup(PickupType::kCookies, 0.f, yPosition);
+	AddPickup(PickupType::kDonut, 0.f, yPosition);
+	AddPickup(PickupType::kIceCream, 0.f, yPosition);
+	AddPickup(PickupType::kMelon, 0.f, yPosition);
+	AddPickup(PickupType::kPancake, 0.f, yPosition);
 }
 //***********REWORK************//
 
@@ -417,8 +487,8 @@ void World::HandleCollisions()
 
 		if(MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyAircraft))
 		{
-			auto& player = static_cast<Aircraft&>(*pair.first);
-			auto& enemy = static_cast<Aircraft&>(*pair.second);
+			auto& player = static_cast<Character&>(*pair.first);
+			auto& enemy = static_cast<Character&>(*pair.second);
 			//Collision
 			player.Damage(enemy.GetHitPoints());
 			enemy.Destroy();
@@ -426,7 +496,7 @@ void World::HandleCollisions()
 
 		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kPickup))
 		{
-			auto& player = static_cast<Aircraft&>(*pair.first);
+			auto& player = static_cast<Character&>(*pair.first);
 			auto& pickup = static_cast<Pickup&>(*pair.second);
 			//Apply the pickup effect
 			pickup.Apply(player);
@@ -435,10 +505,10 @@ void World::HandleCollisions()
 
 		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyProjectile) || MatchesCategories(pair, Category::Type::kEnemyAircraft, Category::Type::kAlliedProjectile))
 		{
-			auto& aircraft = static_cast<Aircraft&>(*pair.first);
-			auto& projectile = static_cast<Projectile&>(*pair.second);
+			auto& aircraft = static_cast<Character&>(*pair.first);
+			auto& projectile = static_cast<Character&>(*pair.second);
 			//Apply the projectile damage to the plane
-			aircraft.Damage(projectile.GetDamage());
+			//aircraft.Damage(projectile.GetDamage());
 			projectile.Destroy();
 		}
 
