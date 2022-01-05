@@ -295,13 +295,17 @@ void World::SpawnEnemies()
 /// created By: Patrick Nugent
 ///
 ///	-Works similar to SpawnEnemies but modified to use pickups
+///
+/// Edited By: Patrick Nugent
+///
+/// -Added pickup values
 /// </summary>
 void World::SpawnPickups()
 {
 	//Spawn a random pickup from the vector of pickup spawn points
 	int randomPickup = rand() % 9;
 	PickupSpawnPoint spawn = m_pickup_spawn_points[randomPickup];
-	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, m_textures));
+	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, spawn.m_value, m_textures));
 
 	//Generate a random x value for the pickup's position (within the bounds)
 	int randomPosition = (rand() % 954) + 70;
@@ -320,10 +324,14 @@ void World::AddEnemy(CharacterType type, float relX, float relY)
 /// Created by: Patrick Nugent
 ///
 ///	-Works similar to AddEnemy but uses the PickupSpawnPoint struct instead
+///
+/// Edited By: Patrick Nugent
+///
+/// -Added pickup values
 /// </summary>
-void World::AddPickup(PickupType type, float relX, float relY)
+void World::AddPickup(PickupType type, int value, float relX, float relY)
 {
-	PickupSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
+	PickupSpawnPoint spawn(type, value, m_spawn_position.x + relX, m_spawn_position.y - relY);
 	m_pickup_spawn_points.emplace_back(spawn);
 }
 
@@ -352,22 +360,26 @@ void World::AddEnemies()
 /// Created By: Patrick Nugent
 ///
 ///	-Works similar to AddEnemies but modified to use pickups
+///
+/// Edited By: Patrick Nugent
+///
+/// -Added pickup values
 /// </summary>
 void World::AddPickups()
 {
 	//400
 	float yPosition = 400.f;
 
-	//Add all enemies - both the left and right side versions
-	AddPickup(PickupType::kApple, 0.f, yPosition);
-	AddPickup(PickupType::kOrange, 0.f, yPosition);
-	AddPickup(PickupType::kCake, 0.f, yPosition);
-	AddPickup(PickupType::kCarrot, 0.f, yPosition);
-	AddPickup(PickupType::kCookies, 0.f, yPosition);
-	AddPickup(PickupType::kDonut, 0.f, yPosition);
-	AddPickup(PickupType::kIceCream, 0.f, yPosition);
-	AddPickup(PickupType::kMelon, 0.f, yPosition);
-	AddPickup(PickupType::kPancake, 0.f, yPosition);
+	//Add all types of pickups and set their score values
+	AddPickup(PickupType::kApple, 10, 0.f, yPosition);
+	AddPickup(PickupType::kOrange, 10, 0.f, yPosition);
+	AddPickup(PickupType::kCake, 50, 0.f, yPosition);
+	AddPickup(PickupType::kCarrot, 20, 0.f, yPosition);
+	AddPickup(PickupType::kCookies, 25, 0.f, yPosition);
+	AddPickup(PickupType::kDonut, 30, 0.f, yPosition);
+	AddPickup(PickupType::kIceCream, 40, 0.f, yPosition);
+	AddPickup(PickupType::kMelon, 35, 0.f, yPosition);
+	AddPickup(PickupType::kPancake, 30, 0.f, yPosition);
 }
 //***********REWORK************//
 
@@ -442,6 +454,10 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 /// Edited by: Antanas Zalisauskas
 ///
 ///	-Added Collision between players and platforms
+///
+/// Edited by: Patrick Nugent
+///
+///	-Added Collision between players and pickups
 /// </summary>
 void World::HandleCollisions()
 {
@@ -467,7 +483,7 @@ void World::HandleCollisions()
 			}
 		}
 
-		if (MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter2))
+		else if (MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter2))
 		{
 			auto& platform = static_cast<Platform&>(*pair.first);
 			auto& player = static_cast<Character&>(*pair.second);
@@ -485,33 +501,24 @@ void World::HandleCollisions()
 			}
 		}
 
-		if(MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyAircraft))
+		else if(MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kEnemyCharacter) || MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
 		{
 			auto& player = static_cast<Character&>(*pair.first);
 			auto& enemy = static_cast<Character&>(*pair.second);
 			//Collision
-			player.Damage(enemy.GetHitPoints());
-			enemy.Destroy();
+			//player.Damage(enemy.GetHitPoints());
+			//enemy.Destroy();
 		}
 
-		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kPickup))
+		else if (MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kPickup) || MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kPickup))
 		{
 			auto& player = static_cast<Character&>(*pair.first);
 			auto& pickup = static_cast<Pickup&>(*pair.second);
-			//Apply the pickup effect
-			pickup.Apply(player);
+
+			//Add the pickup's value to the player's score
+			player.AddScore(pickup.GetValue());
 			pickup.Destroy();
 		}
-
-		else if (MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyProjectile) || MatchesCategories(pair, Category::Type::kEnemyAircraft, Category::Type::kAlliedProjectile))
-		{
-			auto& aircraft = static_cast<Character&>(*pair.first);
-			auto& projectile = static_cast<Character&>(*pair.second);
-			//Apply the projectile damage to the plane
-			//aircraft.Damage(projectile.GetDamage());
-			projectile.Destroy();
-		}
-
 
 	}
 }
@@ -519,13 +526,13 @@ void World::HandleCollisions()
 void World::DestroyEntitiesOutsideView()
 {
 	Command command;
-	command.category = Category::Type::kEnemyAircraft | Category::Type::kProjectile;
+	command.category = Category::Type::kEnemyCharacter | Category::Type::kPickup;
 	command.action = DerivedAction<Entity>([this](Entity& e, sf::Time)
 	{
 		//Does the object intersect with the battlefield
 		if (!GetBattlefieldBounds().intersects(e.GetBoundingRect()))
 		{
-			std::cout << "Destroying Entity" << std::endl;
+			//std::cout << "Destroying Entity" << std::endl;
 			e.Destroy();
 		}
 	});
