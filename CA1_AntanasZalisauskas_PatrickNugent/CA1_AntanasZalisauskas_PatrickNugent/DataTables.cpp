@@ -3,6 +3,7 @@
 #include "Aircraft.hpp"
 #include "CharacterType.hpp"
 #include "PickupType.hpp"
+#include "PlatformType.hpp"
 #include "ProjectileType.hpp"
 
 std::vector<AircraftData> InitializeAircraftData()
@@ -57,13 +58,13 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kShaggy)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
-	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 100.f;
+	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 200.f;
 
 	//Scooby - Player 2
 	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
-	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 100.f;
+	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 200.f;
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_hitpoints = 100;
@@ -104,6 +105,25 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kJasonRight)] = data[static_cast<int>(CharacterType::kJasonLeft)];
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kJasonRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	return data;
+}
+
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Data about each platform type
+/// </summary>
+/// <returns></returns>
+std::vector<PlatformData> InitializePlatformData()
+{
+	std::vector<PlatformData> data(static_cast<int>(PlatformType::kPlatformCount));
+
+	//Ground
+	data[static_cast<int>(PlatformType::kGroundPlatform)].m_texture = Textures::kFloor;
+
+	//Air Platforms
+	data[static_cast<int>(PlatformType::kAirPlatform)].m_texture = Textures::kPlatform;
 
 	return data;
 }

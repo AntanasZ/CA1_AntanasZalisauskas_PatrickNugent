@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "Pickup.hpp"
+#include "Platform.hpp"
 #include "Projectile.hpp"
 #include "Utility.hpp"
 
@@ -87,8 +88,15 @@ void World::Draw()
 /// <summary>
 /// Edited by: Patrick Nugent
 ///
+///	-Added creeper texture
+/// -Added michael texture
 ///	-Added enemy textures
 /// -Added pickup textures
+///
+///	Edited by: Antanas Zalisauskas
+///	-Added platform textures
+///	-Added scooby and shaggy textures
+///	-Added mansion texture
 /// </summary>
 void World::LoadTextures()
 {
@@ -101,6 +109,8 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
+	m_textures.Load(Textures::kFloor, "Media/Textures/GroundPlatform.png");
+	m_textures.Load(Textures::kPlatform, "Media/Textures/Platform.png");
 	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
 	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
 
@@ -123,6 +133,7 @@ void World::LoadTextures()
 ///
 ///	-Changed method to work with m_player_character variables and added player 1 and 2 to game
 ///	-Changed background texture used
+///	-Added platforms to the level
 /// </summary>
 void World::BuildScene()
 {
@@ -145,6 +156,23 @@ void World::BuildScene()
 	std::unique_ptr<SpriteNode> background_sprite(new SpriteNode(texture, textureRect));
 	background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
 	m_scene_layers[static_cast<int>(Layers::kBackground)]->AttachChild(std::move(background_sprite));
+
+	//Prepare platforms
+	std::unique_ptr<Platform> ground_platform(new Platform(PlatformType::kGroundPlatform, m_textures));
+	ground_platform->setPosition(m_world_bounds.width/2, 755.f);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(ground_platform));
+
+	std::unique_ptr<Platform> platform1(new Platform(PlatformType::kAirPlatform, m_textures));
+	platform1->setPosition(525.f, 450.f);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform1));
+
+	std::unique_ptr<Platform> platform2(new Platform(PlatformType::kAirPlatform, m_textures));
+	platform2->setPosition(800.f, 600.f);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform2));
+
+	std::unique_ptr<Platform> platform3(new Platform(PlatformType::kAirPlatform, m_textures));
+	platform3->setPosition(250.f, 600.f);
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(platform3));
 
 	//Add player character
 	std::unique_ptr<Character> player1(new Character(CharacterType::kShaggy, m_textures, m_fonts));
@@ -174,7 +202,7 @@ void World::AdaptPlayerPosition()
 	//sf::FloatRect view_bounds(m_camera.getCenter() - m_camera.getSize() / 2.f, m_camera.getSize());
 	sf::FloatRect view_bounds = GetViewBounds();
 
-	const float border_distance = 50.f;
+	const float border_distance = 48.f;
 	//sf::Vector2f position = m_player_character_1->GetWorldPosition();
 	sf::Vector2f position = m_player_character_1->getPosition();
 	position.x = std::max(position.x, view_bounds.left + border_distance);
@@ -410,12 +438,53 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 	}
 }
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	-Added Collision between players and platforms
+/// </summary>
 void World::HandleCollisions()
 {
 	std::set<SceneNode::Pair> collision_pairs;
 	m_scenegraph.CheckSceneCollision(m_scenegraph, collision_pairs);
 	for(SceneNode::Pair pair : collision_pairs)
 	{
+		if(MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter1))
+		{
+			auto& platform = static_cast<Platform&>(*pair.first);
+			auto& player = static_cast<Character&>(*pair.second);
+
+			if(player.GetWorldPosition().y < platform.GetWorldPosition().y)
+			{
+				player.ToggleCanJump(true);
+				player.move(0.f, -1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+			else if (player.GetWorldPosition().y > platform.GetWorldPosition().y)
+			{
+				player.move(0.f, 1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+		}
+
+		if (MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter2))
+		{
+			auto& platform = static_cast<Platform&>(*pair.first);
+			auto& player = static_cast<Character&>(*pair.second);
+
+			if (player.GetWorldPosition().y < platform.GetWorldPosition().y)
+			{
+				player.ToggleCanJump(true);
+				player.move(0.f, -1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+			else if (player.GetWorldPosition().y > platform.GetWorldPosition().y)
+			{
+				player.move(0.f, 1.f);
+				player.SetVelocity(player.GetVelocity().x, 0);
+			}
+		}
+
 		if(MatchesCategories(pair, Category::Type::kPlayerAircraft, Category::Type::kEnemyAircraft))
 		{
 			auto& player = static_cast<Character&>(*pair.first);

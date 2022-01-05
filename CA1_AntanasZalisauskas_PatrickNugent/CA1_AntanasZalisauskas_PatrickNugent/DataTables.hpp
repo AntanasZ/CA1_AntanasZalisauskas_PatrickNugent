@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <vector>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
 
 #include "ResourceIdentifiers.hpp"
@@ -47,6 +48,11 @@ struct CharacterData
 	std::vector<Direction> m_directions;
 };
 
+struct PlatformData
+{
+	Textures m_texture;
+};
+
 struct ProjectileData
 {
 	int m_damage;
@@ -71,5 +77,6 @@ std::vector<AircraftData> InitializeAircraftData();
 std::vector<CharacterData> InitializeCharacterData();
 std::vector<ProjectileData> InitializeProjectileData();
 std::vector<PickupData> InitializePickupData();
+std::vector<PlatformData> InitializePlatformData();
 
 

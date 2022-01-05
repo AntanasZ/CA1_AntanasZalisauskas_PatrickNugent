@@ -2,7 +2,8 @@
 /// <summary>
 /// Edited by: Antanas Zalisauskas
 ///
-///	Added enums for characters and background
+///	-Added enums for characters and background
+///	-Added enums for platforms
 ///
 /// Edited by: Patrick Nugent
 ///
@@ -38,6 +39,8 @@ enum class Textures
 	kMansion,
 	kCreeper,
 	kMichael,
+	kFloor,
+	kPlatform,
 	kFreddy,
 	kJason
 };
