@@ -4,6 +4,7 @@
 #include "CharacterType.hpp"
 #include "Entity.hpp"
 #include "ResourceIdentifiers.hpp"
+#include "TextNode.hpp"
 
 /// <summary>
 /// Written by: Antanas Zalisauskas
@@ -34,12 +35,15 @@ private:
 	virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void UpdateCurrent(sf::Time dt, CommandQueue& commands) override;
 	bool isPlayer() const;
+	void UpdateScore() const;
 
 private:
 	CharacterType m_type;
 	sf::Sprite m_sprite;
 	bool m_can_jump;
 	float m_jump_height;
+	int m_score;
+	TextNode* m_score_display;
 
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;
