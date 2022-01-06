@@ -199,3 +199,19 @@ void Character::AddScore(int points)
 	m_score += points;
 	UpdateScore();
 }
+
+/// <summary>
+/// Written By: Antanas Zalisauskas
+///
+/// -Added getter and setter for player stun mechanic
+/// </summary>
+/// <returns></returns>
+bool Character::GetStunned()
+{
+	return m_is_stunned;
+}
+
+void Character::SetStunned(bool value)
+{
+	m_is_stunned = value;
+}

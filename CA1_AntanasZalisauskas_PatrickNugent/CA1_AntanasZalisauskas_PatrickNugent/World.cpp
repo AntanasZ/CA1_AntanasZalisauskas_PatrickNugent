@@ -42,6 +42,7 @@ void World::Update(sf::Time dt)
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
 	m_player_character_1->SetVelocity(0.f, m_player_character_1->GetVelocity().y);
 	m_player_character_2->SetVelocity(0.f, m_player_character_2->GetVelocity().y);
+	
 	DestroyEntitiesOutsideView();
 	GuideMissiles();
 
@@ -71,6 +72,28 @@ void World::Update(sf::Time dt)
 	{
 		SpawnPickups();
 		m_pickup_spawn_countdown = sf::seconds(0.f);
+	}
+
+	if(m_player_character_1->GetStunned())
+	{
+		//un-stun the player after 3 seconds
+		m_player_1_stun_countdown += dt;
+		if(m_player_1_stun_countdown >= sf::seconds(3.0f))
+		{
+			m_player_character_1->SetStunned(false);
+			m_player_1_stun_countdown = sf::seconds(0.f);
+		}
+	}
+
+	if (m_player_character_2->GetStunned())
+	{
+		//un-stun the player after 3 seconds
+		m_player_2_stun_countdown += dt;
+		if (m_player_2_stun_countdown >= sf::seconds(3.0f))
+		{
+			m_player_character_2->SetStunned(false);
+			m_player_2_stun_countdown = sf::seconds(0.f);
+		}
 	}
 
 	//Apply movement
@@ -454,6 +477,7 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 /// Edited by: Antanas Zalisauskas
 ///
 ///	-Added Collision between players and platforms
+///	-Added Collision between players and enemies
 ///
 /// Edited by: Patrick Nugent
 ///
@@ -465,6 +489,24 @@ void World::HandleCollisions()
 	m_scenegraph.CheckSceneCollision(m_scenegraph, collision_pairs);
 	for(SceneNode::Pair pair : collision_pairs)
 	{
+		if(MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kEnemyCharacter))
+		{
+			auto& player = static_cast<Character&>(*pair.first);
+			if(!player.GetStunned())
+			{
+				player.SetStunned(true);
+			}
+		}
+
+		if (MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
+		{
+			auto& player = static_cast<Character&>(*pair.first);
+			if (!player.GetStunned())
+			{
+				player.SetStunned(true);
+			}
+		}
+
 		if(MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter1))
 		{
 			auto& platform = static_cast<Platform&>(*pair.first);

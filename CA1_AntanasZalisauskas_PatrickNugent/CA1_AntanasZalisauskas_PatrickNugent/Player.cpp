@@ -18,6 +18,11 @@ struct AircraftMover
 	sf::Vector2f velocity;
 };
 
+/// <summary>
+/// Edited by: Antanas Zalisauskas
+///
+///	- Edited to only move player if they're not stunned
+/// </summary>
 struct CharacterMover
 {
 	CharacterMover(float vx, float vy) : velocity(vx, vy)
@@ -27,7 +32,11 @@ struct CharacterMover
 
 	void operator()(Character& character, sf::Time) const
 	{
-		character.Accelerate(velocity * character.GetMaxSpeed());
+		if(!character.GetStunned())
+		{
+			character.Accelerate(velocity * character.GetMaxSpeed());
+		}
+		
 	}
 
 	sf::Vector2f velocity;
@@ -37,6 +46,10 @@ struct CharacterMover
 /// Written by: Antanas Zalisauskas
 ///
 ///	Handles logic for player jumping
+///
+///	Edited by: Antanas Zalisauskas
+///
+///	- Edited to only move player if they're not stunned
 /// </summary>
 struct CharacterJump
 {
@@ -44,7 +57,7 @@ struct CharacterJump
 
 	void operator()(Character& character, sf::Time dt) const
 	{
-		if(character.GetCanJump()) //if player can jump, jump
+		if(character.GetCanJump() && !character.GetStunned()) //if player can jump, jump
 		{
 			character.ToggleCanJump(false); //set can jump to false
 
