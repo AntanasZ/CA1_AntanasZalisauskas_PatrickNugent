@@ -74,6 +74,28 @@ void World::Update(sf::Time dt)
 		m_pickup_spawn_countdown = sf::seconds(0.f);
 	}
 
+	if(m_player_character_1->GetStunned())
+	{
+		//un-stun the player after 3 seconds
+		m_player_1_stun_countdown += dt;
+		if(m_player_1_stun_countdown >= sf::seconds(3.0f))
+		{
+			m_player_character_1->SetStunned(false);
+			m_player_1_stun_countdown = sf::seconds(0.f);
+		}
+	}
+
+	if (m_player_character_2->GetStunned())
+	{
+		//un-stun the player after 3 seconds
+		m_player_2_stun_countdown += dt;
+		if (m_player_2_stun_countdown >= sf::seconds(3.0f))
+		{
+			m_player_character_2->SetStunned(false);
+			m_player_2_stun_countdown = sf::seconds(0.f);
+		}
+	}
+
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
 	AdaptPlayerPosition();
@@ -471,6 +493,15 @@ void World::HandleCollisions()
 		{
 			auto& player = static_cast<Character&>(*pair.first);
 			if(!player.GetStunned())
+			{
+				player.SetStunned(true);
+			}
+		}
+
+		if (MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
+		{
+			auto& player = static_cast<Character&>(*pair.first);
+			if (!player.GetStunned())
 			{
 				player.SetStunned(true);
 			}

@@ -102,5 +102,7 @@ private:
 	float m_gravity;
 	sf::Time m_enemy_spawn_countdown;
 	sf::Time m_pickup_spawn_countdown;
+	sf::Time m_player_1_stun_countdown;
+	sf::Time m_player_2_stun_countdown;
 };
 
