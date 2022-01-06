@@ -28,6 +28,8 @@ public:
 	void ToggleCanJump(bool value);
 	void FlipSprite();
 	void AddScore(int points);
+	bool GetStunned();
+	void SetStunned(bool value);
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const;
@@ -45,6 +47,7 @@ private:
 	float m_jump_height;
 	int m_score;
 	TextNode* m_score_display;
+	bool m_is_stunned;
 
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;
