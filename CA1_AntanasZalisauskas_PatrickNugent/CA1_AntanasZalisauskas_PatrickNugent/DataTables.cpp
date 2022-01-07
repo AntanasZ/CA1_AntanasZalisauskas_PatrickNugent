@@ -46,8 +46,7 @@ std::vector<AircraftData> InitializeAircraftData()
 /// Edited by: Patrick Nugent
 ///
 ///	-Added comments to show which characters are players 
-/// -Added creeper enemy type 
-/// -Added michael enemy type
+/// -Added enemy types
 /// </summary>
 ///	<returns>Returns a vector of CharacterData which includes info about each character type</returns>
 std::vector<CharacterData> InitializeCharacterData()
@@ -105,6 +104,87 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kJasonRight)] = data[static_cast<int>(CharacterType::kJasonLeft)];
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kJasonRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Ghidorah
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_speed = 160.f;
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_texture = Textures::kGhidorah;
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kGhidorahRight)] = data[static_cast<int>(CharacterType::kGhidorahLeft)];
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
+
+	//Pterodactyl
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_speed = 300.f;
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_texture = Textures::kPterodactyl;
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kPterodactylRight)] = data[static_cast<int>(CharacterType::kPterodactylLeft)];
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_directions.emplace_back(Direction(-135.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_directions.emplace_back(Direction(-90.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_directions.emplace_back(Direction(-45.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_directions.emplace_back(Direction(-90.f, 200.f));
+
+	data[static_cast<int>(CharacterType::kPterodactylRight)].m_directions.emplace_back(Direction(45.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylRight)].m_directions.emplace_back(Direction(90.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylRight)].m_directions.emplace_back(Direction(135.f, 200.f));
+	data[static_cast<int>(CharacterType::kPterodactylRight)].m_directions.emplace_back(Direction(90.f, 200.f));
+
+	//Turtle
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_speed = 80.f;
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_texture = Textures::kTurtle;
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kTurtleRight)] = data[static_cast<int>(CharacterType::kTurtleLeft)];
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kTurtleRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Ghost
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_speed = 130.f;
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_texture = Textures::kGhost;
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kGhostRight)] = data[static_cast<int>(CharacterType::kGhostLeft)];
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kGhostRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Skull
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_speed = 200.f;
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_texture = Textures::kSkull;
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kSkullRight)] = data[static_cast<int>(CharacterType::kSkullLeft)];
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kSkullRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Dutchman
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_speed = 250.f;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_texture = Textures::kDutchman;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kDutchmanRight)] = data[static_cast<int>(CharacterType::kDutchmanLeft)];
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_directions.emplace_back(Direction(-65.f, 1000.f));
+	data[static_cast<int>(CharacterType::kDutchmanRight)].m_directions.emplace_back(Direction(65.f, 1000.f));
 
 	return data;
 }
