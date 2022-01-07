@@ -25,5 +25,15 @@ enum class CharacterType
 	kFreddyRight,
 	kJasonLeft,
 	kJasonRight,
+	kGhidorahLeft,
+	kGhidorahRight,
+	kSkullLeft,
+	kSkullRight,
+	kPterodactylLeft,
+	kPterodactylRight,
+	kTurtleLeft,
+	kTurtleRight,
+	kGhostLeft,
+	kGhostRight,
 	kCharacterCount
 };

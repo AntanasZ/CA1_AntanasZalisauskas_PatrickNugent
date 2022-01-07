@@ -136,6 +136,11 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kPlatform, "Media/Textures/Platform.png");
 	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
 	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
+	m_textures.Load(Textures::kGhidorah, "Media/Textures/GhidorahIdle.png");
+	m_textures.Load(Textures::kPterodactyl, "Media/Textures/PterodactylIdle.png");
+	m_textures.Load(Textures::kTurtle, "Media/Textures/TurtleIdle.png");
+	m_textures.Load(Textures::kGhost, "Media/Textures/GhostIdle.png");
+	m_textures.Load(Textures::kSkull, "Media/Textures/SkullIdle.png");
 
 	m_textures.Load(Textures::kApple, "Media/Textures/Apple.png");
 	m_textures.Load(Textures::kOrange, "Media/Textures/Orange.png");
@@ -361,10 +366,7 @@ void World::AddPickup(PickupType type, int value, float relX, float relY)
 /// <summary>
 /// Edited By: Patrick Nugent
 ///
-///	-Added creeper enemy
-/// -Added michael enemy
-/// -Added freddy enemy
-/// -Added jason enemy
+///	-Added enemy types
 /// </summary>
 void World::AddEnemies()
 {

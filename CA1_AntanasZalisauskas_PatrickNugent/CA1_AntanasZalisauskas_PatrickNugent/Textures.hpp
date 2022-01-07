@@ -42,5 +42,10 @@ enum class Textures
 	kFloor,
 	kPlatform,
 	kFreddy,
+	kGhidorah,
+	kPterodactyl,
+	kSkull,
+	kTurtle,
+	kGhost,
 	kJason
 };
