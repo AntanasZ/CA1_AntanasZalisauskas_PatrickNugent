@@ -7,10 +7,7 @@
 ///
 /// Edited by: Patrick Nugent
 ///
-///	-Added enum for creeper texture
-/// -Added enum for michael texture
-/// -Added enum for freddy texture
-/// -Added enum for jason texture
+///	-Added enums for enemy textures
 /// </summary>
 
 enum class Textures

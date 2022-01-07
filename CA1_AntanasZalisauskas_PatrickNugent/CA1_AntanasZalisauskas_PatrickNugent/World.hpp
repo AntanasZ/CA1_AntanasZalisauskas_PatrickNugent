@@ -48,8 +48,9 @@ private:
 	sf::FloatRect GetViewBounds() const;
 	sf::FloatRect GetBattlefieldBounds() const;
 	void SpawnEnemies();
+	void SpawnFlyingEnemies();
 	void SpawnPickups();
-	void AddEnemy(CharacterType type, float relX, float relY);
+	void AddEnemy(CharacterType type, bool isFlying, float relX, float relY);
 	void AddPickup(PickupType type, int value, float relX, float relY);
 	void AddEnemies();
 	void AddPickups();
@@ -95,12 +96,14 @@ private:
 	float m_scrollspeed;
 	Aircraft* m_player_aircraft;
 	std::vector<CharacterSpawnPoint> m_enemy_spawn_points;
+	std::vector<CharacterSpawnPoint> m_flying_enemy_spawn_points;
 	std::vector<PickupSpawnPoint> m_pickup_spawn_points;
 	std::vector<Character*>	m_active_enemies;
 	Character* m_player_character_1;
 	Character* m_player_character_2;
 	float m_gravity;
 	sf::Time m_enemy_spawn_countdown;
+	sf::Time m_flying_enemy_spawn_countdown;
 	sf::Time m_pickup_spawn_countdown;
 	sf::Time m_player_1_stun_countdown;
 	sf::Time m_player_2_stun_countdown;

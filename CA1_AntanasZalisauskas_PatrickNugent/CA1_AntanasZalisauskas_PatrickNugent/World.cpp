@@ -66,9 +66,17 @@ void World::Update(sf::Time dt)
 		m_enemy_spawn_countdown = sf::seconds(0.f);
 	}
 
-	//Spawn a pickup every 2 seconds and reset the spawn timer
+	//Spawn a flying enemy every 3 seconds and reset the spawn timer
+	m_flying_enemy_spawn_countdown += dt;
+	if (m_flying_enemy_spawn_countdown >= sf::seconds(3.0f))
+	{
+		SpawnFlyingEnemies();
+		m_flying_enemy_spawn_countdown = sf::seconds(0.f);
+	}
+
+	//Spawn a pickup every 1.5 seconds and reset the spawn timer
 	m_pickup_spawn_countdown += dt;
-	if (m_pickup_spawn_countdown >= sf::seconds(2.0f))
+	if (m_pickup_spawn_countdown >= sf::seconds(1.5f))
 	{
 		SpawnPickups();
 		m_pickup_spawn_countdown = sf::seconds(0.f);
@@ -320,6 +328,27 @@ void World::SpawnEnemies()
 }
 
 /// <summary>
+/// Edited By: Patrick Nugent
+///
+///	-Same as SpawnEnemies but handles flying enemies instead
+/// </summary>
+void World::SpawnFlyingEnemies()
+{
+	//Spawn a random flying enemy from the vector of flying enemy spawn points
+	int randomEnemy = rand() % 10;
+	CharacterSpawnPoint spawn = m_flying_enemy_spawn_points[randomEnemy];
+	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
+	enemy->setPosition(spawn.m_x, spawn.m_y);
+
+	//If an enemy is spawning on the right side then flip the sprite
+	if (spawn.m_x > 100)
+	{
+		enemy->FlipSprite();
+	}
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(enemy));
+}
+
+/// <summary>
 /// created By: Patrick Nugent
 ///
 ///	-Works similar to SpawnEnemies but modified to use pickups
@@ -342,10 +371,18 @@ void World::SpawnPickups()
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(pickup));
 }
 
-void World::AddEnemy(CharacterType type, float relX, float relY)
+void World::AddEnemy(CharacterType type, bool isFlying, float relX, float relY)
 {
 	CharacterSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
-	m_enemy_spawn_points.emplace_back(spawn);
+	if (isFlying)
+	{
+		m_flying_enemy_spawn_points.emplace_back(spawn);
+	}
+	else
+	{
+		m_enemy_spawn_points.emplace_back(spawn);
+	}
+
 }
 
 /// <summary>
@@ -371,14 +408,25 @@ void World::AddPickup(PickupType type, int value, float relX, float relY)
 void World::AddEnemies()
 {
 	//Add all enemies - both the left and right side versions
-	AddEnemy(CharacterType::kCreeperLeft, -500.f, -332.f);
-	AddEnemy(CharacterType::kCreeperRight, 500.f, -332.f);
-	AddEnemy(CharacterType::kMichaelLeft, -500.f, -330.f);
-	AddEnemy(CharacterType::kMichaelRight, 500.f, -330.f);
-	AddEnemy(CharacterType::kFreddyLeft, -500.f, -332.f);
-	AddEnemy(CharacterType::kFreddyRight, 500.f, -332.f);
-	AddEnemy(CharacterType::kJasonLeft, -500.f, -329.f);
-	AddEnemy(CharacterType::kJasonRight, 500.f, -329.f);
+	AddEnemy(CharacterType::kCreeperLeft, false, -500.f, -332.f);
+	AddEnemy(CharacterType::kCreeperRight, false, 500.f, -332.f);
+	AddEnemy(CharacterType::kMichaelLeft, false, -500.f, -330.f);
+	AddEnemy(CharacterType::kMichaelRight, false, 500.f, -330.f);
+	AddEnemy(CharacterType::kFreddyLeft, false, -500.f, -325.f);
+	AddEnemy(CharacterType::kFreddyRight, false, 500.f, -325.f);
+	AddEnemy(CharacterType::kJasonLeft, false, -500.f, -325.f);
+	AddEnemy(CharacterType::kJasonRight, false, 500.f, -325.f);
+
+	AddEnemy(CharacterType::kGhidorahLeft, true, -500.f, -2.f);
+	AddEnemy(CharacterType::kGhidorahRight, true, 500.f, -2.f);
+	AddEnemy(CharacterType::kPterodactylLeft, true, -500.f, -2.f);
+	AddEnemy(CharacterType::kPterodactylRight, true, 500.f, -2.f);
+	AddEnemy(CharacterType::kTurtleLeft, true, -500.f, -150.f);
+	AddEnemy(CharacterType::kTurtleRight, true, 500.f, -150.f);
+	AddEnemy(CharacterType::kGhostLeft, true, -500.f, -150.f);
+	AddEnemy(CharacterType::kGhostRight, true, 500.f, -150.f);
+	AddEnemy(CharacterType::kSkullLeft, true, -500.f, -150.f);
+	AddEnemy(CharacterType::kSkullRight, true, 500.f, -150.f);
 }
 
 /// <summary>

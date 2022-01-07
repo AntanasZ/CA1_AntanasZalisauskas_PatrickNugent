@@ -46,8 +46,7 @@ std::vector<AircraftData> InitializeAircraftData()
 /// Edited by: Patrick Nugent
 ///
 ///	-Added comments to show which characters are players 
-/// -Added creeper enemy type 
-/// -Added michael enemy type
+/// -Added enemy types
 /// </summary>
 ///	<returns>Returns a vector of CharacterData which includes info about each character type</returns>
 std::vector<CharacterData> InitializeCharacterData()
@@ -108,17 +107,31 @@ std::vector<CharacterData> InitializeCharacterData()
 
 	//Ghidorah
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_speed = 110.f;
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_speed = 160.f;
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_texture = Textures::kGhidorah;
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_jump_height = 0.f;
 
 	data[static_cast<int>(CharacterType::kGhidorahRight)] = data[static_cast<int>(CharacterType::kGhidorahLeft)];
-	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
-	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
+
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(90.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(135.f, 100.f));
+	data[static_cast<int>(CharacterType::kGhidorahRight)].m_directions.emplace_back(Direction(45.f, 100.f));
 
 	//Pterodactyl
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_hitpoints = 100;
-	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_speed = 140.f;
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_speed = 300.f;
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_texture = Textures::kPterodactyl;
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_jump_height = 0.f;
 

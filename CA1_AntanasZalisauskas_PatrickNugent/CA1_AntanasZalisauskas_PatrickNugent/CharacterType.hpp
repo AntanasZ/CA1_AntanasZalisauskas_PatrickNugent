@@ -6,10 +6,7 @@
 ///
 /// Edited by: Patrick Nugent
 ///
-///	-Added creeper enemy type
-/// -Added michael enemy type
-/// -Added freddy enemy type
-/// -Added jason enemy type
+///	-Added enemy enums
 ///
 /// </summary>
 
