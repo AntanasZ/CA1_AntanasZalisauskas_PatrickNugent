@@ -149,6 +149,7 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kTurtle, "Media/Textures/TurtleIdle.png");
 	m_textures.Load(Textures::kGhost, "Media/Textures/GhostIdle.png");
 	m_textures.Load(Textures::kSkull, "Media/Textures/SkullIdle.png");
+	m_textures.Load(Textures::kDutchman, "Media/Textures/DutchmanIdle.png");
 
 	m_textures.Load(Textures::kApple, "Media/Textures/Apple.png");
 	m_textures.Load(Textures::kOrange, "Media/Textures/Orange.png");
@@ -335,7 +336,7 @@ void World::SpawnEnemies()
 void World::SpawnFlyingEnemies()
 {
 	//Spawn a random flying enemy from the vector of flying enemy spawn points
-	int randomEnemy = rand() % 10;
+	int randomEnemy = rand() % 12;
 	CharacterSpawnPoint spawn = m_flying_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
@@ -427,6 +428,8 @@ void World::AddEnemies()
 	AddEnemy(CharacterType::kGhostRight, true, 500.f, -150.f);
 	AddEnemy(CharacterType::kSkullLeft, true, -500.f, -150.f);
 	AddEnemy(CharacterType::kSkullRight, true, 500.f, -150.f);
+	AddEnemy(CharacterType::kDutchmanLeft, true, -500.f, 200.f);
+	AddEnemy(CharacterType::kDutchmanRight, true, 500.f, 200.f);
 }
 
 /// <summary>

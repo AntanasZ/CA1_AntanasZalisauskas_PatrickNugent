@@ -176,6 +176,16 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kSkullLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kSkullRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
 
+	//Dutchman
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_speed = 250.f;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_texture = Textures::kDutchman;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_jump_height = 0.f;
+
+	data[static_cast<int>(CharacterType::kDutchmanRight)] = data[static_cast<int>(CharacterType::kDutchmanLeft)];
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_directions.emplace_back(Direction(-65.f, 1000.f));
+	data[static_cast<int>(CharacterType::kDutchmanRight)].m_directions.emplace_back(Direction(65.f, 1000.f));
+
 	return data;
 }
 

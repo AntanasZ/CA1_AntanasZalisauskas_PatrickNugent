@@ -32,5 +32,7 @@ enum class CharacterType
 	kTurtleRight,
 	kGhostLeft,
 	kGhostRight,
+	kDutchmanLeft,
+	kDutchmanRight,
 	kCharacterCount
 };
