@@ -38,6 +38,7 @@ public:
 	void Update(sf::Time dt);
 	void Draw();
 	CommandQueue& getCommandQueue();
+	bool IsGameOver() const;
 
 private:
 	void LoadTextures();
@@ -58,7 +59,6 @@ private:
 	void HandleCollisions();
 	void DestroyEntitiesOutsideView();
 	void DisplayRemainingGameTime();
-	bool IsGameOver() const;
 
 private:
 	struct CharacterSpawnPoint
