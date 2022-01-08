@@ -58,6 +58,7 @@ private:
 	void HandleCollisions();
 	void DestroyEntitiesOutsideView();
 	void DisplayRemainingGameTime();
+	bool IsGameOver() const;
 
 private:
 	struct CharacterSpawnPoint
@@ -110,5 +111,6 @@ private:
 	sf::Time m_player_2_stun_countdown;
 	sf::Time m_game_countdown;
 	TextNode* m_game_timer_display;
+	bool m_game_over;
 };
 

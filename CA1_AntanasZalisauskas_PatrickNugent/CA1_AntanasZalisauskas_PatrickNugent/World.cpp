@@ -31,6 +31,7 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_1_stun_countdown()
 	, m_player_2_stun_countdown()
 	, m_game_countdown(sf::seconds(120))
+	, m_game_over(false)
 {
 	LoadTextures();
 	BuildScene();
@@ -52,6 +53,7 @@ void World::Update(sf::Time dt)
 	}
 	else
 	{
+		m_game_over = true;
 		m_game_countdown = sf::Time::Zero;
 		m_game_timer_display->SetString("Game Over");
 	}
@@ -669,3 +671,12 @@ void World::DisplayRemainingGameTime()
 	m_game_timer_display->SetString(std::to_string(minutes) + ":" + std::to_string(seconds));
 }
 
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Checks if the current game has ended
+/// </summary>
+bool World::IsGameOver() const
+{
+	return m_game_over;
+}

@@ -16,14 +16,14 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 	sf::Vector2f windowSize(context.window->getSize());
 
 	m_game_over_text.setFont(font);
-	if (context.player->GetMissionStatus() == MissionStatus::kMissionFailure)
+	/*if (context.player->GetMissionStatus() == MissionStatus::kMissionFailure)
 	{
 		m_game_over_text.setString("Mission failed!");
 	}
 	else
 	{
 		m_game_over_text.setString("Mission successful!");
-	}
+	}*/
 
 	m_game_over_text.setCharacterSize(70);
 	Utility::CentreOrigin(m_game_over_text);
