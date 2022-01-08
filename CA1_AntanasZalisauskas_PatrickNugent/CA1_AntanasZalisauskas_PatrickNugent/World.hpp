@@ -57,6 +57,7 @@ private:
 	void GuideMissiles();
 	void HandleCollisions();
 	void DestroyEntitiesOutsideView();
+	void DisplayRemainingGameTime();
 
 private:
 	struct CharacterSpawnPoint
@@ -107,5 +108,7 @@ private:
 	sf::Time m_pickup_spawn_countdown;
 	sf::Time m_player_1_stun_countdown;
 	sf::Time m_player_2_stun_countdown;
+	sf::Time m_game_countdown;
+	TextNode* m_game_timer_display;
 };
 
