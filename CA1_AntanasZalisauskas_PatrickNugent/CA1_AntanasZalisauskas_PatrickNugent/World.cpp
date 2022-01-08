@@ -5,6 +5,7 @@
 #include <limits>
 #include <stdlib.h>
 #include <time.h>
+#include <cmath>
 
 #include "Pickup.hpp"
 #include "Platform.hpp"
@@ -27,6 +28,9 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_gravity(981.f)
 	, m_enemy_spawn_countdown()
 	, m_pickup_spawn_countdown()
+	, m_player_1_stun_countdown()
+	, m_player_2_stun_countdown()
+	, m_game_countdown(sf::seconds(120))
 {
 	LoadTextures();
 	BuildScene();
@@ -38,6 +42,19 @@ void World::Update(sf::Time dt)
 {
 	//Scroll the world
 	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
+
+	//Check if remaining game time is greater than 0
+	if (m_game_countdown > sf::Time::Zero)
+	{
+		//Decrease and Display remaining game time
+		m_game_countdown -= dt;
+		DisplayRemainingGameTime();
+	}
+	else
+	{
+		m_game_countdown = sf::Time::Zero;
+		m_game_timer_display->SetString("Game Over");
+	}
 
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
 	m_player_character_1->SetVelocity(0.f, m_player_character_1->GetVelocity().y);
@@ -107,7 +124,6 @@ void World::Update(sf::Time dt)
 	//Apply movement
 	m_scenegraph.Update(dt, m_command_queue);
 	AdaptPlayerPosition();
-
 }
 
 void World::Draw()
@@ -221,6 +237,12 @@ void World::BuildScene()
 	m_player_character_2 = player2.get();
 	m_player_character_2->setPosition(m_spawn_position);
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(player2));
+
+	//Add game timer
+	std::unique_ptr<TextNode> gameTimerDisplay(new TextNode(m_fonts, ""));
+	gameTimerDisplay->setPosition(m_world_bounds.width / 2, 20);
+	m_game_timer_display = gameTimerDisplay.get();
+	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(gameTimerDisplay));
 
 	srand(time(NULL));
 
@@ -633,3 +655,17 @@ void World::DestroyEntitiesOutsideView()
 	});
 	m_command_queue.Push(command);
 }
+
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Displays remaining time in the game as minutes and seconds
+/// </summary>
+void World::DisplayRemainingGameTime()
+{
+	int minutes = (int)(m_game_countdown.asSeconds() / 60);
+	int seconds = (int)(m_game_countdown.asSeconds()) % 60;
+	
+	m_game_timer_display->SetString(std::to_string(minutes) + ":" + std::to_string(seconds));
+}
+
