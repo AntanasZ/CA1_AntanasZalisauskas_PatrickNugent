@@ -155,6 +155,17 @@ float Character::GetJumpHeight() const
 	return m_jump_height;
 }
 
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Added getter for score variable
+/// </summary>
+int Character::GetScore() const
+{
+	return m_score;
+}
+
+
 void Character::ToggleCanJump(bool value)
 {
 	m_can_jump = value;

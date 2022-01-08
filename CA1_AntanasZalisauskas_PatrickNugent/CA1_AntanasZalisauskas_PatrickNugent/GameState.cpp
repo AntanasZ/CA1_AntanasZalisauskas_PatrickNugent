@@ -28,6 +28,11 @@ bool GameState::Update(sf::Time dt)
 	CommandQueue& player_2_commands = m_world.getCommandQueue();
 	m_player_1.HandleRealtimeInput(player_1_commands);
 	m_player_2.HandleRealtimeInput(player_2_commands);
+
+	if (m_world.IsGameOver())
+	{
+		RequestStackPush(StateID::kGameOver);
+	}
 	return true;
 }
 

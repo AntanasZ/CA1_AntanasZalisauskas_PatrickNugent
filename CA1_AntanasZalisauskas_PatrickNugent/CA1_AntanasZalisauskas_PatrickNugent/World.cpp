@@ -30,7 +30,10 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_pickup_spawn_countdown()
 	, m_player_1_stun_countdown()
 	, m_player_2_stun_countdown()
-	, m_game_countdown(sf::seconds(120))
+	, m_game_countdown(sf::seconds(10))
+	, m_game_over(false)
+	, m_player_1_final_score(0)
+	, m_player_2_final_score(0)
 {
 	LoadTextures();
 	BuildScene();
@@ -54,6 +57,9 @@ void World::Update(sf::Time dt)
 	{
 		m_game_countdown = sf::Time::Zero;
 		m_game_timer_display->SetString("Game Over");
+		m_player_1_final_score = m_player_character_1->GetScore();
+		m_player_2_final_score = m_player_character_1->GetScore();
+		m_game_over = true;
 	}
 
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
@@ -135,8 +141,6 @@ void World::Draw()
 /// <summary>
 /// Edited by: Patrick Nugent
 ///
-///	-Added creeper texture
-/// -Added michael texture
 ///	-Added enemy textures
 /// -Added pickup textures
 ///
@@ -669,3 +673,27 @@ void World::DisplayRemainingGameTime()
 	m_game_timer_display->SetString(std::to_string(minutes) + ":" + std::to_string(seconds));
 }
 
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Checks if the current game has ended
+/// </summary>
+bool World::IsGameOver() const
+{
+	return m_game_over;
+}
+
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Getters for the final score of each player
+/// </summary>
+bool World::GetPlayer1Score() const
+{
+	return m_player_1_final_score;
+}
+
+bool World::GetPlayer2Score() const
+{
+	return m_player_1_final_score;
+}

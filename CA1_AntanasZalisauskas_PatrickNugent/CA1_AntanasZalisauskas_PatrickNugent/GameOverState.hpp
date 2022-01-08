@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "State.hpp"
+#include "World.hpp"
 
 class GameOverState : public State
 {
@@ -14,6 +15,7 @@ public:
 
 
 private:
+	World m_world;
 	sf::Text m_game_over_text;
 	sf::Time m_elapsed_time;
 };

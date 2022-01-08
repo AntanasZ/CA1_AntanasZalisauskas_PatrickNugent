@@ -13,7 +13,8 @@
 ///
 /// Edited by: Patrick Nugent
 ///
-///	Added method for flipping sprites
+///	-Added method for flipping sprites
+/// -Added a getter for score
 /// </summary>
 class Character : public Entity
 {
@@ -25,6 +26,7 @@ public:
 	float GetMaxSpeed() const;
 	bool GetCanJump() const;
 	float GetJumpHeight() const;
+	int GetScore() const;
 	void ToggleCanJump(bool value);
 	void FlipSprite();
 	void AddScore(int points);
