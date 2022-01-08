@@ -39,6 +39,8 @@ public:
 	void Draw();
 	CommandQueue& getCommandQueue();
 	bool IsGameOver() const;
+	bool GetPlayer1Score() const;
+	bool GetPlayer2Score() const;
 
 private:
 	void LoadTextures();
@@ -112,5 +114,7 @@ private:
 	sf::Time m_game_countdown;
 	TextNode* m_game_timer_display;
 	bool m_game_over;
+	int m_player_1_final_score;
+	int m_player_2_final_score;
 };
 
