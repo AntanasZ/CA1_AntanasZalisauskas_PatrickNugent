@@ -31,9 +31,8 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_1_stun_countdown()
 	, m_player_2_stun_countdown()
 	, m_game_countdown(sf::seconds(10))
+	, m_gameover_countdown()
 	, m_game_over(false)
-	, m_player_1_final_score(0)
-	, m_player_2_final_score(0)
 {
 	LoadTextures();
 	BuildScene();
@@ -52,84 +51,101 @@ void World::Update(sf::Time dt)
 		//Decrease and Display remaining game time
 		m_game_countdown -= dt;
 		DisplayRemainingGameTime();
+
+		//m_player_aircraft->SetVelocity(0.f, 0.f);
+		m_player_character_1->SetVelocity(0.f, m_player_character_1->GetVelocity().y);
+		m_player_character_2->SetVelocity(0.f, m_player_character_2->GetVelocity().y);
+
+		DestroyEntitiesOutsideView();
+		GuideMissiles();
+
+		//Forward commands to the scenegraph until the command queue is empty
+		while (!m_command_queue.IsEmpty())
+		{
+			m_scenegraph.OnCommand(m_command_queue.Pop(), dt);
+		}
+
+		AdaptPlayerVelocity(dt);
+
+		HandleCollisions();
+		//Remove all destroyed entities
+		m_scenegraph.RemoveWrecks();
+
+		//Spawn an enemy every 5 seconds and reset the spawn timer
+		m_enemy_spawn_countdown += dt;
+		if (m_enemy_spawn_countdown >= sf::seconds(5.0f))
+		{
+			SpawnEnemies();
+			m_enemy_spawn_countdown = sf::seconds(0.f);
+		}
+
+		//Spawn a flying enemy every 3 seconds and reset the spawn timer
+		m_flying_enemy_spawn_countdown += dt;
+		if (m_flying_enemy_spawn_countdown >= sf::seconds(3.0f))
+		{
+			SpawnFlyingEnemies();
+			m_flying_enemy_spawn_countdown = sf::seconds(0.f);
+		}
+
+		//Spawn a pickup every 1.5 seconds and reset the spawn timer
+		m_pickup_spawn_countdown += dt;
+		if (m_pickup_spawn_countdown >= sf::seconds(1.5f))
+		{
+			SpawnPickups();
+			m_pickup_spawn_countdown = sf::seconds(0.f);
+		}
+
+		if (m_player_character_1->GetStunned())
+		{
+			//un-stun the player after 3 seconds
+			m_player_1_stun_countdown += dt;
+			if (m_player_1_stun_countdown >= sf::seconds(3.0f))
+			{
+				m_player_character_1->SetStunned(false);
+				m_player_1_stun_countdown = sf::seconds(0.f);
+			}
+		}
+
+		if (m_player_character_2->GetStunned())
+		{
+			//un-stun the player after 3 seconds
+			m_player_2_stun_countdown += dt;
+			if (m_player_2_stun_countdown >= sf::seconds(3.0f))
+			{
+				m_player_character_2->SetStunned(false);
+				m_player_2_stun_countdown = sf::seconds(0.f);
+			}
+		}
+
+		//Apply movement
+		m_scenegraph.Update(dt, m_command_queue);
+		AdaptPlayerPosition();
 	}
 	else
 	{
 		m_game_countdown = sf::Time::Zero;
-		m_game_timer_display->SetString("Game Over");
-		m_player_1_final_score = m_player_character_1->GetScore();
-		m_player_2_final_score = m_player_character_1->GetScore();
-		m_game_over = true;
-	}
+		m_gameover_countdown += dt;
 
-	//m_player_aircraft->SetVelocity(0.f, 0.f);
-	m_player_character_1->SetVelocity(0.f, m_player_character_1->GetVelocity().y);
-	m_player_character_2->SetVelocity(0.f, m_player_character_2->GetVelocity().y);
-	
-	DestroyEntitiesOutsideView();
-	GuideMissiles();
-
-	//Forward commands to the scenegraph until the command queue is empty
-	while(!m_command_queue.IsEmpty())
-	{
-		m_scenegraph.OnCommand(m_command_queue.Pop(), dt);
-	}
-
-	AdaptPlayerVelocity(dt);
-	
-	HandleCollisions();
-	//Remove all destroyed entities
-	m_scenegraph.RemoveWrecks();
-
-	//Spawn an enemy every 5 seconds and reset the spawn timer
-	m_enemy_spawn_countdown += dt;
-	if (m_enemy_spawn_countdown >= sf::seconds(5.0f))
-	{
-		SpawnEnemies();
-		m_enemy_spawn_countdown = sf::seconds(0.f);
-	}
-
-	//Spawn a flying enemy every 3 seconds and reset the spawn timer
-	m_flying_enemy_spawn_countdown += dt;
-	if (m_flying_enemy_spawn_countdown >= sf::seconds(3.0f))
-	{
-		SpawnFlyingEnemies();
-		m_flying_enemy_spawn_countdown = sf::seconds(0.f);
-	}
-
-	//Spawn a pickup every 1.5 seconds and reset the spawn timer
-	m_pickup_spawn_countdown += dt;
-	if (m_pickup_spawn_countdown >= sf::seconds(1.5f))
-	{
-		SpawnPickups();
-		m_pickup_spawn_countdown = sf::seconds(0.f);
-	}
-
-	if(m_player_character_1->GetStunned())
-	{
-		//un-stun the player after 3 seconds
-		m_player_1_stun_countdown += dt;
-		if(m_player_1_stun_countdown >= sf::seconds(3.0f))
+		if (m_gameover_countdown >= sf::seconds(5.0f))
 		{
-			m_player_character_1->SetStunned(false);
-			m_player_1_stun_countdown = sf::seconds(0.f);
+			m_game_over = true;
 		}
-	}
-
-	if (m_player_character_2->GetStunned())
-	{
-		//un-stun the player after 3 seconds
-		m_player_2_stun_countdown += dt;
-		if (m_player_2_stun_countdown >= sf::seconds(3.0f))
+		else
 		{
-			m_player_character_2->SetStunned(false);
-			m_player_2_stun_countdown = sf::seconds(0.f);
-		}
+			if (m_player_character_1->GetScore() > m_player_character_2->GetScore())
+			{
+				m_game_timer_display->SetString("Player 1 wins with: " + std::to_string(m_player_character_1->GetScore()) + " points!");
+			}
+			else if (m_player_character_2->GetScore() > m_player_character_1->GetScore())
+			{
+				m_game_timer_display->SetString("Player 2 wins with: " + std::to_string(m_player_character_2->GetScore()) + " points!");
+			}
+			else
+			{
+				m_game_timer_display->SetString("It's a draw, both players have: " + std::to_string(m_player_character_1->GetScore()) + " points");
+			}
+		}		
 	}
-
-	//Apply movement
-	m_scenegraph.Update(dt, m_command_queue);
-	AdaptPlayerPosition();
 }
 
 void World::Draw()
@@ -681,19 +697,4 @@ void World::DisplayRemainingGameTime()
 bool World::IsGameOver() const
 {
 	return m_game_over;
-}
-
-/// <summary>
-/// Written by: Patrick Nugent
-///
-///	Getters for the final score of each player
-/// </summary>
-bool World::GetPlayer1Score() const
-{
-	return m_player_1_final_score;
-}
-
-bool World::GetPlayer2Score() const
-{
-	return m_player_1_final_score;
 }

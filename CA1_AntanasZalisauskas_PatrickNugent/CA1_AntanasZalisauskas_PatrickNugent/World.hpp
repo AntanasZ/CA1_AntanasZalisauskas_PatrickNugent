@@ -27,7 +27,7 @@ namespace sf
 /// Edited By: Patrick Nugent
 ///
 ///	-Reworked to use Character class instead of Aircraft
-/// -Added spawn countdown field
+/// -Added enemy spawn countdown fields
 /// -Created separate character and pickup spawn point structs
 /// -Added methods for adding and spawning pickups
 /// </summary>
@@ -112,9 +112,8 @@ private:
 	sf::Time m_player_1_stun_countdown;
 	sf::Time m_player_2_stun_countdown;
 	sf::Time m_game_countdown;
+	sf::Time m_gameover_countdown;
 	TextNode* m_game_timer_display;
 	bool m_game_over;
-	int m_player_1_final_score;
-	int m_player_2_final_score;
 };
 
