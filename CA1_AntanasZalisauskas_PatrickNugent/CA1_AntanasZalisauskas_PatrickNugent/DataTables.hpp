@@ -73,10 +73,16 @@ struct PickupData
 	float m_speed;
 };
 
+struct ParticleData
+{
+	sf::Color						m_color;
+	sf::Time						m_lifetime;
+};
+
 std::vector<AircraftData> InitializeAircraftData();
 std::vector<CharacterData> InitializeCharacterData();
 std::vector<ProjectileData> InitializeProjectileData();
 std::vector<PickupData> InitializePickupData();
 std::vector<PlatformData> InitializePlatformData();
-
+std::vector<ParticleData> InitializeParticleData();
 

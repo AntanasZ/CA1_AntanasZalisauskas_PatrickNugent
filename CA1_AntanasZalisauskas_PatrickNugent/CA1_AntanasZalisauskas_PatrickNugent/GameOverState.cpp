@@ -48,7 +48,7 @@ void GameOverState::Draw()
 
 bool GameOverState::Update(sf::Time dt)
 {
-	// Show state for 3 seconds, after return to menu
+	// Show state for 5 seconds, after return to menu
 	m_elapsed_time += dt;
 	if (m_elapsed_time > sf::seconds(5))
 	{

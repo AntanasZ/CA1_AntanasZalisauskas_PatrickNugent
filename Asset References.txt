@@ -13,10 +13,19 @@ Scorpion Sprites - https://www.spriters-resource.com/nes/mortalkombat3bootleg/sh
 Terminator Sprites - https://www.spriters-resource.com/genesis_32x_scd/robocopvstheterminator/sheet/81099/
 Food Sprites - https://www.spriters-resource.com/arcade/threewonders/sheet/29430/
 Scooby Doo Logo - https://toppng.com/scooby-doo-logo-PNG-free-PNG-Images_66978
+Dutchman - https://www.spriters-resource.com/playstation/spongebobsquarepantssupersponge/sheet/153082/
+Skull - https://www.spriters-resource.com/pc_computer/koumajoudensetsuscarletsymphony/sheet/88960/
+Turtle - https://www.spriters-resource.com/genesis_32x_scd/eccojr/sheet/65601/
+Ghost - https://www.spriters-resource.com/nes/nightmareonelmstreet/sheet/114782/
+Ghidorah - https://www.spriters-resource.com/nes/godzillamom/sheet/91220/
+Pterodactyl - https://www.spriters-resource.com/game_boy_advance/scoobydoo2/sheet/163910/
 
 Audio
-Chomp Sound Effect - https://freesound.org/people/NillyPlays/sounds/543386/
+Chomp Sound Effect - https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
+Menu Music - https://www.fesliyanstudios.com/royalty-free-music/downloads-c/halloween-music/59
 Scooby Doo Theme - https://archive.org/details/tvtunes_7494
+Stun Sound Effect - https://orangefreesounds.com/cartoon-dizzy-birds-sound-effect/
+Button Click - https://mixkit.co/free-sound-effects/click/
 
 Menu images
 Logo - https://fontmeme.com/fonts/scooby-doo-font/

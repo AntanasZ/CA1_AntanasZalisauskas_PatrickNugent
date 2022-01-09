@@ -7,6 +7,8 @@
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "StateStack.hpp"
+#include "MusicPlayer.hpp"
+#include "SoundPlayer.hpp"
 
 class Application
 {
@@ -28,6 +30,8 @@ private:
 
 	TextureHolder m_textures;
 	FontHolder m_fonts;
+	MusicPlayer m_music;
+	SoundPlayer m_sounds;
 
 	StateStack m_stack;
 

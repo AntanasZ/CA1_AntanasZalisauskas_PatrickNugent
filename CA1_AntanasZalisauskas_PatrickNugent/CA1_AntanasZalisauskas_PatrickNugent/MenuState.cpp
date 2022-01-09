@@ -19,7 +19,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	m_background_sprite.setTexture(texture);
 
-	auto play_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	auto play_button = std::make_shared<GUI::Button>(context);
 	play_button->setPosition(400, 225);
 	play_button->SetText("Play");
 	play_button->SetCallback([this]()
@@ -28,7 +28,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 		RequestStackPush(StateID::kGame);
 	});
 
-	auto settings_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	auto settings_button = std::make_shared<GUI::Button>(context);
 	settings_button->setPosition(400, 300);
 	settings_button->SetText("Settings");
 	settings_button->SetCallback([this]()
@@ -36,7 +36,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 		RequestStackPush(StateID::kSettings);
 	});
 
-	auto exit_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	auto exit_button = std::make_shared<GUI::Button>(context);
 	exit_button->setPosition(400, 375);
 	exit_button->SetText("Exit");
 	exit_button->SetCallback([this]()
@@ -47,6 +47,9 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_gui_container.Pack(play_button);
 	m_gui_container.Pack(settings_button);
 	m_gui_container.Pack(exit_button);
+
+	// Play menu theme
+	context.music->Play(MusicThemes::kMenuTheme);
 }
 
 void MenuState::Draw()

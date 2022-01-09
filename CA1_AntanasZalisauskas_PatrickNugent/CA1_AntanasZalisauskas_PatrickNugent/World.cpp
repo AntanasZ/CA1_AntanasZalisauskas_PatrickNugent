@@ -11,12 +11,14 @@
 #include "Platform.hpp"
 #include "Projectile.hpp"
 #include "Utility.hpp"
+#include "SoundPlayer.hpp"
 
-World::World(sf::RenderWindow& window, FontHolder& font)
+World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
 	: m_window(window)
 	, m_camera(window.getDefaultView())
 	, m_textures()
 	, m_fonts(font)
+	, m_sounds(sounds)
 	, m_scenegraph()
 	, m_scene_layers()
 	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
@@ -30,9 +32,10 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_pickup_spawn_countdown()
 	, m_player_1_stun_countdown()
 	, m_player_2_stun_countdown()
-	, m_game_countdown(sf::seconds(10))
-	, m_gameover_countdown()
+	, m_game_countdown(sf::seconds(120))
 	, m_game_over(false)
+	, m_player_1_final_score(0)
+	, m_player_2_final_score(0)
 {
 	LoadTextures();
 	BuildScene();
@@ -120,6 +123,8 @@ void World::Update(sf::Time dt)
 		//Apply movement
 		m_scenegraph.Update(dt, m_command_queue);
 		AdaptPlayerPosition();
+
+		UpdateSounds();
 	}
 	else
 	{
@@ -134,17 +139,17 @@ void World::Update(sf::Time dt)
 		{
 			if (m_player_character_1->GetScore() > m_player_character_2->GetScore())
 			{
-				m_game_timer_display->SetString("Player 1 wins with: " + std::to_string(m_player_character_1->GetScore()) + " points!");
+				m_game_timer_display->SetString("Player 1 wins with " + std::to_string(m_player_character_1->GetScore()) + " points!");
 			}
 			else if (m_player_character_2->GetScore() > m_player_character_1->GetScore())
 			{
-				m_game_timer_display->SetString("Player 2 wins with: " + std::to_string(m_player_character_2->GetScore()) + " points!");
+				m_game_timer_display->SetString("Player 2 wins with " + std::to_string(m_player_character_2->GetScore()) + " points!");
 			}
 			else
 			{
-				m_game_timer_display->SetString("It's a draw, both players have: " + std::to_string(m_player_character_1->GetScore()) + " points");
+				m_game_timer_display->SetString("It's a draw, both players have " + std::to_string(m_player_character_1->GetScore()) + " points");
 			}
-		}		
+		}
 	}
 }
 
@@ -577,6 +582,7 @@ bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 /// Edited by: Patrick Nugent
 ///
 ///	-Added Collision between players and pickups
+/// -Added sounds for enemy and pickup collisions
 /// </summary>
 void World::HandleCollisions()
 {
@@ -584,24 +590,7 @@ void World::HandleCollisions()
 	m_scenegraph.CheckSceneCollision(m_scenegraph, collision_pairs);
 	for(SceneNode::Pair pair : collision_pairs)
 	{
-		if(MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kEnemyCharacter))
-		{
-			auto& player = static_cast<Character&>(*pair.first);
-			if(!player.GetStunned())
-			{
-				player.SetStunned(true);
-			}
-		}
-
-		if (MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
-		{
-			auto& player = static_cast<Character&>(*pair.first);
-			if (!player.GetStunned())
-			{
-				player.SetStunned(true);
-			}
-		}
-
+	
 		if(MatchesCategories(pair, Category::Type::kPlatform, Category::Type::kPlayerCharacter1))
 		{
 			auto& platform = static_cast<Platform&>(*pair.first);
@@ -641,16 +630,19 @@ void World::HandleCollisions()
 		else if(MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kEnemyCharacter) || MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
 		{
 			auto& player = static_cast<Character&>(*pair.first);
-			auto& enemy = static_cast<Character&>(*pair.second);
-			//Collision
-			//player.Damage(enemy.GetHitPoints());
-			//enemy.Destroy();
+			if (!player.GetStunned())
+			{
+				m_sounds.Play(SoundEffect::kStun);
+				player.SetStunned(true);
+			}
 		}
 
 		else if (MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kPickup) || MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kPickup))
 		{
 			auto& player = static_cast<Character&>(*pair.first);
 			auto& pickup = static_cast<Pickup&>(*pair.second);
+
+			m_sounds.Play(SoundEffect::kCollectPickup);
 
 			//Add the pickup's value to the player's score
 			player.AddScore(pickup.GetValue());
@@ -697,4 +689,28 @@ void World::DisplayRemainingGameTime()
 bool World::IsGameOver() const
 {
 	return m_game_over;
+}
+
+/// <summary>
+/// Written by: Patrick Nugent
+///
+///	Getters for the final score of each player
+/// </summary>
+bool World::GetPlayer1Score() const
+{
+	return m_player_1_final_score;
+}
+
+bool World::GetPlayer2Score() const
+{
+	return m_player_1_final_score;
+}
+
+void World::UpdateSounds()
+{
+	// Set listener's position to player position
+	m_sounds.SetListenerPosition(m_player_aircraft->GetWorldPosition());
+
+	// Remove unused sounds
+	m_sounds.RemoveStoppedSounds();
 }
