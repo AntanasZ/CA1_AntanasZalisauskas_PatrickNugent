@@ -16,6 +16,7 @@
 #include "Character.hpp"
 #include "CommandQueue.hpp"
 #include "PickupType.hpp"
+#include "SoundPlayer.hpp"
 
 //Foward
 namespace sf
@@ -34,7 +35,7 @@ namespace sf
 class World : private sf::NonCopyable
 {
 public:
-	explicit World(sf::RenderWindow& window, FontHolder& font);
+	explicit World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds);
 	void Update(sf::Time dt);
 	void Draw();
 	CommandQueue& getCommandQueue();
@@ -61,6 +62,7 @@ private:
 	void HandleCollisions();
 	void DestroyEntitiesOutsideView();
 	void DisplayRemainingGameTime();
+	void UpdateSounds();
 
 private:
 	struct CharacterSpawnPoint
@@ -91,6 +93,7 @@ private:
 	sf::View m_camera;
 	TextureHolder m_textures;
 	FontHolder& m_fonts;
+	SoundPlayer& m_sounds;
 	SceneNode m_scenegraph;
 	std::array<SceneNode*, static_cast<int>(Layers::kLayerCount)> m_scene_layers;
 	CommandQueue m_command_queue;
@@ -112,6 +115,7 @@ private:
 	sf::Time m_player_1_stun_countdown;
 	sf::Time m_player_2_stun_countdown;
 	sf::Time m_game_countdown;
+	sf::Time m_gameover_countdown;
 	TextNode* m_game_timer_display;
 	bool m_game_over;
 	int m_player_1_final_score;

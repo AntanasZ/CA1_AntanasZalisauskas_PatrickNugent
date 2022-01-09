@@ -16,11 +16,16 @@ namespace
 	const float MinDistance3D = std::sqrt(MinDistance2D * MinDistance2D + ListenerZ * ListenerZ);
 }
 
+/// <summary>
+/// Edited by: Patrick Nugent
+///
+///	-Added pickup, button and stun sounds
+/// </summary>
 SoundPlayer::SoundPlayer()
 {
-	//m_sound_buffers.Load(SoundEffect::kCollectPickup, "Media/Sound/CollectPickup.wav");
-	//m_sound_buffers.Load(SoundEffect::kButton, "Media/Sound/Button.wav");
-	//m_sound_buffers.Load(SoundEffect::kStun, "Media/Sound/Stun.wav");
+	m_sound_buffers.Load(SoundEffect::kCollectPickup, "Media/Sound/CollectPickup.wav");
+	m_sound_buffers.Load(SoundEffect::kButton, "Media/Sound/Button.wav");
+	m_sound_buffers.Load(SoundEffect::kStun, "Media/Sound/Stun.wav");
 
 	// Listener points towards the screen (default in SFML)
 	sf::Listener::setDirection(0.f, 0.f, -1.f);

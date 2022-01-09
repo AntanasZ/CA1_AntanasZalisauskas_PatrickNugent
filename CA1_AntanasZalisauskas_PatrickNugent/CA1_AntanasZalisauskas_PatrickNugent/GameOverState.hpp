@@ -15,7 +15,6 @@ public:
 
 
 private:
-	World m_world;
 	sf::Text m_game_over_text;
 	sf::Time m_elapsed_time;
 };
