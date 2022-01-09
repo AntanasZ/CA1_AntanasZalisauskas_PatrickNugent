@@ -1,19 +1,27 @@
 #include "State.hpp"
 
 #include "StateStack.hpp"
+#include "MusicPlayer.hpp"
+#include "SoundPlayer.hpp"
 
 /// <summary>
 /// Edited by: Antanas Zalisauskas
 ///
 ///	Included player 2 in context
+///
+/// Edited by: Patrick Nugent
+///
+///	Included sounds and music in context
 /// </summary>
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player1, Player& player2)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player1, Player& player2, MusicPlayer& music, SoundPlayer& sounds)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
 , player1(&player1)
 , player2(&player2)
+, music(&music)
+, sounds(&sounds)
 {
 }
 

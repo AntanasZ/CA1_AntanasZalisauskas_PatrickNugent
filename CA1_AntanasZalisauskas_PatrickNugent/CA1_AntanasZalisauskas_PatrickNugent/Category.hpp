@@ -23,6 +23,8 @@ namespace Category
 		kPickup = 1 << 8,
 		kAlliedProjectile = 1 << 9,
 		kEnemyProjectile = 1 << 10,
+		kParticleSystem = 1 << 11,
+		kSoundEffect = 1 << 12,
 
 		kAircraft = kPlayerAircraft | kAlliedAircraft | kEnemyAircraft,
 		kCharacter = kPlayerCharacter1 | kPlayerCharacter2 | kEnemyCharacter,
