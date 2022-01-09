@@ -23,6 +23,11 @@ void GameState::Draw()
 
 bool GameState::Update(sf::Time dt)
 {
+	if (m_world.IsGameOver())
+	{
+		RequestStackPush(StateID::kGameOver);
+	}
+
 	m_world.Update(dt);
 	CommandQueue& player_1_commands = m_world.getCommandQueue();
 	CommandQueue& player_2_commands = m_world.getCommandQueue();

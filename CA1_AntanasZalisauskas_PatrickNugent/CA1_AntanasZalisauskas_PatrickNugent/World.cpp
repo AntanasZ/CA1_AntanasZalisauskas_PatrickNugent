@@ -31,9 +31,8 @@ World::World(sf::RenderWindow& window, FontHolder& font)
 	, m_player_1_stun_countdown()
 	, m_player_2_stun_countdown()
 	, m_game_countdown(sf::seconds(10))
+	, m_gameover_countdown()
 	, m_game_over(false)
-	, m_player_1_final_score(0)
-	, m_player_2_final_score(0)
 {
 	LoadTextures();
 	BuildScene();
@@ -56,10 +55,27 @@ void World::Update(sf::Time dt)
 	else
 	{
 		m_game_countdown = sf::Time::Zero;
-		m_game_timer_display->SetString("Game Over");
-		m_player_1_final_score = m_player_character_1->GetScore();
-		m_player_2_final_score = m_player_character_1->GetScore();
-		m_game_over = true;
+		m_gameover_countdown += dt;
+
+		if (m_gameover_countdown >= sf::seconds(5.0f))
+		{
+			m_game_over = true;
+		}
+		else
+		{
+			if (m_player_character_1->GetScore() > m_player_character_2->GetScore())
+			{
+				m_game_timer_display->SetString("Player 1 wins with: " + std::to_string(m_player_character_1->GetScore()) + " points!");
+			}
+			else if (m_player_character_2->GetScore() > m_player_character_1->GetScore())
+			{
+				m_game_timer_display->SetString("Player 2 wins with: " + std::to_string(m_player_character_2->GetScore()) + " points!");
+			}
+			else
+			{
+				m_game_timer_display->SetString("It's a draw, both players have: " + std::to_string(m_player_character_1->GetScore()) + " points");
+			}
+		}		
 	}
 
 	//m_player_aircraft->SetVelocity(0.f, 0.f);
@@ -681,19 +697,4 @@ void World::DisplayRemainingGameTime()
 bool World::IsGameOver() const
 {
 	return m_game_over;
-}
-
-/// <summary>
-/// Written by: Patrick Nugent
-///
-///	Getters for the final score of each player
-/// </summary>
-bool World::GetPlayer1Score() const
-{
-	return m_player_1_final_score;
-}
-
-bool World::GetPlayer2Score() const
-{
-	return m_player_1_final_score;
 }
