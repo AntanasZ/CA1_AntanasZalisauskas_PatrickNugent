@@ -14,6 +14,7 @@ GameState::GameState(StateStack& stack, Context context)
 , m_player_1(*context.player1)
 , m_player_2(*context.player2)
 {
+	context.music->Play(MusicThemes::kScoobyDooTheme);
 }
 
 void GameState::Draw()

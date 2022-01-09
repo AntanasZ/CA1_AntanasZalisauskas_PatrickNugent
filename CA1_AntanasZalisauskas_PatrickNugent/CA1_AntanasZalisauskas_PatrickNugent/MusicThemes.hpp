@@ -3,5 +3,5 @@
 enum class MusicThemes
 {
 	kMenuTheme,
-	kMissionTheme
+	kScoobyDooTheme
 };

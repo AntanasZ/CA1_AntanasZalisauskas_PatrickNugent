@@ -22,9 +22,10 @@ Pterodactyl - https://www.spriters-resource.com/game_boy_advance/scoobydoo2/shee
 
 Audio
 Chomp Sound Effect - https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
+Menu Music - https://www.fesliyanstudios.com/royalty-free-music/downloads-c/halloween-music/59
 Scooby Doo Theme - https://archive.org/details/tvtunes_7494
 Stun Sound Effect - https://orangefreesounds.com/cartoon-dizzy-birds-sound-effect/
-Button click - https://mixkit.co/free-sound-effects/click/
+Button Click - https://mixkit.co/free-sound-effects/click/
 
 Menu images
 Logo - https://fontmeme.com/fonts/scooby-doo-font/
