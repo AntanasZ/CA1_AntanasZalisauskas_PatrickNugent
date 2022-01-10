@@ -79,17 +79,17 @@ Player::Player(bool is_player_1)
 	//Set initial key bindings
 	if(is_player_1)
 	{
-		m_key_binding[sf::Keyboard::A] = PlayerAction::kMoveLeft;
-		m_key_binding[sf::Keyboard::D] = PlayerAction::kMoveRight;
-		m_key_binding[sf::Keyboard::W] = PlayerAction::kMoveUp;
-		m_key_binding[sf::Keyboard::S] = PlayerAction::kMoveDown;
+		m_key_binding[sf::Keyboard::A] = PlayerAction::kPlayer1MoveLeft;
+		m_key_binding[sf::Keyboard::D] = PlayerAction::kPlayer1MoveRight;
+		m_key_binding[sf::Keyboard::W] = PlayerAction::kPlayer1MoveUp;
+		//m_key_binding[sf::Keyboard::S] = PlayerAction::kMoveDown;
 	}
 	else
 	{
-		m_key_binding[sf::Keyboard::Left] = PlayerAction::kMoveLeft;
-		m_key_binding[sf::Keyboard::Right] = PlayerAction::kMoveRight;
-		m_key_binding[sf::Keyboard::Up] = PlayerAction::kMoveUp;
-		m_key_binding[sf::Keyboard::Down] = PlayerAction::kMoveDown;
+		m_key_binding[sf::Keyboard::Left] = PlayerAction::kPlayer2MoveLeft;
+		m_key_binding[sf::Keyboard::Right] = PlayerAction::kPlayer2MoveRight;
+		m_key_binding[sf::Keyboard::Up] = PlayerAction::kPlayer2MoveUp;
+		//m_key_binding[sf::Keyboard::Down] = PlayerAction::kMoveDown;
 	}
 	
 	//m_key_binding[sf::Keyboard::Space] = PlayerAction::kFire;
@@ -172,9 +172,14 @@ void Player::InitialiseActions()
 {
 	const float player_speed = 200.f;
 
-	m_action_binding[PlayerAction::kMoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
-	m_action_binding[PlayerAction::kMoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
-	m_action_binding[PlayerAction::kMoveUp].action = DerivedAction<Character>(CharacterJump());
+	m_action_binding[PlayerAction::kPlayer1MoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
+	m_action_binding[PlayerAction::kPlayer1MoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
+	m_action_binding[PlayerAction::kPlayer1MoveUp].action = DerivedAction<Character>(CharacterJump());
+
+	m_action_binding[PlayerAction::kPlayer2MoveLeft].action = DerivedAction<Character>(CharacterMover(-1, 0.f));
+	m_action_binding[PlayerAction::kPlayer2MoveRight].action = DerivedAction<Character>(CharacterMover(+1, 0.f));
+	m_action_binding[PlayerAction::kPlayer2MoveUp].action = DerivedAction<Character>(CharacterJump());
+
 	//m_action_binding[PlayerAction::kMoveDown].action = DerivedAction<Character>(CharacterMover(0, 1));
 
 	/*m_action_binding[PlayerAction::kFire].action = DerivedAction<Aircraft>([](Aircraft& a, sf::Time
@@ -194,10 +199,13 @@ bool Player::IsRealtimeAction(PlayerAction action)
 {
 	switch(action)
 	{
-	case PlayerAction::kMoveLeft:
-	case PlayerAction::kMoveRight:
-	case PlayerAction::kMoveUp:
-	case PlayerAction::kMoveDown:
+	case PlayerAction::kPlayer1MoveLeft:
+	case PlayerAction::kPlayer1MoveRight:
+	case PlayerAction::kPlayer1MoveUp:
+	case PlayerAction::kPlayer2MoveLeft:
+	case PlayerAction::kPlayer2MoveRight:
+	case PlayerAction::kPlayer2MoveUp:
+	//case PlayerAction::kMoveDown:
 	//case PlayerAction::kFire:
 		return true;
 	default:
