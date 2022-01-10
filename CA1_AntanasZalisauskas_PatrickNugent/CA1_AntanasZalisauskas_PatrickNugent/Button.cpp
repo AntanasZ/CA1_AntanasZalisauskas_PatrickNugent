@@ -25,7 +25,6 @@ namespace GUI
 		ChangeTexture(ButtonType::Normal);
 		sf::FloatRect bounds = m_sprite.getLocalBounds();
 		m_text.setPosition(bounds.width / 2, bounds.height / 2);
-
 	}
 
 	void Button::SetCallback(Callback callback)

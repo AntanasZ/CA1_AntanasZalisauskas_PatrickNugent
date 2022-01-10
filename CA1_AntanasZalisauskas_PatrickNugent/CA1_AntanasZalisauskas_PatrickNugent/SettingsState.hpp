@@ -25,7 +25,7 @@ public:
 
 private:
 	void UpdateLabels();
-	void AddButtonLabel(PlayerAction action, float y, const std::string& text, Context context);
+	void AddButtonLabel(PlayerAction action, float y, const std::string& text, Context context, bool is_player_1);
 
 
 private:
@@ -33,6 +33,8 @@ private:
 	GUI::Container m_gui_container;
 	std::array<GUI::Button::Ptr, static_cast<int>(PlayerAction::kActionCount)> m_binding_buttons;
 	std::array<GUI::Label::Ptr, static_cast<int>(PlayerAction::kActionCount)> 	m_binding_labels;
+	sf::Text m_player_1_controls;
+	sf::Text m_player_2_controls;
 };
 
 
