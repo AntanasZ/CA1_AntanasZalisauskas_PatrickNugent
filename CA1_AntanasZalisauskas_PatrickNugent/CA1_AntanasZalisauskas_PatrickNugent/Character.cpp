@@ -127,6 +127,11 @@ void Character::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
 
 void Character::UpdateCurrent(sf::Time dt, CommandQueue& commands)
 {
+	if (IsDestroyed())
+	{
+		m_is_marked_for_removal = true;
+		return;
+	}
 	UpdateMovementPattern(dt);
 	Entity::UpdateCurrent(dt, commands);
 }

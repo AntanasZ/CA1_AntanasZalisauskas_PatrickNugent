@@ -34,7 +34,7 @@ public:
 	void SetStunned(bool value);
 
 	sf::FloatRect GetBoundingRect() const override;
-	bool IsMarkedForRemoval() const;
+	bool IsMarkedForRemoval() const override;
 
 private:
 	virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;

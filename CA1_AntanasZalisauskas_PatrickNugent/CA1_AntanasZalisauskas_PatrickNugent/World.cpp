@@ -34,8 +34,6 @@ World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
 	, m_player_2_stun_countdown()
 	, m_game_countdown(sf::seconds(120))
 	, m_game_over(false)
-	, m_player_1_final_score(0)
-	, m_player_2_final_score(0)
 {
 	LoadTextures();
 	BuildScene();
@@ -84,7 +82,7 @@ void World::Update(sf::Time dt)
 
 		//Spawn a flying enemy every 3 seconds and reset the spawn timer
 		m_flying_enemy_spawn_countdown += dt;
-		if (m_flying_enemy_spawn_countdown >= sf::seconds(3.0f))
+		if (m_flying_enemy_spawn_countdown >= sf::seconds(5.0f))
 		{
 			SpawnFlyingEnemies();
 			m_flying_enemy_spawn_countdown = sf::seconds(0.f);
@@ -456,14 +454,14 @@ void World::AddPickup(PickupType type, int value, float relX, float relY)
 void World::AddEnemies()
 {
 	//Add all enemies - both the left and right side versions
-	AddEnemy(CharacterType::kCreeperLeft, false, -500.f, -332.f);
-	AddEnemy(CharacterType::kCreeperRight, false, 500.f, -332.f);
-	AddEnemy(CharacterType::kMichaelLeft, false, -500.f, -330.f);
-	AddEnemy(CharacterType::kMichaelRight, false, 500.f, -330.f);
-	AddEnemy(CharacterType::kFreddyLeft, false, -500.f, -325.f);
-	AddEnemy(CharacterType::kFreddyRight, false, 500.f, -325.f);
-	AddEnemy(CharacterType::kJasonLeft, false, -500.f, -325.f);
-	AddEnemy(CharacterType::kJasonRight, false, 500.f, -325.f);
+	AddEnemy(CharacterType::kCreeperLeft, false, -500.f, -320.f);
+	AddEnemy(CharacterType::kCreeperRight, false, 500.f, -320.f);
+	AddEnemy(CharacterType::kMichaelLeft, false, -500.f, -320.f);
+	AddEnemy(CharacterType::kMichaelRight, false, 500.f, -320.f);
+	AddEnemy(CharacterType::kFreddyLeft, false, -500.f, -320.f);
+	AddEnemy(CharacterType::kFreddyRight, false, 500.f, -320.f);
+	AddEnemy(CharacterType::kJasonLeft, false, -500.f, -320.f);
+	AddEnemy(CharacterType::kJasonRight, false, 500.f, -320.f);
 
 	AddEnemy(CharacterType::kGhidorahLeft, true, -500.f, -2.f);
 	AddEnemy(CharacterType::kGhidorahRight, true, 500.f, -2.f);
@@ -689,21 +687,6 @@ void World::DisplayRemainingGameTime()
 bool World::IsGameOver() const
 {
 	return m_game_over;
-}
-
-/// <summary>
-/// Written by: Patrick Nugent
-///
-///	Getters for the final score of each player
-/// </summary>
-bool World::GetPlayer1Score() const
-{
-	return m_player_1_final_score;
-}
-
-bool World::GetPlayer2Score() const
-{
-	return m_player_1_final_score;
 }
 
 void World::UpdateSounds()
