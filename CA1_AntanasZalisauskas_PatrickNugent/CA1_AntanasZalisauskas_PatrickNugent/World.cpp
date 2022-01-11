@@ -9,7 +9,6 @@
 
 #include "Pickup.hpp"
 #include "Platform.hpp"
-#include "Projectile.hpp"
 #include "Utility.hpp"
 #include "SoundPlayer.hpp"
 #include "PostEffect.hpp"
@@ -56,7 +55,6 @@ World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sou
 	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
 	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
 	, m_scrollspeed(-50.f)
-	, m_player_aircraft(nullptr)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
 	, m_gravity(981.f)
@@ -216,12 +214,12 @@ void World::Draw()
 /// </summary>
 void World::LoadTextures()
 {
-	m_textures.Load(Textures::kEagle, "Media/Textures/Eagle.png");
-	m_textures.Load(Textures::kRaptor, "Media/Textures/Raptor.png");
-	m_textures.Load(Textures::kAvenger, "Media/Textures/Avenger.png");
 	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
+	m_textures.Load(Textures::kShaggyStunned, "Media/Textures/ShaggyStunned.png");
+	m_textures.Load(Textures::kShaggyRunning, "Media/Textures/ShaggyRunning.png");
 	m_textures.Load(Textures::kScooby, "Media/Textures/ScoobyIdle.png");
-	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
+	m_textures.Load(Textures::kScoobyStunned, "Media/Textures/ScoobyStunned.png");
+	m_textures.Load(Textures::kScoobyRunning, "Media/Textures/ScoobyRunning.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
@@ -245,9 +243,6 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kIceCream, "Media/Textures/IceCream.png");
 	m_textures.Load(Textures::kMelon, "Media/Textures/Melon.png");
 	m_textures.Load(Textures::kPancake, "Media/Textures/Pancake.png");
-
-	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
-	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
 }
 
 /// <summary>
@@ -739,7 +734,7 @@ bool World::IsGameOver() const
 void World::UpdateSounds()
 {
 	// Set listener's position to player position
-	m_sounds.SetListenerPosition(m_player_aircraft->GetWorldPosition());
+	m_sounds.SetListenerPosition(m_player_character_1->GetWorldPosition());
 
 	// Remove unused sounds
 	m_sounds.RemoveStoppedSounds();
