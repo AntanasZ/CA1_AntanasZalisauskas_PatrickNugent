@@ -12,10 +12,42 @@
 #include "Projectile.hpp"
 #include "Utility.hpp"
 #include "SoundPlayer.hpp"
+#include "PostEffect.hpp"
 
-World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
-	: m_window(window)
-	, m_camera(window.getDefaultView())
+//Some logic related to jumping and gravity made with help from this tutorial
+//https://www.youtube.com/watch?v=6WopQvdNRSA&ab_channel=HilzeVonck
+
+//World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
+//	: m_window(window)
+//	, m_camera(window.getDefaultView())
+//	, m_textures()
+//	, m_fonts(font)
+//	, m_sounds(sounds)
+//	, m_scenegraph()
+//	, m_scene_layers()
+//	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
+//	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
+//	, m_scrollspeed(-50.f)
+//	, m_player_aircraft(nullptr)
+//	, m_player_character_1(nullptr)
+//	, m_player_character_2(nullptr)
+//	, m_gravity(981.f)
+//	, m_enemy_spawn_countdown()
+//	, m_pickup_spawn_countdown()
+//	, m_player_1_stun_countdown()
+//	, m_player_2_stun_countdown()
+//	, m_game_countdown(sf::seconds(120))
+//	, m_game_over(false)
+//{
+//	LoadTextures();
+//	BuildScene();
+//	//std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
+//	m_camera.setCenter(m_spawn_position);
+//}
+
+World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sounds)
+	: m_target(output_target)
+	, m_camera(output_target.getDefaultView())
 	, m_textures()
 	, m_fonts(font)
 	, m_sounds(sounds)
@@ -35,6 +67,7 @@ World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
 	, m_game_countdown(sf::seconds(120))
 	, m_game_over(false)
 {
+	m_scene_texture.create(m_target.getSize().x, m_target.getSize().y);
 	LoadTextures();
 	BuildScene();
 	//std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
@@ -153,8 +186,21 @@ void World::Update(sf::Time dt)
 
 void World::Draw()
 {
-	m_window.setView(m_camera);
-	m_window.draw(m_scenegraph);
+	if (PostEffect::IsSupported())
+	{
+		m_scene_texture.clear();
+		m_scene_texture.setView(m_camera);
+		m_scene_texture.draw(m_scenegraph);
+		m_scene_texture.display();
+		m_bloom_effect.Apply(m_scene_texture, m_target);
+	}
+	else
+	{
+		m_target.setView(m_camera);
+		m_target.draw(m_scenegraph);
+	}
+	//m_window.setView(m_camera);
+	//m_window.draw(m_scenegraph);
 }
 
 /// <summary>
