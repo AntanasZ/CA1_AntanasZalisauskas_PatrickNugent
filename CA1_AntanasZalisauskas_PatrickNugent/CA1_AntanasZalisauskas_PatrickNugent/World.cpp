@@ -216,8 +216,10 @@ void World::LoadTextures()
 {
 	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
 	m_textures.Load(Textures::kShaggyStunned, "Media/Textures/ShaggyStunned.png");
+	m_textures.Load(Textures::kShaggyRunning, "Media/Textures/ShaggyRunning.png");
 	m_textures.Load(Textures::kScooby, "Media/Textures/ScoobyIdle.png");
 	m_textures.Load(Textures::kScoobyStunned, "Media/Textures/ScoobyStunned.png");
+	m_textures.Load(Textures::kScoobyRunning, "Media/Textures/ScoobyRunning.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
