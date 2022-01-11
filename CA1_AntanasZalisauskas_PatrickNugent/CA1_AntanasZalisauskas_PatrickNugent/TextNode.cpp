@@ -20,3 +20,14 @@ void TextNode::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) co
 {
 	target.draw(m_text, states);
 }
+
+/// <summary>
+/// Written by: Antanas Zalisauskas
+///
+///	Changes text color
+/// </summary>
+/// <param name="color"></param>
+void TextNode::SetColor(const sf::Color color)
+{
+	m_text.setFillColor(color);
+}
