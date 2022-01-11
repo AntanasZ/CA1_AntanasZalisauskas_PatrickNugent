@@ -47,6 +47,7 @@ private:
 	CharacterType m_type;
 	sf::Sprite m_sprite;
 	Animation m_stunned;
+	Animation m_running;
 	bool m_can_jump;
 	float m_jump_height;
 	int m_score;

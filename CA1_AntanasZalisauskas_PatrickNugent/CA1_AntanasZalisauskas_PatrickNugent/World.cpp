@@ -16,34 +16,6 @@
 //Some logic related to jumping and gravity made with help from this tutorial
 //https://www.youtube.com/watch?v=6WopQvdNRSA&ab_channel=HilzeVonck
 
-//World::World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds)
-//	: m_window(window)
-//	, m_camera(window.getDefaultView())
-//	, m_textures()
-//	, m_fonts(font)
-//	, m_sounds(sounds)
-//	, m_scenegraph()
-//	, m_scene_layers()
-//	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
-//	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
-//	, m_scrollspeed(-50.f)
-//	, m_player_aircraft(nullptr)
-//	, m_player_character_1(nullptr)
-//	, m_player_character_2(nullptr)
-//	, m_gravity(981.f)
-//	, m_enemy_spawn_countdown()
-//	, m_pickup_spawn_countdown()
-//	, m_player_1_stun_countdown()
-//	, m_player_2_stun_countdown()
-//	, m_game_countdown(sf::seconds(120))
-//	, m_game_over(false)
-//{
-//	LoadTextures();
-//	BuildScene();
-//	//std::cout << m_camera.getSize().x << m_camera.getSize().y << std::endl;
-//	m_camera.setCenter(m_spawn_position);
-//}
-
 World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sounds)
 	: m_target(output_target)
 	, m_camera(output_target.getDefaultView())
@@ -89,7 +61,6 @@ void World::Update(sf::Time dt)
 		m_player_character_2->SetVelocity(0.f, m_player_character_2->GetVelocity().y);
 
 		DestroyEntitiesOutsideView();
-		GuideMissiles();
 
 		//Forward commands to the scenegraph until the command queue is empty
 		while (!m_command_queue.IsEmpty())
@@ -543,52 +514,6 @@ void World::AddPickups()
 	AddPickup(PickupType::kIceCream, 40, 0.f, yPosition);
 	AddPickup(PickupType::kMelon, 35, 0.f, yPosition);
 	AddPickup(PickupType::kPancake, 30, 0.f, yPosition);
-}
-//***********REWORK************//
-
-void World::GuideMissiles()
-{
-	// Setup command that stores all enemies in mActiveEnemies
-	/*Command enemyCollector;
-	enemyCollector.category = Category::kEnemyAircraft;
-	enemyCollector.action = DerivedAction<Aircraft>([this](Aircraft& enemy, sf::Time)
-	{
-		if (!enemy.IsDestroyed())
-			m_active_enemies.push_back(&enemy);
-	});
-
-	// Setup command that guides all missiles to the enemy which is currently closest to the player
-	Command missileGuider;
-	missileGuider.category = Category::kAlliedProjectile;
-	missileGuider.action = DerivedAction<Projectile>([this](Projectile& missile, sf::Time)
-	{
-		// Ignore unguided bullets
-		if (!missile.IsGuided())
-			return;
-
-		float minDistance = std::numeric_limits<float>::max();
-		Aircraft* closestEnemy = nullptr;
-
-		// Find closest enemy
-		for(Aircraft * enemy :  m_active_enemies)
-		{
-			float enemyDistance = distance(missile, *enemy);
-
-			if (enemyDistance < minDistance)
-			{
-				closestEnemy = enemy;
-				minDistance = enemyDistance;
-			}
-		}
-
-		if (closestEnemy)
-			missile.GuideTowards(closestEnemy->GetWorldPosition());
-	});
-
-	// Push commands, reset active enemies
-	m_command_queue.Push(enemyCollector);
-	m_command_queue.Push(missileGuider);
-	m_active_enemies.clear();*/
 }
 
 bool MatchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)

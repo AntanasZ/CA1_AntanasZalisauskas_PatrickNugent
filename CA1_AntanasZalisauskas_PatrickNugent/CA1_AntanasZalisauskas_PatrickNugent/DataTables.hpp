@@ -37,7 +37,8 @@ struct AircraftData
 /// <summary>
 /// edited by: Patrick Nugent
 ///
-///	Added directions field
+///	-Added directions field
+/// -Added bool field for roll animation
 /// </summary>
 struct CharacterData
 {
@@ -46,6 +47,7 @@ struct CharacterData
 	float m_jump_height;
 	Textures m_texture;
 	std::vector<Direction> m_directions;
+	bool m_has_run_animation;
 };
 
 struct PlatformData

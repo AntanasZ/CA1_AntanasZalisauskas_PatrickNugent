@@ -25,28 +25,34 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kShaggy)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kShaggy)].m_texture = Textures::kShaggy;
 	data[static_cast<int>(CharacterType::kShaggy)].m_jump_height = 200.f;
+	data[static_cast<int>(CharacterType::kShaggy)].m_has_run_animation = true;
+
 
 	//Scooby - Player 2
 	data[static_cast<int>(CharacterType::kScooby)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kScooby)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kScooby)].m_texture = Textures::kScooby;
 	data[static_cast<int>(CharacterType::kScooby)].m_jump_height = 200.f;
+	data[static_cast<int>(CharacterType::kScooby)].m_has_run_animation = true;
 
 	//Creeper
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_speed = 80.f;
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_texture = Textures::kCreeper;
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kCreeperLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kCreeperRight)] = data[static_cast<int>(CharacterType::kCreeperLeft)];
 	data[static_cast<int>(CharacterType::kCreeperLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kCreeperRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kCreeperRight)].m_has_run_animation = false;
 
 	//Michael
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_hitpoints = 100;
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_texture = Textures::kMichael;
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kMichaelLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kMichaelRight)] = data[static_cast<int>(CharacterType::kMichaelLeft)];
 	data[static_cast<int>(CharacterType::kMichaelLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -57,6 +63,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kFreddyLeft)].m_speed = 160.f;
 	data[static_cast<int>(CharacterType::kFreddyLeft)].m_texture = Textures::kFreddy;
 	data[static_cast<int>(CharacterType::kFreddyLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kFreddyLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kFreddyRight)] = data[static_cast<int>(CharacterType::kFreddyLeft)];
 	data[static_cast<int>(CharacterType::kFreddyLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -67,6 +74,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_speed = 100.f;
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_texture = Textures::kJason;
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kJasonLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kJasonRight)] = data[static_cast<int>(CharacterType::kJasonLeft)];
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -77,6 +85,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_speed = 160.f;
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_texture = Textures::kGhidorah;
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kGhidorahRight)] = data[static_cast<int>(CharacterType::kGhidorahLeft)];
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_directions.emplace_back(Direction(-90.f, 100.f));
@@ -101,6 +110,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_speed = 300.f;
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_texture = Textures::kPterodactyl;
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kPterodactylRight)] = data[static_cast<int>(CharacterType::kPterodactylLeft)];
 	data[static_cast<int>(CharacterType::kPterodactylLeft)].m_directions.emplace_back(Direction(-135.f, 200.f));
@@ -118,6 +128,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kTurtleLeft)].m_speed = 80.f;
 	data[static_cast<int>(CharacterType::kTurtleLeft)].m_texture = Textures::kTurtle;
 	data[static_cast<int>(CharacterType::kTurtleLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kTurtleLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kTurtleRight)] = data[static_cast<int>(CharacterType::kTurtleLeft)];
 	data[static_cast<int>(CharacterType::kTurtleLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -128,6 +139,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kGhostLeft)].m_speed = 130.f;
 	data[static_cast<int>(CharacterType::kGhostLeft)].m_texture = Textures::kGhost;
 	data[static_cast<int>(CharacterType::kGhostLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kGhostLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kGhostRight)] = data[static_cast<int>(CharacterType::kGhostLeft)];
 	data[static_cast<int>(CharacterType::kGhostLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -138,6 +150,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kSkullLeft)].m_speed = 200.f;
 	data[static_cast<int>(CharacterType::kSkullLeft)].m_texture = Textures::kSkull;
 	data[static_cast<int>(CharacterType::kSkullLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kSkullLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kSkullRight)] = data[static_cast<int>(CharacterType::kSkullLeft)];
 	data[static_cast<int>(CharacterType::kSkullLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
@@ -148,6 +161,7 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_speed = 250.f;
 	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_texture = Textures::kDutchman;
 	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_has_run_animation = false;
 
 	data[static_cast<int>(CharacterType::kDutchmanRight)] = data[static_cast<int>(CharacterType::kDutchmanLeft)];
 	data[static_cast<int>(CharacterType::kDutchmanLeft)].m_directions.emplace_back(Direction(-65.f, 1000.f));
