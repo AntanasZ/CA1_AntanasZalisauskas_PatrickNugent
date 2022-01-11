@@ -39,6 +39,7 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 	: Entity(Table[static_cast<int>(type)].m_hitpoints),
 	m_type(type),
 	m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture)),
+	m_stunned(),
 	m_can_jump(true),
 	m_jump_height(Table[static_cast<int>(type)].m_jump_height)
 {
@@ -51,10 +52,12 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 		if (type == CharacterType::kShaggy)
 		{
 			scoreDisplay->SetColor(sf::Color::Red);
+			m_stunned = textures.Get(Textures::kShaggyStunned);
 		}
 		else if(type == CharacterType::kScooby)
 		{
 			scoreDisplay->SetColor(sf::Color::Green);
+			m_stunned = textures.Get(Textures::kShaggyStunned);
 		}
 
 		scoreDisplay->setPosition(0, -55);

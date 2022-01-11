@@ -5,6 +5,7 @@
 #include "Entity.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "TextNode.hpp"
+#include "Animation.hpp"
 
 /// <summary>
 /// Written by: Antanas Zalisauskas
@@ -45,11 +46,13 @@ private:
 private:
 	CharacterType m_type;
 	sf::Sprite m_sprite;
+	Animation m_stunned;
 	bool m_can_jump;
 	float m_jump_height;
 	int m_score;
 	TextNode* m_score_display;
 	bool m_is_stunned;
+	bool m_show_stun;
 
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;

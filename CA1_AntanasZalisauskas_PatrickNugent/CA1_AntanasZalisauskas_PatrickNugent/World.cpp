@@ -216,12 +216,10 @@ void World::Draw()
 /// </summary>
 void World::LoadTextures()
 {
-	m_textures.Load(Textures::kEagle, "Media/Textures/Eagle.png");
-	m_textures.Load(Textures::kRaptor, "Media/Textures/Raptor.png");
-	m_textures.Load(Textures::kAvenger, "Media/Textures/Avenger.png");
 	m_textures.Load(Textures::kShaggy, "Media/Textures/ShaggyIdle.png");
+	m_textures.Load(Textures::kShaggyStunned, "Media/Textures/ShaggyStunned.png");
 	m_textures.Load(Textures::kScooby, "Media/Textures/ScoobyIdle.png");
-	//m_textures.Load(Textures::kDesert, "Media/Textures/Desert.png");
+	m_textures.Load(Textures::kScoobyStunned, "Media/Textures/ScoobyStunned.png");
 	m_textures.Load(Textures::kMansion, "Media/Textures/Mansion.png");
 	m_textures.Load(Textures::kCreeper, "Media/Textures/CreeperIdle.png");
 	m_textures.Load(Textures::kMichael, "Media/Textures/MichaelIdle.png");
@@ -245,9 +243,6 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kIceCream, "Media/Textures/IceCream.png");
 	m_textures.Load(Textures::kMelon, "Media/Textures/Melon.png");
 	m_textures.Load(Textures::kPancake, "Media/Textures/Pancake.png");
-
-	m_textures.Load(Textures::kBullet, "Media/Textures/Bullet.png");
-	m_textures.Load(Textures::kMissile, "Media/Textures/Missile.png");
 }
 
 /// <summary>

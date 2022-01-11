@@ -12,12 +12,6 @@
 
 enum class Textures
 {
-	kEagle,
-	kRaptor,
-	kAvenger,
-	kDesert,
-	kBullet,
-	kMissile,
 	kApple,
 	kOrange,
 	kCake,
@@ -31,7 +25,9 @@ enum class Textures
 	kButtons,
 	kParticle,
 	kShaggy,
+	kShaggyStunned,
 	kScooby,
+	kScoobyStunned,
 	kMansion,
 	kCreeper,
 	kMichael,
