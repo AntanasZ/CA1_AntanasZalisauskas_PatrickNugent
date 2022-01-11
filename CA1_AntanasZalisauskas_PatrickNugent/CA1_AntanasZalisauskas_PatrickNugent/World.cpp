@@ -310,6 +310,7 @@ void World::BuildScene()
 	//Add game timer
 	std::unique_ptr<TextNode> gameTimerDisplay(new TextNode(m_fonts, ""));
 	gameTimerDisplay->setPosition(m_world_bounds.width / 2, 20);
+	gameTimerDisplay->SetColor(sf::Color::Yellow);
 	m_game_timer_display = gameTimerDisplay.get();
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(gameTimerDisplay));
 

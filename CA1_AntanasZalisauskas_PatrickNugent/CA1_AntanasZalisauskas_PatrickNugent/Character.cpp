@@ -33,6 +33,7 @@ Textures ToTextureID(CharacterType type)
 /// Edited by: Antanas Zalisauskas
 ///
 ///	-Added text to display score for both players
+///	-Added different color to score based on the player
 /// </summary>
 Character::Character(CharacterType type, const TextureHolder& textures, const FontHolder& fonts)
 	: Entity(Table[static_cast<int>(type)].m_hitpoints),
@@ -49,13 +50,14 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 
 		if (type == CharacterType::kShaggy)
 		{
-			scoreDisplay->setPosition(0, -55);
+			scoreDisplay->SetColor(sf::Color::Red);
 		}
-		else
+		else if(type == CharacterType::kScooby)
 		{
-			scoreDisplay->setPosition(0, -55);
+			scoreDisplay->SetColor(sf::Color::Green);
 		}
-		
+
+		scoreDisplay->setPosition(0, -55);
 		m_score_display = scoreDisplay.get();
 		AttachChild(std::move(scoreDisplay));
 		UpdateScore();
