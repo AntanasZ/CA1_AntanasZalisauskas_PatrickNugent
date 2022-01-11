@@ -10,6 +10,9 @@
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include <array>
 
@@ -17,6 +20,7 @@
 #include "CommandQueue.hpp"
 #include "PickupType.hpp"
 #include "SoundPlayer.hpp"
+#include "BloomEffect.hpp"
 
 //Foward
 namespace sf
@@ -35,7 +39,7 @@ namespace sf
 class World : private sf::NonCopyable
 {
 public:
-	explicit World(sf::RenderWindow& window, FontHolder& font, SoundPlayer& sounds);
+	explicit World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sounds);
 	void Update(sf::Time dt);
 	void Draw();
 	CommandQueue& getCommandQueue();
@@ -89,7 +93,9 @@ private:
 	};
 
 private:
-	sf::RenderWindow& m_window;
+	sf::RenderTarget& m_target;
+	sf::RenderTexture m_scene_texture;
+	//sf::RenderWindow& m_window;
 	sf::View m_camera;
 	TextureHolder m_textures;
 	FontHolder& m_fonts;
@@ -118,5 +124,6 @@ private:
 	sf::Time m_gameover_countdown;
 	TextNode* m_game_timer_display;
 	bool m_game_over;
+	BloomEffect m_bloom_effect;
 };
 
