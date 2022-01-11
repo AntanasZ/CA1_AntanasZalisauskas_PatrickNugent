@@ -43,12 +43,14 @@ Textures ToTextureID(CharacterType type)
 ///
 ///	-Added field for a stun animation
 ///	-Added field for showing stun animation
+///	-Added field for running animation
 /// </summary>
 Character::Character(CharacterType type, const TextureHolder& textures, const FontHolder& fonts)
 	: Entity(Table[static_cast<int>(type)].m_hitpoints),
 	m_type(type),
 	m_sprite(textures.Get(Table[static_cast<int>(type)].m_texture)),
 	m_stunned(),
+	m_running(),
 	m_show_stun(true),
 	m_can_jump(true),
 	m_jump_height(Table[static_cast<int>(type)].m_jump_height)
@@ -62,19 +64,34 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 		m_stunned.SetNumFrames(4);
 		m_stunned.SetDuration(sf::seconds(1));
 
+		m_running.SetDuration(sf::seconds(1));
+	    m_running.SetRepeating(true);
+
 		if (type == CharacterType::kShaggy)
 		{
 			scoreDisplay->SetColor(sf::Color::Red);
 			m_stunned.SetTexture(textures.Get(Textures::kShaggyStunned));
 			m_stunned.SetFrameSize(sf::Vector2i(30, 69));
+
+			m_running.SetNumFrames(10);
+			m_running.SetTexture(textures.Get(Textures::kShaggyRunning));
+		    m_running.SetFrameSize(sf::Vector2i(59, 68));
+
 			Utility::CentreOrigin(m_stunned);
+			Utility::CentreOrigin(m_running);
 		}
 		else if(type == CharacterType::kScooby)
 		{
 			scoreDisplay->SetColor(sf::Color::Green);
 			m_stunned.SetTexture(textures.Get(Textures::kScoobyStunned));
 			m_stunned.SetFrameSize(sf::Vector2i(49, 46));
+
+			m_running.SetNumFrames(7);
+			m_running.SetTexture(textures.Get(Textures::kScoobyRunning));
+			m_running.SetFrameSize(sf::Vector2i(67, 46));
+
 			Utility::CentreOrigin(m_stunned);
+			Utility::CentreOrigin(m_running);
 		}
 
 		scoreDisplay->setPosition(0, -55);
@@ -148,6 +165,10 @@ void Character::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
 	{
 		target.draw(m_stunned, states);
 	}
+	else if (Table[static_cast<int>(m_type)].m_has_run_animation)
+	{
+		target.draw(m_running, states);
+	}
 	else
 	{
 		target.draw(m_sprite, states);
@@ -168,6 +189,10 @@ void Character::UpdateCurrent(sf::Time dt, CommandQueue& commands)
 		{
 			m_stunned.Update(dt);
 		}
+	}
+	else if(Table[static_cast<int>(m_type)].m_has_run_animation)
+	{
+		m_running.Update(dt);
 	}
 	UpdateMovementPattern(dt);
 	Entity::UpdateCurrent(dt, commands);
