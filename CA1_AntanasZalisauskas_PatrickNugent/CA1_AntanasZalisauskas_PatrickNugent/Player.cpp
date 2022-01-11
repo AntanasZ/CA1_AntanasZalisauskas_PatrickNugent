@@ -1,22 +1,6 @@
 #include "Player.hpp"
-#include "Aircraft.hpp"
 #include "Character.hpp"
 #include <algorithm>
-
-struct AircraftMover
-{
-	AircraftMover(float vx, float vy) : velocity(vx, vy)
-	{
-		
-	}
-
-	void operator()(Aircraft& aircraft, sf::Time) const
-	{
-		aircraft.Accelerate(velocity * aircraft.GetMaxSpeed());
-	}
-
-	sf::Vector2f velocity;
-};
 
 /// <summary>
 /// Edited by: Antanas Zalisauskas

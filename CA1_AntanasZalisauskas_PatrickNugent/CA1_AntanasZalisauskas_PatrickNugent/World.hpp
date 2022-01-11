@@ -3,9 +3,7 @@
 #include "ResourceIdentifiers.hpp"
 #include "SceneNode.hpp"
 #include "SpriteNode.hpp"
-#include "Aircraft.hpp"
 #include "Layers.hpp"
-#include "AircraftType.hpp"
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -44,8 +42,6 @@ public:
 	void Draw();
 	CommandQueue& getCommandQueue();
 	bool IsGameOver() const;
-	bool GetPlayer1Score() const;
-	bool GetPlayer2Score() const;
 
 private:
 	void LoadTextures();
@@ -107,7 +103,6 @@ private:
 	sf::FloatRect m_world_bounds;
 	sf::Vector2f m_spawn_position;
 	float m_scrollspeed;
-	Aircraft* m_player_aircraft;
 	std::vector<CharacterSpawnPoint> m_enemy_spawn_points;
 	std::vector<CharacterSpawnPoint> m_flying_enemy_spawn_points;
 	std::vector<PickupSpawnPoint> m_pickup_spawn_points;

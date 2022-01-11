@@ -9,7 +9,6 @@
 
 #include "Pickup.hpp"
 #include "Platform.hpp"
-#include "Projectile.hpp"
 #include "Utility.hpp"
 #include "SoundPlayer.hpp"
 #include "PostEffect.hpp"
@@ -56,7 +55,6 @@ World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sou
 	, m_world_bounds(0.f, 0.f, m_camera.getSize().x, m_camera.getSize().y)
 	, m_spawn_position(m_camera.getSize().x/2.f, m_world_bounds.height - m_camera.getSize().y /2.f)
 	, m_scrollspeed(-50.f)
-	, m_player_aircraft(nullptr)
 	, m_player_character_1(nullptr)
 	, m_player_character_2(nullptr)
 	, m_gravity(981.f)
@@ -734,7 +732,7 @@ bool World::IsGameOver() const
 void World::UpdateSounds()
 {
 	// Set listener's position to player position
-	m_sounds.SetListenerPosition(m_player_aircraft->GetWorldPosition());
+	m_sounds.SetListenerPosition(m_player_character_1->GetWorldPosition());
 
 	// Remove unused sounds
 	m_sounds.RemoveStoppedSounds();
