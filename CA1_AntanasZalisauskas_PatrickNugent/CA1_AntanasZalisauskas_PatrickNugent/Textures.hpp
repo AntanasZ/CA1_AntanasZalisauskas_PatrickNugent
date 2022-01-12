@@ -1,3 +1,11 @@
+/// <summary>
+/// Name: Patrick Nugent
+/// Student Number: D00218208
+///
+/// Name: Antanas Zalisauskas
+/// Student Number: D00218148
+/// </summary>
+
 #pragma once
 /// <summary>
 /// Edited by: Antanas Zalisauskas
@@ -37,6 +45,8 @@ enum class Textures
 	kPlatform,
 	kFreddy,
 	kJason,
+	kStripe,
+	kGarfield,
 	kGhidorah,
 	kPterodactyl,
 	kSkull,

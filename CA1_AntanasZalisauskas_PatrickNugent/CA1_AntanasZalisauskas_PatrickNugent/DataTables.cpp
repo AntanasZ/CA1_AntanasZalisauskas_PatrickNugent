@@ -1,3 +1,11 @@
+/// <summary>
+/// Name: Patrick Nugent
+/// Student Number: D00218208
+///
+/// Name: Antanas Zalisauskas
+/// Student Number: D00218148
+/// </summary>
+
 #include "DataTables.hpp"
 #include "CharacterType.hpp"
 #include "PickupType.hpp"
@@ -79,6 +87,28 @@ std::vector<CharacterData> InitializeCharacterData()
 	data[static_cast<int>(CharacterType::kJasonRight)] = data[static_cast<int>(CharacterType::kJasonLeft)];
 	data[static_cast<int>(CharacterType::kJasonLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
 	data[static_cast<int>(CharacterType::kJasonRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Stripe
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_speed = 270.f;
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_texture = Textures::kStripe;
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_has_run_animation = false;
+
+	data[static_cast<int>(CharacterType::kStripeRight)] = data[static_cast<int>(CharacterType::kStripeLeft)];
+	data[static_cast<int>(CharacterType::kStripeLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kStripeRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
+
+	//Garfield
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_hitpoints = 100;
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_speed = 230.f;
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_texture = Textures::kGarfield;
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_jump_height = 0.f;
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_has_run_animation = false;
+
+	data[static_cast<int>(CharacterType::kGarfieldRight)] = data[static_cast<int>(CharacterType::kGarfieldLeft)];
+	data[static_cast<int>(CharacterType::kGarfieldLeft)].m_directions.emplace_back(Direction(-90.f, 1000.f));
+	data[static_cast<int>(CharacterType::kGarfieldRight)].m_directions.emplace_back(Direction(90.f, 1000.f));
 
 	//Ghidorah
 	data[static_cast<int>(CharacterType::kGhidorahLeft)].m_hitpoints = 100;
@@ -193,64 +223,43 @@ std::vector<PickupData> InitializePickupData()
 {
 	std::vector<PickupData> data(static_cast<int>(PickupType::kPickupCount));
 
-	/*data[static_cast<int>(PickupType::kHealthRefill)].m_texture = Textures::kHealthRefill;
-	data[static_cast<int>(PickupType::kHealthRefill)].m_action = [](Aircraft& a) {a.Repair(25); };
-
-	data[static_cast<int>(PickupType::kMissileRefill)].m_texture = Textures::kMissileRefill;
-	data[static_cast<int>(PickupType::kMissileRefill)].m_action = std::bind(&Aircraft::CollectMissiles, std::placeholders::_1, 3);
-
-	data[static_cast<int>(PickupType::kFireSpread)].m_texture = Textures::kFireSpread;
-	data[static_cast<int>(PickupType::kFireSpread)].m_action = std::bind(&Aircraft::IncreaseSpread, std::placeholders::_1);
-
-	data[static_cast<int>(PickupType::kFireRate)].m_texture = Textures::kFireRate;
-	data[static_cast<int>(PickupType::kFireRate)].m_action = std::bind(&Aircraft::IncreaseFireRate, std::placeholders::_1);*/
-
 	const float pickupSpeed = 200.f;
 
 	data[static_cast<int>(PickupType::kApple)].m_texture = Textures::kApple;
 	data[static_cast<int>(PickupType::kApple)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kApple)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kApple)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kOrange)].m_texture = Textures::kOrange;
 	data[static_cast<int>(PickupType::kOrange)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kOrange)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kOrange)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kCake)].m_texture = Textures::kCake;
 	data[static_cast<int>(PickupType::kCake)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kCake)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kCake)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kCarrot)].m_texture = Textures::kCarrot;
 	data[static_cast<int>(PickupType::kCarrot)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kCarrot)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kCarrot)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kCookies)].m_texture = Textures::kCookies;
 	data[static_cast<int>(PickupType::kCookies)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kCookies)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kCookies)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kDonut)].m_texture = Textures::kDonut;
 	data[static_cast<int>(PickupType::kDonut)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kDonut)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kDonut)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kIceCream)].m_texture = Textures::kIceCream;
 	data[static_cast<int>(PickupType::kIceCream)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kIceCream)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kIceCream)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kMelon)].m_texture = Textures::kMelon;
 	data[static_cast<int>(PickupType::kMelon)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kMelon)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kMelon)].m_action = [](Aircraft& a) {a.Repair(25); };
 
 	data[static_cast<int>(PickupType::kPancake)].m_texture = Textures::kPancake;
 	data[static_cast<int>(PickupType::kPancake)].m_speed = pickupSpeed;
 	data[static_cast<int>(PickupType::kPancake)].m_directions.emplace_back(Direction(0.f, 1000.f));
-	//data[static_cast<int>(PickupType::kPancake)].m_action = [](Aircraft& a) {a.Repair(25); };
 	return data;
 }
 
