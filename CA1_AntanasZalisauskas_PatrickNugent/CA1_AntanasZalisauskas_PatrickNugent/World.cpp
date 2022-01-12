@@ -103,24 +103,36 @@ void World::Update(sf::Time dt)
 			m_pickup_spawn_countdown = sf::seconds(0.f);
 		}
 
-		if (m_player_character_1->GetStunned())
+		if (m_player_character_1->GetInvulnerable())
 		{
 			//un-stun the player after 3 seconds
 			m_player_1_stun_countdown += dt;
 			if (m_player_1_stun_countdown >= sf::seconds(3.0f))
 			{
 				m_player_character_1->SetStunned(false);
+			}
+
+			//enable collisions with enemies again after 5 seconds
+			if (m_player_1_stun_countdown >= sf::seconds(5.0f))
+			{
+				m_player_character_1->SetInvulnerable(false);
 				m_player_1_stun_countdown = sf::seconds(0.f);
 			}
 		}
 
-		if (m_player_character_2->GetStunned())
+		if (m_player_character_2->GetInvulnerable())
 		{
 			//un-stun the player after 3 seconds
 			m_player_2_stun_countdown += dt;
 			if (m_player_2_stun_countdown >= sf::seconds(3.0f))
 			{
 				m_player_character_2->SetStunned(false);
+			}
+
+			//enable collisions with enemies again after 5 seconds
+			if (m_player_2_stun_countdown >= sf::seconds(5.0f))
+			{
+				m_player_character_2->SetInvulnerable(false);
 				m_player_2_stun_countdown = sf::seconds(0.f);
 			}
 		}
@@ -612,10 +624,11 @@ void World::HandleCollisions()
 		else if(MatchesCategories(pair, Category::Type::kPlayerCharacter1, Category::Type::kEnemyCharacter) || MatchesCategories(pair, Category::Type::kPlayerCharacter2, Category::Type::kEnemyCharacter))
 		{
 			auto& player = static_cast<Character&>(*pair.first);
-			if (!player.GetStunned())
+			if (!player.GetInvulnerable())
 			{
 				m_sounds.Play(SoundEffect::kStun);
 				player.SetStunned(true);
+				player.SetInvulnerable(true);
 			}
 		}
 

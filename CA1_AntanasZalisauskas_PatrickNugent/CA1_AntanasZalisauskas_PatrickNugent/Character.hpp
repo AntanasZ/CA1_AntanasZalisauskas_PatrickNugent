@@ -41,6 +41,8 @@ public:
 	void AddScore(int points);
 	bool GetStunned();
 	void SetStunned(bool value);
+	bool GetInvulnerable();
+	void SetInvulnerable(bool value);
 
 	sf::FloatRect GetBoundingRect() const override;
 	bool IsMarkedForRemoval() const override;
@@ -62,6 +64,7 @@ private:
 	TextNode* m_score_display;
 	bool m_is_stunned;
 	bool m_show_stun;
+	bool m_is_invulnerable;
 
 	bool m_is_marked_for_removal;
 	float m_travelled_distance;
