@@ -293,7 +293,7 @@ void Character::AddScore(int points)
 /// -Added getter and setter for player stun mechanic
 /// -Added invulnerability methods
 ///
-/// Edited By: PAtrick Nugent
+/// Edited By: Patrick Nugent
 ///
 /// -Added call to restart stun animation in setter
 /// </summary>
@@ -313,7 +313,6 @@ bool Character::GetInvulnerable()
 {
 	return m_is_invulnerable;
 }
-
 
 void Character::SetInvulnerable(bool value)
 {
