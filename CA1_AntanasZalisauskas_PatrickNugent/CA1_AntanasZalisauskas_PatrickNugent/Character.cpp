@@ -53,7 +53,8 @@ Character::Character(CharacterType type, const TextureHolder& textures, const Fo
 	m_running(),
 	m_show_stun(true),
 	m_can_jump(true),
-	m_jump_height(Table[static_cast<int>(type)].m_jump_height)
+	m_jump_height(Table[static_cast<int>(type)].m_jump_height),
+	m_is_invulnerable(false)
 {
 	Utility::CentreOrigin(m_sprite);
 
@@ -298,3 +299,15 @@ void Character::SetStunned(bool value)
 	m_is_stunned = value;
 	m_stunned.Restart();
 }
+
+bool Character::GetInvulnerable()
+{
+	return m_is_invulnerable;
+}
+
+
+void Character::SetInvulnerable(bool value)
+{
+	m_is_invulnerable = value;
+}
+
