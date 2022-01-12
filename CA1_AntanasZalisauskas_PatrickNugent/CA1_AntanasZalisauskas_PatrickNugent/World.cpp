@@ -1,3 +1,11 @@
+/// <summary>
+/// Name: Patrick Nugent
+/// Student Number: D00218208
+///
+/// Name: Antanas Zalisauskas
+/// Student Number: D00218148
+/// </summary>
+
 #include "World.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -46,9 +54,6 @@ World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sou
 
 void World::Update(sf::Time dt)
 {
-	//Scroll the world
-	//m_camera.move(0, m_scrollspeed * dt.asSeconds());
-
 	//Check if remaining game time is greater than 0
 	if (m_game_countdown > sf::Time::Zero)
 	{
@@ -84,7 +89,7 @@ void World::Update(sf::Time dt)
 
 		//Spawn a flying enemy every 3 seconds and reset the spawn timer
 		m_flying_enemy_spawn_countdown += dt;
-		if (m_flying_enemy_spawn_countdown >= sf::seconds(5.0f))
+		if (m_flying_enemy_spawn_countdown >= sf::seconds(3.0f))
 		{
 			SpawnFlyingEnemies();
 			m_flying_enemy_spawn_countdown = sf::seconds(0.f);
@@ -140,6 +145,7 @@ void World::Update(sf::Time dt)
 	}
 	else
 	{
+		//End the game and wait 5 seconds while displaying the winning score
 		m_game_countdown = sf::Time::Zero;
 		m_gameover_countdown += dt;
 
@@ -210,6 +216,8 @@ void World::LoadTextures()
 	m_textures.Load(Textures::kPlatform, "Media/Textures/Platform.png");
 	m_textures.Load(Textures::kFreddy, "Media/Textures/FreddyIdle.png");
 	m_textures.Load(Textures::kJason, "Media/Textures/JasonIdle.png");
+	m_textures.Load(Textures::kStripe, "Media/Textures/StripeIdle.png");
+	m_textures.Load(Textures::kGarfield, "Media/Textures/GarfieldIdle.png");
 	m_textures.Load(Textures::kGhidorah, "Media/Textures/GhidorahIdle.png");
 	m_textures.Load(Textures::kPterodactyl, "Media/Textures/PterodactylIdle.png");
 	m_textures.Load(Textures::kTurtle, "Media/Textures/TurtleIdle.png");
@@ -385,7 +393,7 @@ sf::FloatRect World::GetBattlefieldBounds() const
 void World::SpawnEnemies()
 {
 	//Spawn a random enemy from the vector of enemy spawn points
-	int randomEnemy = rand() % 8;
+	int randomEnemy = rand() % 12;
 	CharacterSpawnPoint spawn = m_enemy_spawn_points[randomEnemy];
 	std::unique_ptr<Character> enemy(new Character(spawn.m_type, m_textures, m_fonts));
 	enemy->setPosition(spawn.m_x, spawn.m_y);
@@ -436,12 +444,17 @@ void World::SpawnPickups()
 	std::unique_ptr<Pickup> pickup(new Pickup(spawn.m_type, spawn.m_value, m_textures));
 
 	//Generate a random x value for the pickup's position (within the bounds)
-	int randomPosition = (rand() % 954) + 70;
+	int randomPosition = (rand() % 934) + 90;
 	pickup->setPosition((float)randomPosition, spawn.m_y);
 
 	m_scene_layers[static_cast<int>(Layers::kAir)]->AttachChild(std::move(pickup));
 }
 
+/// <summary>
+/// Edited By: Patrick Nugent
+///
+///	-Changed to add to a specific enemy list depending on type
+/// </summary>
 void World::AddEnemy(CharacterType type, bool isFlying, float relX, float relY)
 {
 	CharacterSpawnPoint spawn(type, m_spawn_position.x + relX, m_spawn_position.y - relY);
@@ -479,14 +492,18 @@ void World::AddPickup(PickupType type, int value, float relX, float relY)
 void World::AddEnemies()
 {
 	//Add all enemies - both the left and right side versions
-	AddEnemy(CharacterType::kCreeperLeft, false, -500.f, -320.f);
-	AddEnemy(CharacterType::kCreeperRight, false, 500.f, -320.f);
-	AddEnemy(CharacterType::kMichaelLeft, false, -500.f, -320.f);
-	AddEnemy(CharacterType::kMichaelRight, false, 500.f, -320.f);
-	AddEnemy(CharacterType::kFreddyLeft, false, -500.f, -320.f);
-	AddEnemy(CharacterType::kFreddyRight, false, 500.f, -320.f);
-	AddEnemy(CharacterType::kJasonLeft, false, -500.f, -320.f);
-	AddEnemy(CharacterType::kJasonRight, false, 500.f, -320.f);
+	AddEnemy(CharacterType::kCreeperLeft, false, -500.f, -329.5f);
+	AddEnemy(CharacterType::kCreeperRight, false, 500.f, -329.5f);
+	AddEnemy(CharacterType::kMichaelLeft, false, -500.f, -325.f);
+	AddEnemy(CharacterType::kMichaelRight, false, 500.f, -325.f);
+	AddEnemy(CharacterType::kFreddyLeft, false, -500.f, -323.f);
+	AddEnemy(CharacterType::kFreddyRight, false, 500.f, -323.f);
+	AddEnemy(CharacterType::kJasonLeft, false, -500.f, -321.f);
+	AddEnemy(CharacterType::kJasonRight, false, 500.f, -321.f);
+	AddEnemy(CharacterType::kStripeLeft, false, -500.f, -335.f);
+	AddEnemy(CharacterType::kStripeRight, false, 500.f, -335.f);
+	AddEnemy(CharacterType::kGarfieldLeft, false, -500.f, -331.f);
+	AddEnemy(CharacterType::kGarfieldRight, false, 500.f, -331.f);
 
 	AddEnemy(CharacterType::kGhidorahLeft, true, -500.f, -2.f);
 	AddEnemy(CharacterType::kGhidorahRight, true, 500.f, -2.f);

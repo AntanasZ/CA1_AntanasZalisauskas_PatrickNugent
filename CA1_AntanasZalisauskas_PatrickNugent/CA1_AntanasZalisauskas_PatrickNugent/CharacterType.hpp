@@ -1,3 +1,11 @@
+/// <summary>
+/// Name: Patrick Nugent
+/// Student Number: D00218208
+///
+/// Name: Antanas Zalisauskas
+/// Student Number: D00218148
+/// </summary>
+
 #pragma once
 /// <summary>
 /// Written by: Antanas Zalisauskas
@@ -22,6 +30,10 @@ enum class CharacterType
 	kFreddyRight,
 	kJasonLeft,
 	kJasonRight,
+	kStripeLeft,
+	kStripeRight,
+	kGarfieldLeft,
+	kGarfieldRight,
 	kGhidorahLeft,
 	kGhidorahRight,
 	kSkullLeft,

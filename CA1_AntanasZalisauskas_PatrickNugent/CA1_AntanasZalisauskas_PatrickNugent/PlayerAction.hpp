@@ -1,3 +1,11 @@
+/// <summary>
+/// Name: Patrick Nugent
+/// Student Number: D00218208
+///
+/// Name: Antanas Zalisauskas
+/// Student Number: D00218148
+/// </summary>
+
 #pragma once
 enum class PlayerAction
 {
@@ -7,8 +15,5 @@ enum class PlayerAction
 	kPlayer2MoveLeft,
 	kPlayer2MoveRight,
 	kPlayer2MoveUp,
-	//kMoveDown,
-	//kFire,
-	//kLaunchMissile,
 	kActionCount
 };
