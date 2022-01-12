@@ -52,6 +52,17 @@ World::World(sf::RenderTarget& output_target, FontHolder& font, SoundPlayer& sou
 	m_camera.setCenter(m_spawn_position);
 }
 
+/// <summary>
+/// Edited By: Patrick Nugent
+///
+///	-Added enemy and pickup spawn timers
+/// -Added win message
+///
+/// Edited By: Antanas Zalisauskas
+///
+///	-Added stun timers
+/// -Added game timer
+/// </summary>
 void World::Update(sf::Time dt)
 {
 	//Check if remaining game time is greater than 0
